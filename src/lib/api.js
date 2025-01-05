@@ -1,8 +1,9 @@
 import axios from 'axios';
 // import { AUTH } from './auth';
 
-const KEY = 'TruYuzKvtmWQwkzwFutY'
-const SECRET = 'gznOuTcUwZJtommNzEORZRUJyjaJqlOD'
+const KEY = process.env.REACT_APP_API_KEY;
+const SECRET = process.env.REACT_APP_API_SECRET;
+
 const ENDPOINTS = {
   // allBeers: '/api/crafty-beers',
   // singleBeer: (id) => `/api/crafty-beers/${id}`,
