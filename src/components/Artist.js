@@ -1,17 +1,27 @@
-// import { getAllEpisodes } from '../lib/api';
-// import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { API } from '../lib/api';
 
-// const Artists = () => {
-//   const [episodes, setEpisodes] = useState(null);
-//   const [page, setPage] = useState(1);
+const Artist = () => {
+  // const [query, setQuery] = useState('');
+  // const [searchedResults, setSearchedResults] = useState([]);
 
-//   useEffect(() => {
-//     getAllEpisodes(page)
-//       .then((res) => {console.log(res.data); setEpisodes(res.data.results)})
-//       .catch((err) => console.error(err));
-//   }, [page]);
-//   if (episodes === null) {
-//     return <p>Loading...</p>;
-//   }
-// };
-// export default Artists;
+  // useEffect(() => {
+  //   if (query) {
+  //     API.GET(API.ENDPOINTS.search(query))
+  //       .then(({ data }) => {
+  //         console.log('data', data);
+  //         setSearchedResults(data.results);
+  //       })
+  //       .catch((e) => console.error(e));
+  //   }
+  // }, [query]);
+console.log('working')
+return (
+  <div>
+    <p>Hello</p>
+  </div>
+)
+
+};
+
+export default Artist;

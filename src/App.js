@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './components/Home';
 import Search from './components/Search';
+import Artist from './components/Artist';
 
 function App() {
   return (
@@ -9,7 +10,11 @@ function App() {
       <Routes>
         <Route
           path='/search'
-          element={<Search/>}
+          element={<Search />}
+        />
+        <Route
+          path='/artist/:id'
+          element={<Artist />}
         />
         <Route
           path='/'
