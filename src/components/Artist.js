@@ -3,47 +3,58 @@ import { API } from '../lib/api';
 import { useParams } from 'react-router-dom';
 
 const Artist = () => {
-  const [artistData, setArtistData] = useState([]);
+  const [artistAlbumsData, setArtistAlbumsData] = useState([]);
   const artist = useParams();
 
   useEffect(() => {
     if (artist.id) {
-      API.GET(API.ENDPOINTS.getArtist(artist.id))
+      API.GET(API.ENDPOINTS.getArtistAlbums(artist.id))
         .then(({ data }) => {
           console.log('artist data ONE', data);
-          setArtistData(data);
+          setArtistAlbumsData(data);
         })
         .catch((e) => console.error(e));
     }
   }, [artist.id]);
   
-  const releases = artistData?.releases;
+  const releases = artistAlbumsData
+  
+
+console.log('artistAlbumData', artistAlbumsData)
+
+
 
   return (
-    <>
+<>
+  <div>
+    <h1>{artist.id} Great choice!!!</h1>
+  </div>
+  <div>
+    {releases == null ? (
+      <p>Loading artist data...</p>  // Show loading if releases is null
+    ) : releases.results && releases.results.length > 0 ? (
       <div>
-        <h1>Great choice!!!</h1>
+        {releases.results.map((release) => (
+          release.master_id ? (
+            <div key={release.id}>
+              <p>ARTIST: {release.title}</p>  
+              <p>YEAR: {release.year}</p>
+              <img 
+                src={release.cover_image} 
+                alt={release.title} 
+                style={{ width: '150px', height: '150px' }} 
+              />
+            </div>
+          ) : (
+            <p>No album found...</p>  // Handle case if release is falsy
+          )
+        ))}
       </div>
-      <div>
-        {artistData === null ? (
-          <p>Loading artist data...</p>  // Show loading if artistData is null
-        ) : releases && releases.length > 0 ? (
-          <div>
-            {releases.map((release) => (
-              release.format === 'Album' ? (
-                <>
-                <p key={release.id}>ARTIST {release.artist}</p>  
-                <p key={release.id.title}>TITLE {release.title}</p>  
-                <p key={release.id.year}>YEAR {release.year}</p>  
-                </>
-              ) : <p>no album </p>
-            ))}
-          </div>
-        ) : (
-          <p>No releases available.</p>  // Show if releases array is empty
-        )}
-      </div>
-    </>
+    ) : (
+      <p>No releases available.</p>  // Show if releases array is empty
+    )}
+  </div>
+</>
   );
 };
 

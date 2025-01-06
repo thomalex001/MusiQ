@@ -73,7 +73,7 @@ export default function Search() {
                 <>
                   <p>{result.title}</p>
                   <img
-                    onClick={() => goToArtist(result.id)}
+                    onClick={() => goToArtist(result.title)}
                     src={result.cover_image}
                     alt={result.title}
                     style={{ cursor: 'pointer', width: '150px', height: '150px' }}
