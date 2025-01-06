@@ -5,21 +5,11 @@ const KEY = process.env.REACT_APP_API_KEY;
 const SECRET = process.env.REACT_APP_API_SECRET;
 
 const ENDPOINTS = {
-  // allBeers: '/api/crafty-beers',
-  // singleBeer: (id) => `/api/crafty-beers/${id}`,
-  // allBreweries: '/api/breweries',
-  // createReview: (id) => `/api/crafty-beers/${id}/reviews`,
-  // login: '/api/login',
-  // singleReview: (beerId, reviewId) =>
-  //   `/api/crafty-beers/${beerId}/reviews/${reviewId}`,
-  // register: '/api/register',
   search: (query) => `https://api.discogs.com/database/search?q=${query}&key=${KEY}&secret=${SECRET}`,
 
 };
 
-// const getHeaders = () => ({
-//   headers: { authorization: `Bearer ${AUTH.getToken()}` }
-// });
+
 
 const GET = (endpoint) => axios.get(endpoint);
 // const POST = (endpoint, body, headers) =>
