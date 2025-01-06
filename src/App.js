@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Home from './components/Home';
+import Quiz from './components/Quiz';
 import Search from './components/Search';
 import Artist from './components/Artist';
 
@@ -17,8 +17,8 @@ function App() {
           element={<Artist />}
         />
         <Route
-          path='/'
-          element={<Home />}
+         path='/artist/album/:id'
+        element={<Quiz />}
         />
         <Route
           path='*'
