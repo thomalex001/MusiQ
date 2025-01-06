@@ -1,53 +1,89 @@
 import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
-import Artist from './Artist';
 import { useParams, useNavigate } from 'react-router-dom';
+import {debounce} from 'lodash';
 
 export default function Search() {
   const [query, setQuery] = useState('');
   const [searchedResults, setSearchedResults] = useState([]);
-  const handleChange = (e) => setQuery(e.target.value);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
 
-
-  useEffect(() => {
-    if (query) {
-      API.GET(API.ENDPOINTS.search(query))
-      .then(({ data }) => {
-        console.log('data', data);
-        setSearchedResults(data.results);
-      })
-      .catch((e) => console.error(e));
+  const handleSearch = debounce((searchQuery) => {
+    if (searchQuery.length < 2) {
+      setSearchedResults([]);  // Clear results if search query is too short
+      setLoading(false);  // Stop loading
+      return;  // Don't make the API call if query is less than 2 characters
     }
+
+    setLoading(true);  // Set loading state when starting the search
+
+    // Make the API request only if the query length is >= 2
+    if (searchQuery.length >= 2) {
+      API.GET(API.ENDPOINTS.search(searchQuery))
+        .then(({ data }) => {
+          console.log('data', data);
+          setSearchedResults(data.results.slice(0, 5));  // Store the results from the API
+        })
+        .catch((e) => console.error(e))
+        .finally(() => setLoading(false));  // Stop loading when the request is finished
+    }
+  }, 500);  // 500ms debounce delay
+
+  // Handles the input change event
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setQuery(value);  // Update the query
+  };
+
+  // Trigger debounced search whenever query changes
+  useEffect(() => {
+    setDebouncedQuery(query);  // Update the debounced query
   }, [query]);
 
-  const goToArtist = (artistId) => navigate(`/artist/${artistId}`)
+  // Perform search when the debounced query changes
+  useEffect(() => {
+    handleSearch(debouncedQuery);  // Trigger debounced search function
+  }, [debouncedQuery]);  // Only trigger when debounced query changes
+
+  // Navigate to artist's page
+  const goToArtist = (artistId) => navigate(`/artist/${artistId}`);
+
 
   return (
     <div>
       <input
+        type="text"
+        placeholder="Search an artist or band"
         value={query}
         onChange={handleChange}
       />
-      <div>
-        {searchedResults.map((result) => (
-          <>
-            <div>
-              {result.type === 'artist' ? (
+      {loading && <p>Loading...</p>} {/* Show loading message while fetching data */}
+      
+      {/* Show results only after typing finishes (i.e., after debounce delay) */}
+      {debouncedQuery && !loading && (
+        <div>
+          {searchedResults.length === 0 && (
+            <p>No results found for "{debouncedQuery}"</p>
+          )}
+          {searchedResults.map((result) => (
+            <div key={result.id}>
+              {result.type === 'artist' && (
                 <>
                   <p>{result.title}</p>
                   <img
                     onClick={() => goToArtist(result.id)}
                     src={result.cover_image}
-                    alt={result.title}></img>
+                    alt={result.title}
+                    style={{ cursor: 'pointer', width: '150px', height: '150px' }}
+                  />
                 </>
-              ) : (
-                <p></p>
               )}
             </div>
-          </>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};

@@ -6,9 +6,9 @@ const SECRET = process.env.REACT_APP_API_SECRET;
 
 const ENDPOINTS = {
   search: (query) => `https://api.discogs.com/database/search?q=${query}&key=${KEY}&secret=${SECRET}`,
-
+  getArtistAlbums: (query) => `https://api.discogs.com/database/search?q=${query}&country=uk&artist=${query}&type=release&format=album&key=${KEY}&secret=${SECRET}`
 };
-
+// https://api.discogs.com/database/search?q=kanye%20west&country=uk&artist=kanye%20west&type=release&format=album
 
 
 const GET = (endpoint) => axios.get(endpoint);
