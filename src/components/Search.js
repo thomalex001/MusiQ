@@ -29,7 +29,7 @@ export default function Search() {
         .catch((e) => console.error(e))
         .finally(() => setLoading(false));  // Stop loading when the request is finished
     }
-  }, 500);  // 500ms debounce delay
+  }, 300);  // 500ms debounce delay
 
   // Handles the input change event
   const handleChange = (e) => {

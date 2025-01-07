@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
 import { useParams } from 'react-router-dom';
 
-const Quiz = () => {
+const Album = () => {
   const [albumData, setAlbumData] = useState([]);
   const album = useParams();
 
@@ -24,7 +24,7 @@ const Quiz = () => {
   return (
     <>
       <div>
-        <h1>Test your knowledge!</h1>
+        <h1>Album Details</h1>
       </div>
       <div>
         {albumData == null ? (
@@ -45,4 +45,4 @@ const Quiz = () => {
   );
 };
 
-export default Quiz;
+export default Album;

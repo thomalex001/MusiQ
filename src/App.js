@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Quiz from './components/Quiz';
+import Album from './components/Album';
 import Search from './components/Search';
 import Artist from './components/Artist';
 
@@ -18,7 +18,7 @@ function App() {
         />
         <Route
          path='/artist/album/:id'
-        element={<Quiz />}
+        element={<Album />}
         />
         <Route
           path='*'
