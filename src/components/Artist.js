@@ -46,12 +46,17 @@ const Artist = () => {
       const selectedRelease = releases[randomIndex];
       console.log('selectedRelease', selectedRelease);
       const isValidImage = isImageValid(selectedRelease.cover_image);
-      if (!isValidImage || selectedRelease.cover_image.slice(-10) === "spacer.gif") {
-        console.log("Cover image URL INVALID");
+      if (
+        !isValidImage ||
+        selectedRelease.cover_image.slice(-10) === 'spacer.gif'
+      ) {
+        console.log('Cover image URL INVALID');
         setNoImageFound(true); // Set state to indicate no image is found or invalid
         // Reset loading state when done
-        randomRelease();// Stop execution
+        randomRelease();
+        return; /// Stop execution
       }
+
       // Step 2: Filter out the selected correct release from the options for incorrect answers
       const remainingReleases = releases.filter(
         (release) => release.title.slice(-3) !== selectedRelease.title.slice(-3)
@@ -81,16 +86,11 @@ const Artist = () => {
           incorrectAnswers[0].title.slice(-3),
           incorrectAnswers[1].title.slice(-3)
         );
-        randomRelease();
         setCorrectAnswer(selectedRelease);
         setIncorrectAnswers(setIncorrectAnswers);
         setQuizStarted(true); // Recurse if titles are too similar
-      } else {
-        console.log(
-          'Quiz options set successfully!',
-          incorrectAnswers[0].title.slice(-3),
-          incorrectAnswers[1].title.slice(-3)
-        );
+        randomRelease();
+        return;
         // Proceed with your quiz logic here
       }
 
@@ -116,15 +116,28 @@ const Artist = () => {
     }
   };
 
+  const getUniqueReleasesByMasterId = (releases) => {
+    const seenMasterIds = new Set();
+    const uniqueReleases = [];
+    releases.forEach((release) => {
+      if (release.master_id && !seenMasterIds.has(release.master_id)) {
+        seenMasterIds.add(release.master_id);
+        uniqueReleases.push(release);
+      }
+    });
+    console.log('UNIQUE RELEASES', uniqueReleases)
+    return uniqueReleases;
+  }
+
   return (
     <>
       <div>
-        <h1>{artist.name} - Great choice!!!</h1>
+        <h1>{artist.id} - Great choice!!!</h1>
         <h2>Now test your knowledge:</h2>
         <button onClick={randomRelease}>Start Quiz</button>
         {quizStarted && (
           <div>
-            <h3>Guess the album:</h3>
+            <h3>What is the name of this album:</h3>
             <img
               src={randomReleaseData?.cover_image}
               alt={randomReleaseData?.title}
@@ -148,7 +161,7 @@ const Artist = () => {
           <p>Loading artist data...</p> // Show loading if releases is null or empty
         ) : (
           <div>
-            {releases.map((release) =>
+            {getUniqueReleasesByMasterId(releases).map((release) =>
               release.master_id ? (
                 <div key={release.id}>
                   <img

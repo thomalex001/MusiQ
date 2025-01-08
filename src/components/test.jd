@@ -1,0 +1,6 @@
+  const releaseWithUniqueMasterId = [];
+  while (releases.length <= 20) {
+    const index = releases.length ++;
+    if (!releases.master_id.includes(index)) {
+      releases.master_id.push(index);
+    }
