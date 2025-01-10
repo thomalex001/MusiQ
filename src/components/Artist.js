@@ -12,6 +12,7 @@ const Artist = () => {
   const [nameAlbumAnswers, setNameAlbumAnswers] = useState([]);
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [randomReleaseData, setRandomReleaseData] = useState(null);
+  const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false); 
 
   // const [selectedRelease, setSelectedRelease] = useState();
   const [correctAnswer, setCorrectAnswer] = useState(null);
@@ -68,6 +69,8 @@ const Artist = () => {
       randomQuestion[randomQuestionIndex](selectedRelease);
       // nameYearOfReleaseQuestion(selectedRelease)
       setQuizStarted(true);
+      setNextButtonIsClicked(true)
+      setQuestionAnswered(false);
     }
   };
 
@@ -212,8 +215,11 @@ const Artist = () => {
           </div>
           </div>
         )}
-          {quizStarted && questionAnswered && (
+          {quizStarted && questionAnswered && setNextButtonIsClicked &&(
             <button onClick={getRandomRelease}>Next Question</button>
+          )}
+          { quizStarted && !questionAnswered && setNextButtonIsClicked && (
+            <button disabled={nextButtonIsClicked} onClick={getRandomRelease}>Next Question</button>
           )}
       </div>
     </div>
