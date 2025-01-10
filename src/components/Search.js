@@ -23,7 +23,7 @@ export default function Search() {
     if (searchQuery.length >= 2) {
       API.GET(API.ENDPOINTS.search(searchQuery))
         .then(({ data }) => {
-          console.log('data', data);
+          // console.log('DATA', data);
           setSearchedResults(data.results.slice(0, 5));  // Store the results from the API
         })
         .catch((e) => console.error(e))
