@@ -125,7 +125,7 @@ const Artist = () => {
     const nameYearAnswers = [...randomYears, yearOfRelease];
     nameYearAnswers.map((year) => console.log('NAMEYEARANSWERS', year));
     setNameYearAnswers(nameYearAnswers);
-    
+    setRandomReleaseData(selectedRelease);
 
     // console.log('RANDOM YEARS', randomYears);
   };
@@ -140,9 +140,11 @@ const Artist = () => {
   //   console.log('RANDOM YEARS', randomYears);
   // };
 
-  //********CHECK ANSWER IS CORRECT WHEN CLICKED********//
+  //********CHECK IF ANSWER IS CORRECT********//
   const handleAnswerClick = (selectedAnswer) => {
-    if (selectedAnswer === randomReleaseData) {
+    console.log("RANDOMRELEASEDATA.YEAR", typeof(randomReleaseData.year))
+    console.log("SELECTED ANSWER", typeof(selectedAnswer))
+    if (selectedAnswer === randomReleaseData || (selectedAnswer === parseInt(randomReleaseData.year))) {
       alert('Correct!');
       setQuestionAnswered(true);
     } else {
@@ -196,7 +198,7 @@ const Artist = () => {
             </div>
           </div>
         )}
-        {quizStarted && !questionAnswered && nameYearAnswers?.length > 0 && (
+        {quizStarted &&  nameYearAnswers?.length > 0 && (
           <div>
             <h3>What year was this album first released?</h3>
             <div>
