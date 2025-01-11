@@ -8,13 +8,13 @@ const Artist = () => {
   const artist = useParams();
   const navigate = useNavigate();
   const [quizStarted, setQuizStarted] = useState(false);
-  const [nameYearAnswers, setNameYearAnswers] = useState([]);
-  const [nameAlbumAnswers, setNameAlbumAnswers] = useState([]);
+  const [yearAnswersArray, setYearAnswersArray] = useState([]);
+  const [albumAnswersArray, setAlbumAnswersArray] = useState([]);
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState({});
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false); 
 
-  //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN ANSWERS********//
+  //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
   const currentYearStr = `${today.getFullYear()}`;
 const currentYearInt = parseInt(currentYearStr)
@@ -114,13 +114,16 @@ const currentYearInt = parseInt(currentYearStr)
       getRandomAlbum();
       return;
     }
-
-    //********SHUFFLE ANSWERS********//
-    const allAnswers = [selectedAlbum, ...incorrectAnswers];
-    const shuffledAnswers = allAnswers.sort(() => Math.random() - 0.5);
-    setNameAlbumAnswers(shuffledAnswers);
-    setNameYearAnswers([])
+    const albumAnswersArray = [selectedAlbum, ...incorrectAnswers];
+    const shuffledAnswers = shuffleAnswers(albumAnswersArray)
+    setAlbumAnswersArray(shuffledAnswers);
+    setYearAnswersArray([])
   };
+
+ //********SHUFFLE ANSWERS********//
+const shuffleAnswers = (answers) => {
+  return answers.sort(() => Math.random() - 0.5);
+};
 
   //********QUESTION 2 : WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   const nameTheYearQuestion = (selectedAlbum) => {
@@ -129,15 +132,16 @@ const currentYearInt = parseInt(currentYearStr)
     const randomYears = [];
     if (yearOfAlbum <= currentYearInt - 5) {
       randomYears.push(yearOfAlbum - 5);
-      randomYears.push(yearOfAlbum - 10 );
-    } else {
-      randomYears.push(yearOfAlbum - 1);
-      randomYears.push(yearOfAlbum + 1);
+      randomYears.push(yearOfAlbum + 5 );
+    } else if (yearOfAlbum === currentYearInt) {
+      randomYears.push(yearOfAlbum - 2);
+      randomYears.push(yearOfAlbum - 4);
     }
   
-    const nameYearAnswers = [...randomYears, yearOfAlbum];
-    setNameYearAnswers(nameYearAnswers);
-    setNameAlbumAnswers([]);
+    const yearAnswersArray = [...randomYears, yearOfAlbum];
+    const shuffledAnswers = shuffleAnswers(yearAnswersArray)
+    setYearAnswersArray(shuffledAnswers);
+    setAlbumAnswersArray([]);
   };
 
   //********CHECK IF ANSWER IS CORRECT********//
@@ -150,9 +154,6 @@ const currentYearInt = parseInt(currentYearStr)
       console.log(answer)
     }
   };
-
-
-
 
   return (
     <>
@@ -175,11 +176,11 @@ const currentYearInt = parseInt(currentYearStr)
         </div>
         )}
         
-        {quizStarted && nameAlbumAnswers.length > 0 && (
+        {quizStarted && albumAnswersArray.length > 0 && (
           <div>
              <h3>What is the name of this album?</h3>
             <div>
-              {nameAlbumAnswers.map((answer, index) => (
+              {albumAnswersArray.map((answer, index) => (
                 <button
                   key={index}
                   onClick={() => handleAnswerClick(answer)}>
@@ -189,11 +190,11 @@ const currentYearInt = parseInt(currentYearStr)
             </div>
           </div>
         )}
-        {quizStarted && nameYearAnswers.length > 0 && (
+        {quizStarted && yearAnswersArray.length > 0 && (
           <div>
             <h3>What year was this album first released?</h3>
             <div>
-            {nameYearAnswers.map((answer) => (
+            {yearAnswersArray.map((answer) => (
               <button
                 key={answer}
                 onClick={() => handleAnswerClick(answer)}>
