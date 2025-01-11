@@ -11,7 +11,7 @@ const Artist = () => {
   const [nameYearAnswers, setNameYearAnswers] = useState([]);
   const [nameAlbumAnswers, setNameAlbumAnswers] = useState([]);
   const [questionAnswered, setQuestionAnswered] = useState(false);
-  const [selectedRelease, setSelectedRelease] = useState({});
+  const [selectedAlbum, setSelectedAlbum] = useState({});
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false); 
 
   //********CHECK IF IMAGE FROM ALBUMS IS A VALID IMAGE********//
@@ -32,12 +32,24 @@ const Artist = () => {
       API.GET(API.ENDPOINTS.getArtistAlbums(artist.id))
         .then(({ data }) => {
           // console.log('DATA', data);
-          const filteredResults = data.results.filter(
-            (result) => result.cover_image.slice(-10) !== 'spacer.gif'
-          );
-          // console.log("FILTERED RESULTS",filteredResults)
-          
+        
+  //********GET ONLY ALBUMS WITH ONE MASTER ID********//
+            const seenMasterIds = new Set();
+            const uniqueAlbums = [];
+            data.results.forEach((album) => {
+              if (album.master_id && !seenMasterIds.has(album.master_id)) {
+                seenMasterIds.add(album.master_id);
+                uniqueAlbums.push(album);
+              }
+            });
+            // console.log('UNIQUE ALBUMS', uniqueAlbums);
 
+  //********FROM UNIQUE ALBUMS, FILTER OUT THE ONES WITH SPACER.GIF AS AN IMAGE*******//
+  //* => AS IT SHOWS A SINGLE PIXEL IMAGE********//
+          const filteredResults = uniqueAlbums.filter(
+            (album) => album.cover_image.slice(-10) !== 'spacer.gif'
+          );
+          console.log("FILTERED RESULTS",filteredResults)
           setArtistAlbumsData(filteredResults); // Update state with API response
         })
         .catch((e) => console.error(e));
@@ -45,40 +57,39 @@ const Artist = () => {
   }, [artist.id]);
 
   const gotoAlbum = (albumId) => navigate(`/artist/album/${albumId}`);
-  const releases = artistAlbumsData;
+  const albums = artistAlbumsData;
 
-  //********FUNCTION TO GET ONE RANDOM RELEASE FOR THE QUIZ********//
-  const getRandomRelease = () => {
-    if (releases.length > 0) {
-      const randomReleaseIndex = Math.floor(Math.random() * releases.length);
-      const selectedRelease = releases[randomReleaseIndex];
+  //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
+  const getRandomAlbum = () => {
+    if (albums.length > 0) {
+      const randomAlbumIndex = Math.floor(Math.random() * albums.length);
+      const selectedAlbum = albums[randomAlbumIndex];
 
-      console.log('SELECTED RELEASE', selectedRelease.id, ' - ', selectedRelease.title, ' - ', selectedRelease.year);
+      console.log('SELECTED ALBUM', selectedAlbum.id, ' - ', selectedAlbum.title, ' - ', selectedAlbum.year);
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
       const randomQuestion = [nameTheAlbumQuestion, nameTheYearQuestion];
       const randomQuestionIndex = Math.floor(Math.random() * 2);
-      randomQuestion[randomQuestionIndex](selectedRelease);
-      // nameYearOfReleaseQuestion(selectedRelease)
+      randomQuestion[randomQuestionIndex](selectedAlbum);
       setQuizStarted(true);
       setNextButtonIsClicked(true)
       setQuestionAnswered(false);
-      setSelectedRelease(selectedRelease)
+      setSelectedAlbum(selectedAlbum)
     }
   };
 
   //********QUESTION 1 : WHAT IS THE NAME OF THE ALBUM?********//
-  //********FILTER OUT ANSWERS SO THAT REMAINING RELEASES ARE NOT THE SAME AS SELECTED RELEASE********//
-  const nameTheAlbumQuestion = (selectedRelease) => {
+  //********FILTER OUT ANSWERS SO THAT REMAINING ALBUMS ARE NOT THE SAME AS SELECTED ALBUM********//
+  const nameTheAlbumQuestion = (selectedAlbum) => {
     console.log("-- NAMETHEALBUMQUESTION",)
-    const remainingReleases = releases.filter(
-      (release) => release.title.slice(-3) !== selectedRelease.title.slice(-3)
+    const remainingAlbum = albums.filter(
+      (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
 
     //********RANDOMLY SELECTED TWO INCORRECT ANSWERS********//
     const randomIncorrectAnswers = [];
     while (randomIncorrectAnswers.length < 2) {
-      const index = Math.floor(Math.random() * remainingReleases.length);
+      const index = Math.floor(Math.random() * remainingAlbum.length);
       if (!randomIncorrectAnswers.includes(index)) {
         randomIncorrectAnswers.push(index);
       }
@@ -86,7 +97,7 @@ const Artist = () => {
 
     //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE********//
     const incorrectAnswers = randomIncorrectAnswers.map(
-      (index) => remainingReleases[index]
+      (index) => remainingAlbum[index]
     );
     // console.log("COMPARE 3 LAST LETTERS",incorrectAnswers[0].title.slice(-3), incorrectAnswers[1].title.slice(-3))
     if (
@@ -95,43 +106,33 @@ const Artist = () => {
       incorrectAnswers[0].title.slice(-3) === incorrectAnswers[1].title.slice(-3)
     ) {
       console.log("WEIRD CONDITION")
-      getRandomRelease();
+      getRandomAlbum();
       return;
     }
 
     //********SHUFFLE ANSWERS********//
-    const allAnswers = [selectedRelease, ...incorrectAnswers];
+    const allAnswers = [selectedAlbum, ...incorrectAnswers];
     const shuffledAnswers = allAnswers.sort(() => Math.random() - 0.5);
     setNameAlbumAnswers(shuffledAnswers);
     setNameYearAnswers([])
   };
 
   //********QUESTION 2 : WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
-  const nameTheYearQuestion = (selectedRelease) => {
-    const yearOfRelease = parseInt(selectedRelease.year);
-    console.log('-- NAMETHEYEARQUESTION', selectedRelease);
+  const nameTheYearQuestion = (selectedAlbum) => {
+    const yearOfAlbum = parseInt(selectedAlbum.year);
+    console.log('-- NAMETHEYEARQUESTION', selectedAlbum);
     const randomYears = [
-      parseInt(yearOfRelease) - 5,
-      parseInt(yearOfRelease) + 5
+      parseInt(yearOfAlbum) - 5,
+      parseInt(yearOfAlbum) + 5
     ];
-    const nameYearAnswers = [...randomYears, yearOfRelease];
+    const nameYearAnswers = [...randomYears, yearOfAlbum];
     setNameYearAnswers(nameYearAnswers);
     setNameAlbumAnswers([]);
   };
 
-  // const nameYearOfReleaseQuestion = (randomIndex) => {
-  //   const yearOfRelease = releases[randomIndex].year;
-  //   console.log('YEAR OF RELEASE', yearOfRelease);
-  //   const randomYears = [
-  //     parseInt(yearOfRelease) - 5,
-  //     parseInt(yearOfRelease) + 5
-  //   ];
-  //   console.log('RANDOM YEARS', randomYears);
-  // };
-
   //********CHECK IF ANSWER IS CORRECT********//
   const handleAnswerClick = (selectedAnswer) => {
-    if (selectedAnswer === selectedRelease.title || (selectedAnswer === parseInt(selectedRelease.year))) {
+    if (selectedAnswer === selectedAlbum.title || (selectedAnswer === parseInt(selectedAlbum.year))) {
       alert('Correct!');
       setQuestionAnswered(true);
     } else {
@@ -139,19 +140,8 @@ const Artist = () => {
     }
   };
 
-  //********FUNCTION TO GET ONLY RELEASES WITH ONE MASTER ID********//
-  const getUniqueReleasesByMasterId = (releases) => {
-    const seenMasterIds = new Set();
-    const uniqueReleases = [];
-    releases.forEach((release) => {
-      if (release.master_id && !seenMasterIds.has(release.master_id)) {
-        seenMasterIds.add(release.master_id);
-        uniqueReleases.push(release);
-      }
-    });
-    // console.log('UNIQUE RELEASES', uniqueReleases);
-    return uniqueReleases;
-  };
+
+
 
   return (
     <>
@@ -161,13 +151,14 @@ const Artist = () => {
         <h1>{artist.id} - Great choice!!!</h1>
         <h2>Now test your knowledge:</h2>
         {!quizStarted && (
-      <button onClick={getRandomRelease}>Start Quiz</button>
+      <button onClick={getRandomAlbum}>Start Quiz</button>
     )}
         {quizStarted && (
         <div>
+          
              <img
-              src={selectedRelease?.cover_image}
-              alt={selectedRelease?.title}
+              src={selectedAlbum?.cover_image}
+              alt={selectedAlbum?.title}
               style={{ width: '250px', height: '250px' }}
             />
         </div>
@@ -202,26 +193,26 @@ const Artist = () => {
           </div>
         )}
           {quizStarted && questionAnswered && setNextButtonIsClicked &&(
-            <button onClick={getRandomRelease}>Next Question</button>
+            <button onClick={getRandomAlbum}>Next Question</button>
           )}
           { quizStarted && !questionAnswered && setNextButtonIsClicked && (
-            <button disabled={nextButtonIsClicked} onClick={getRandomRelease}>Next Question</button>
+            <button disabled={nextButtonIsClicked} onClick={getRandomAlbum}>Next Question</button>
           )}
       </div>
     </div>
     
     <div>
-        {releases == null || releases.length === 0 ? (
+        {albums == null || albums.length === 0 ? (
           <p>Loading artist data...</p>
         ) : (
           <div>
-            {getUniqueReleasesByMasterId(releases).map((release) =>
-              release.master_id ? (
-                <div key={release.id}>
+            {albums.map((album) =>
+              album.master_id ? (
+                <div key={album.id}>
                   <img
-                    onClick={() => gotoAlbum(release.id)}
-                    src={release.cover_image}
-                    alt={release.title}
+                    onClick={() => gotoAlbum(album.id)}
+                    src={album.cover_image}
+                    alt={album.title}
                     style={{
                       cursor: 'pointer',
                       width: '150px',

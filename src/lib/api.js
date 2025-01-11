@@ -8,7 +8,7 @@ const ENDPOINTS = {
   search: (query) =>
     `https://api.discogs.com/database/search?q=${query}&key=${KEY}&secret=${SECRET}`,
   getArtistAlbums: (query) =>
-    `https://api.discogs.com/database/search?q=${query}&country=france&artist=${query}&type=release&format=album&artist=${query}&type=release&format=album&key=${KEY}&secret=${SECRET}`,
+    `https://api.discogs.com/database/search?q=${query}&country=uk&artist=${query}&type=release&format=album&artist=${query}&type=release&format=album&key=${KEY}&secret=${SECRET}`,
   getAlbum: (query) =>
     `https://api.discogs.com/releases/${query}`
 };
