@@ -14,6 +14,11 @@ const Artist = () => {
   const [selectedAlbum, setSelectedAlbum] = useState({});
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false); 
 
+  //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN ANSWERS********//
+  const today = new Date();
+  const currentYearStr = `${today.getFullYear()}`;
+const currentYearInt = parseInt(currentYearStr)
+
   //********CHECK IF IMAGE FROM ALBUMS IS A VALID IMAGE********//
   // const isImageValid = async (url) => {
   //   try {
@@ -121,22 +126,28 @@ const Artist = () => {
   const nameTheYearQuestion = (selectedAlbum) => {
     const yearOfAlbum = parseInt(selectedAlbum.year);
     console.log('-- NAMETHEYEARQUESTION', selectedAlbum);
-    const randomYears = [
-      parseInt(yearOfAlbum) - 5,
-      parseInt(yearOfAlbum) + 5
-    ];
+    const randomYears = [];
+    if (yearOfAlbum <= currentYearInt - 5) {
+      randomYears.push(yearOfAlbum - 5);
+      randomYears.push(yearOfAlbum - 10 );
+    } else {
+      randomYears.push(yearOfAlbum - 1);
+      randomYears.push(yearOfAlbum + 1);
+    }
+  
     const nameYearAnswers = [...randomYears, yearOfAlbum];
     setNameYearAnswers(nameYearAnswers);
     setNameAlbumAnswers([]);
   };
 
   //********CHECK IF ANSWER IS CORRECT********//
-  const handleAnswerClick = (selectedAnswer) => {
-    if (selectedAnswer === selectedAlbum.title || (selectedAnswer === parseInt(selectedAlbum.year))) {
+  const handleAnswerClick = (answer) => {
+    if (answer.title === selectedAlbum.title || (parseInt(answer) === parseInt(selectedAlbum.year))) {
       alert('Correct!');
       setQuestionAnswered(true);
     } else {
       alert('Incorrect! Try again.');
+      console.log(answer)
     }
   };
 

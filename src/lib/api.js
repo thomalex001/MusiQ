@@ -15,4 +15,5 @@ const ENDPOINTS = {
 
 const GET = (endpoint) => axios.get(endpoint);
 
+
 export const API = { GET, ENDPOINTS };
