@@ -13,11 +13,12 @@ const Artist = () => {
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState({});
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false); 
-
+  const [country, setCountry] = useState(['']);
+  const [loading, setLoading] = useState(true);
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
   const currentYearStr = `${today.getFullYear()}`;
-const currentYearInt = parseInt(currentYearStr)
+  const currentYearInt = parseInt(currentYearStr);
 
   //********CHECK IF IMAGE FROM ALBUMS IS A VALID IMAGE********//
   // const isImageValid = async (url) => {
@@ -31,38 +32,78 @@ const currentYearInt = parseInt(currentYearStr)
   //   }
   // };
 
-  //********GET CHOSEN ARTIST'S ALBUMS********//
+  //********FETCH ONLY ALBUMS WITH A UNIQUE MASTER ID********//
+  const fetchAlbumsWithUniqueMasterId = async (artistId, country) => {
+    return API.GET(API.ENDPOINTS.getArtistAlbums(artistId, country))
+      .then(({ data }) => {
+        const seenMasterIds = new Set();
+        const uniqueAlbums = [];
+        data.results.forEach((album) => {
+          if (album.master_id && !seenMasterIds.has(album.master_id)) {
+            seenMasterIds.add(album.master_id);
+            uniqueAlbums.push(album);
+            // console.log("DATA", data)
+          }
+        });
+        // console.log("UNIQUE ALBUMS", uniqueAlbums)
+        //********FILTER OUT ALBUMS WITH SPACER.GIF AS A COVER_IMAGE AS IT SHOWS A SINGLE PIXEL********//
+        return uniqueAlbums.filter(
+          (album) => album.cover_image?.slice(-10) !== 'spacer.gif'
+          
+        );
+      })
+      .catch((e) => {
+        console.error('Error fetching albums for country:', country, e);
+        return [];
+      });
+  };
+  //********FETCH ALBUMS FROM DIFFERENT COUNTRIES********//
+  const fetchAlbumsForAllCountries = async (artistId) => {
+    const countries = ['US', 'USA', 'UK', 'France', "Italy"];
+    let albumsFromAllCountries = [];
+    let countFromAllCountries = [];
+    let albumsFromTopCountry = [];
+
+    for (const country of countries) {
+      const countryAlbums = await fetchAlbumsWithUniqueMasterId(
+        artistId,
+        country
+      );
+      countFromAllCountries.push({ country, count: countryAlbums.length });
+      albumsFromAllCountries = [...albumsFromAllCountries, ...countryAlbums]; // Collect albums from all countries
+    }
+    //********FIND THE COUNTRY WITH THE MOST ALBUMS********//
+    const topCountry = countFromAllCountries.reduce(
+      (max, current) => {
+        return current.count > max.count ? current : max;
+      },
+      { country, count: 0 }
+    );
+    //********FILTER TO RETURN ALBUMS FROM TOP COUNTRY ONLY********//
+    // console.log("TOP COUNTRY IS", topCountry.country)
+    
+    // console.log("ALBUMS FROM ALL COUNTRIES", albumsFromAllCountries)
+    albumsFromTopCountry = albumsFromAllCountries.filter(
+      (album) => album.country === topCountry.country
+    );
+    setArtistAlbumsData(albumsFromTopCountry); // Set all albums from all countries
+    setCountry(topCountry.country); // Set the country with the most albums
+    setLoading(false); // Finished loading
+    // console.log("ALBUMS FROM TOP COUNTRY", albumsFromTopCountry)
+  };
+
+  //********FETCH ALBUM WHEN ARTIST ID CHANGES********//
   useEffect(() => {
     if (artist.id) {
-      API.GET(API.ENDPOINTS.getArtistAlbums(artist.id))
-        .then(({ data }) => {
-          // console.log('DATA', data);
-        
-  //********GET ONLY ALBUMS WITH ONE MASTER ID********//
-            const seenMasterIds = new Set();
-            const uniqueAlbums = [];
-            data.results.forEach((album) => {
-              if (album.master_id && !seenMasterIds.has(album.master_id)) {
-                seenMasterIds.add(album.master_id);
-                uniqueAlbums.push(album);
-              }
-            });
-            // console.log('UNIQUE ALBUMS', uniqueAlbums);
-
-  //********FROM UNIQUE ALBUMS, FILTER OUT THE ONES WITH SPACER.GIF AS AN IMAGE*******//
-  //* => AS IT SHOWS A SINGLE PIXEL IMAGE********//
-          const filteredResults = uniqueAlbums.filter(
-            (album) => album.cover_image.slice(-10) !== 'spacer.gif'
-          );
-          console.log("FILTERED RESULTS",filteredResults)
-          setArtistAlbumsData(filteredResults); // Update state with API response
-        })
-        .catch((e) => console.error(e));
+      fetchAlbumsForAllCountries(artist.id);
     }
-  }, [artist.id]);
+  }, [artist.id, country]);
+
+  if (loading) return <div>Loading...</div>;
 
   const gotoAlbum = (albumId) => navigate(`/artist/album/${albumId}`);
   const albums = artistAlbumsData;
+  console.log('ALBUMS', albums);
 
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
@@ -70,23 +111,30 @@ const currentYearInt = parseInt(currentYearStr)
       const randomAlbumIndex = Math.floor(Math.random() * albums.length);
       const selectedAlbum = albums[randomAlbumIndex];
 
-      console.log('SELECTED ALBUM', selectedAlbum.id, ' - ', selectedAlbum.title, ' - ', selectedAlbum.year);
+      console.log(
+        'SELECTED ALBUM',
+        selectedAlbum.id,
+        ' - ',
+        selectedAlbum.title,
+        ' - ',
+        selectedAlbum.year
+      );
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
       const randomQuestion = [nameTheAlbumQuestion, nameTheYearQuestion];
       const randomQuestionIndex = Math.floor(Math.random() * 2);
       randomQuestion[randomQuestionIndex](selectedAlbum);
       setQuizStarted(true);
-      setNextButtonIsClicked(true)
+      setNextButtonIsClicked(true);
       setQuestionAnswered(false);
-      setSelectedAlbum(selectedAlbum)
+      setSelectedAlbum(selectedAlbum);
     }
   };
 
   //********QUESTION 1 : WHAT IS THE NAME OF THE ALBUM?********//
   //********FILTER OUT ANSWERS SO THAT REMAINING ALBUMS ARE NOT THE SAME AS SELECTED ALBUM********//
   const nameTheAlbumQuestion = (selectedAlbum) => {
-    console.log("-- NAMETHEALBUMQUESTION",)
+    console.log('-- NAMETHEALBUMQUESTION');
     const remainingAlbum = albums.filter(
       (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
@@ -104,26 +152,25 @@ const currentYearInt = parseInt(currentYearStr)
     const incorrectAnswers = randomIncorrectAnswers.map(
       (index) => remainingAlbum[index]
     );
-    // console.log("COMPARE 3 LAST LETTERS",incorrectAnswers[0].title.slice(-3), incorrectAnswers[1].title.slice(-3))
     if (
       incorrectAnswers[0].title.length >= 3 &&
       incorrectAnswers[1].title.length >= 3 &&
-      incorrectAnswers[0].title.slice(-3) === incorrectAnswers[1].title.slice(-3)
+      incorrectAnswers[0].title.slice(-3) ===
+        incorrectAnswers[1].title.slice(-3)
     ) {
-      console.log("WEIRD CONDITION")
       getRandomAlbum();
       return;
     }
     const albumAnswersArray = [selectedAlbum, ...incorrectAnswers];
-    const shuffledAnswers = shuffleAnswers(albumAnswersArray)
+    const shuffledAnswers = shuffleAnswers(albumAnswersArray);
     setAlbumAnswersArray(shuffledAnswers);
-    setYearAnswersArray([])
+    setYearAnswersArray([]);
   };
 
- //********SHUFFLE ANSWERS********//
-const shuffleAnswers = (answers) => {
-  return answers.sort(() => Math.random() - 0.5);
-};
+  //********SHUFFLE ANSWERS********//
+  const shuffleAnswers = (answers) => {
+    return answers.sort(() => Math.random() - 0.5);
+  };
 
   //********QUESTION 2 : WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   const nameTheYearQuestion = (selectedAlbum) => {
@@ -131,89 +178,102 @@ const shuffleAnswers = (answers) => {
     console.log('-- NAMETHEYEARQUESTION', selectedAlbum);
     const randomYears = [];
     if (yearOfAlbum <= currentYearInt - 5) {
-      randomYears.push(yearOfAlbum - 5);
-      randomYears.push(yearOfAlbum + 5 );
+      randomYears.push(yearOfAlbum - 7);
+      randomYears.push(yearOfAlbum + 5);
     } else if (yearOfAlbum === currentYearInt) {
       randomYears.push(yearOfAlbum - 2);
       randomYears.push(yearOfAlbum - 4);
+    } else {
+      randomYears.push(yearOfAlbum - 3);
+      randomYears.push(yearOfAlbum + 1);
     }
-  
     const yearAnswersArray = [...randomYears, yearOfAlbum];
-    const shuffledAnswers = shuffleAnswers(yearAnswersArray)
+    const shuffledAnswers = shuffleAnswers(yearAnswersArray);
     setYearAnswersArray(shuffledAnswers);
     setAlbumAnswersArray([]);
   };
 
   //********CHECK IF ANSWER IS CORRECT********//
   const handleAnswerClick = (answer) => {
-    if (answer.title === selectedAlbum.title || (parseInt(answer) === parseInt(selectedAlbum.year))) {
+    if (
+      answer.title === selectedAlbum.title ||
+      parseInt(answer) === parseInt(selectedAlbum.year)
+    ) {
       alert('Correct!');
       setQuestionAnswered(true);
     } else {
       alert('Incorrect! Try again.');
-      console.log(answer)
+      console.log(answer);
     }
   };
 
   return (
     <>
-    <div>
-      {/*QUIZ SECTION */}
       <div>
-        <h1>{artist.id} - Great choice!!!</h1>
-        <h2>Now test your knowledge:</h2>
-        {!quizStarted && (
-      <button onClick={getRandomAlbum}>Start Quiz</button>
-    )}
-        {quizStarted && (
+        {/*QUIZ SECTION */}
         <div>
-          
-             <img
-              src={selectedAlbum?.cover_image}
-              alt={selectedAlbum?.title}
-              style={{ width: '250px', height: '250px' }}
-            />
-        </div>
-        )}
-        
-        {quizStarted && albumAnswersArray.length > 0 && (
-          <div>
-             <h3>What is the name of this album?</h3>
+          <h1>{artist.id}</h1>
+          {!quizStarted && artistAlbumsData.length > 5 && (
+            <>
+              <h2>
+                Fantastic! There is a quiz available to test your knowledge on{' '}
+                {artist.id}:
+              </h2>
+              <button onClick={getRandomAlbum}>Start Quiz</button>
+            </>
+          )}
+          {quizStarted && (
             <div>
-              {albumAnswersArray.map((answer, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswerClick(answer)}>
-                  {answer.title.replace(/^.*? - /, '').trim()}
-                </button>
-              ))}
+              <img
+                src={selectedAlbum?.cover_image}
+                alt={selectedAlbum?.title}
+                style={{ width: '250px', height: '250px' }}
+              />
             </div>
-          </div>
-        )}
-        {quizStarted && yearAnswersArray.length > 0 && (
-          <div>
-            <h3>What year was this album first released?</h3>
+          )}
+
+          {quizStarted && albumAnswersArray.length > 0 && (
             <div>
-            {yearAnswersArray.map((answer) => (
-              <button
-                key={answer}
-                onClick={() => handleAnswerClick(answer)}>
-                {answer}
-              </button>
-            ))}
-          </div>
-          </div>
-        )}
-          {quizStarted && questionAnswered && setNextButtonIsClicked &&(
+              <h3>What is the name of this album?</h3>
+              <div>
+                {albumAnswersArray.map((answer, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleAnswerClick(answer)}>
+                    {answer.title.replace(/^.*? - /, '').trim()}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {quizStarted && yearAnswersArray.length > 0 && (
+            <div>
+              <h3>What year was this album first released?</h3>
+              <div>
+                {yearAnswersArray.map((answer) => (
+                  <button
+                    key={answer}
+                    onClick={() => handleAnswerClick(answer)}>
+                    {answer}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {quizStarted && questionAnswered && setNextButtonIsClicked && (
             <button onClick={getRandomAlbum}>Next Question</button>
           )}
-          { quizStarted && !questionAnswered && setNextButtonIsClicked && (
-            <button disabled={nextButtonIsClicked} onClick={getRandomAlbum}>Next Question</button>
+          {quizStarted && !questionAnswered && setNextButtonIsClicked && (
+            <button
+              disabled={nextButtonIsClicked}
+              onClick={getRandomAlbum}>
+              Next Question
+            </button>
           )}
+        </div>
       </div>
-    </div>
-    
-    <div>
+
+      <div>
         {albums == null || albums.length === 0 ? (
           <p>Loading artist data...</p>
         ) : (
@@ -230,15 +290,14 @@ const shuffleAnswers = (answers) => {
                       width: '150px',
                       height: '150px'
                     }}
-                    />
+                  />
                 </div>
               ) : null
             )}
           </div>
         )}
       </div>
-</>      
-
+    </>
   );
 };
 
