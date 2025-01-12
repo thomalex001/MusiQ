@@ -9,8 +9,8 @@ const ENDPOINTS = {
     `https://api.discogs.com/database/search?q=${query}&key=${KEY}&secret=${SECRET}`,
   getArtistAlbums: (query, country) =>
     `https://api.discogs.com/database/search?q=${query}&country=${country}&artist=${query}&type=release&format=album&artist=${query}&type=release&format=album&key=${KEY}&secret=${SECRET}`,
-  getAlbum: (query) =>
-    `https://api.discogs.com/releases/${query}`
+  getAlbum: (selectedAlbumId) =>
+    `https://api.discogs.com/releases/${selectedAlbumId}`
 };
 
 const GET = (endpoint) => axios.get(endpoint);

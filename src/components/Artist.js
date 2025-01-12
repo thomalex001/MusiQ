@@ -14,7 +14,10 @@ const Artist = () => {
   const [selectedAlbum, setSelectedAlbum] = useState({});
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false); 
   const [country, setCountry] = useState(['']);
-  const [loading, setLoading] = useState(true);
+  const [albumTrackAnswersArray, setAlbumTrackAnswersArray] = useState([]); // Store the fetched album tracks
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null); // Error state
+
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
   const currentYearStr = `${today.getFullYear()}`;
@@ -49,7 +52,6 @@ const Artist = () => {
         //********FILTER OUT ALBUMS WITH SPACER.GIF AS A COVER_IMAGE AS IT SHOWS A SINGLE PIXEL********//
         return uniqueAlbums.filter(
           (album) => album.cover_image?.slice(-10) !== 'spacer.gif'
-          
         );
       })
       .catch((e) => {
@@ -59,7 +61,7 @@ const Artist = () => {
   };
   //********FETCH ALBUMS FROM DIFFERENT COUNTRIES********//
   const fetchAlbumsForAllCountries = async (artistId) => {
-    const countries = ['US', 'USA', 'UK', 'France', "Italy"];
+    const countries = ['US'];
     let albumsFromAllCountries = [];
     let countFromAllCountries = [];
     let albumsFromTopCountry = [];
@@ -81,14 +83,14 @@ const Artist = () => {
     );
     //********FILTER TO RETURN ALBUMS FROM TOP COUNTRY ONLY********//
     // console.log("TOP COUNTRY IS", topCountry.country)
-    
+
     // console.log("ALBUMS FROM ALL COUNTRIES", albumsFromAllCountries)
     albumsFromTopCountry = albumsFromAllCountries.filter(
       (album) => album.country === topCountry.country
     );
     setArtistAlbumsData(albumsFromTopCountry); // Set all albums from all countries
     setCountry(topCountry.country); // Set the country with the most albums
-    setLoading(false); // Finished loading
+    setLoading(false);
     // console.log("ALBUMS FROM TOP COUNTRY", albumsFromTopCountry)
   };
 
@@ -103,7 +105,7 @@ const Artist = () => {
 
   const gotoAlbum = (albumId) => navigate(`/artist/album/${albumId}`);
   const albums = artistAlbumsData;
-  console.log('ALBUMS', albums);
+  // console.log('ALBUMS', albums);
 
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
@@ -121,9 +123,11 @@ const Artist = () => {
       );
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
-      const randomQuestion = [nameTheAlbumQuestion, nameTheYearQuestion];
-      const randomQuestionIndex = Math.floor(Math.random() * 2);
-      randomQuestion[randomQuestionIndex](selectedAlbum);
+      // const randomQuestion = [nameTheAlbumQuestion, nameTheYearQuestion];
+      // const randomQuestionIndex = Math.floor(Math.random() * 2);
+      // randomQuestion[randomQuestionIndex](selectedAlbum);
+      nameTheAlbumTrackQuestion(selectedAlbum);
+      getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
       setNextButtonIsClicked(true);
       setQuestionAnswered(false);
@@ -131,26 +135,26 @@ const Artist = () => {
     }
   };
 
-  //********QUESTION 1 : WHAT IS THE NAME OF THE ALBUM?********//
+  //********QUESTION 1:******************************************//
+  //********WHAT IS THE NAME OF THE ALBUM?********//
   //********FILTER OUT ANSWERS SO THAT REMAINING ALBUMS ARE NOT THE SAME AS SELECTED ALBUM********//
   const nameTheAlbumQuestion = (selectedAlbum) => {
     console.log('-- NAMETHEALBUMQUESTION');
-    const remainingAlbum = albums.filter(
+    const remainingAlbums = albums.filter(
       (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
 
-    //********RANDOMLY SELECTED TWO INCORRECT ANSWERS********//
+    //********RANDOMLY SELECT TWO INCORRECT ANSWERS********//
     const randomIncorrectAnswers = [];
     while (randomIncorrectAnswers.length < 2) {
-      const index = Math.floor(Math.random() * remainingAlbum.length);
+      const index = Math.floor(Math.random() * remainingAlbums.length);
       if (!randomIncorrectAnswers.includes(index)) {
         randomIncorrectAnswers.push(index);
       }
     }
-
     //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE********//
     const incorrectAnswers = randomIncorrectAnswers.map(
-      (index) => remainingAlbum[index]
+      (index) => remainingAlbums[index]
     );
     if (
       incorrectAnswers[0].title.length >= 3 &&
@@ -171,8 +175,8 @@ const Artist = () => {
   const shuffleAnswers = (answers) => {
     return answers.sort(() => Math.random() - 0.5);
   };
-
-  //********QUESTION 2 : WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
+  //********QUESTION 2:******************************************//
+  //********WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   const nameTheYearQuestion = (selectedAlbum) => {
     const yearOfAlbum = parseInt(selectedAlbum.year);
     console.log('-- NAMETHEYEARQUESTION', selectedAlbum);
@@ -193,6 +197,66 @@ const Artist = () => {
     setAlbumAnswersArray([]);
   };
 
+  //********QUESTION 3:******************************************//
+  //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?********//
+  //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API********//
+  const getSelectedAlbumDetails = async (selectedAlbum) => {
+    try {
+      // Fetch the albums for the artist and country
+      const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
+      console.log('SELECTED ALBUM DETAILS:', data);
+      // //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
+      const tracklist = data.tracklist || [];
+
+      if (tracklist.length > 0) {
+        const randomIndex = Math.floor(Math.random() * tracklist.length);
+        const randomTrack = tracklist[randomIndex].title;
+
+        console.log('Randomly selected track:', randomTrack);
+      } else {
+        console.log('No tracks available for this album.');
+      }
+    } catch (error) {
+      console.error('Error fetching album details:', error);
+    }
+  };
+
+  // //********GET ONE TRACK FROM SELECTED ALBUM********//
+  const nameTheAlbumTrackQuestion = (selectedAlbum) => {
+    console.log('-- NAME THE TRACK QUESTION');
+    const remainingAlbums = albums.filter(
+      (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
+    );
+
+    //   //********RANDOMLY SELECTED TWO INCORRECT ANSWERS********//
+    const randomIncorrectAnswers = [];
+    while (randomIncorrectAnswers.length < 2) {
+      const index = Math.floor(Math.random() * remainingAlbums.length);
+      if (!randomIncorrectAnswers.includes(index)) {
+        randomIncorrectAnswers.push(index);
+      }
+    }
+
+    //   //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE********//
+    const incorrectAnswers = randomIncorrectAnswers.map(
+      (index) => remainingAlbums[index]
+    );
+    if (
+      incorrectAnswers[0].title.length >= 3 &&
+      incorrectAnswers[1].title.length >= 3 &&
+      incorrectAnswers[0].title.slice(-3) ===
+        incorrectAnswers[1].title.slice(-3)
+    ) {
+      getRandomAlbum();
+      return;
+    }
+    const albumAnswersArray = [selectedAlbum, ...incorrectAnswers];
+    const shuffledAnswers = shuffleAnswers(albumAnswersArray);
+    setAlbumTrackAnswersArray(shuffledAnswers);
+    setYearAnswersArray([]);
+    setAlbumAnswersArray([]);
+  };
+
   //********CHECK IF ANSWER IS CORRECT********//
   const handleAnswerClick = (answer) => {
     if (
@@ -203,7 +267,7 @@ const Artist = () => {
       setQuestionAnswered(true);
     } else {
       alert('Incorrect! Try again.');
-      console.log(answer);
+      console.log('CORRECT ANSWER', selectedAlbum.year, selectedAlbum.title);
     }
   };
 
