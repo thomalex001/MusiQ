@@ -17,6 +17,8 @@ const Artist = () => {
   const [albumTrackAnswersArray, setAlbumTrackAnswersArray] = useState([]); // Store the fetched album tracks
   const [loading, setLoading] = useState(false); // Loading state
   const [error, setError] = useState(null); // Error state
+  const [randomTrack, setRandomTrack] = useState(null); // Error state
+  const [incorrectAnswersArray, setIncorrectAnswersArray] = useState(''); // Error state
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
@@ -123,10 +125,14 @@ const Artist = () => {
       );
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
-      // const randomQuestion = [nameTheAlbumQuestion, nameTheYearQuestion];
-      // const randomQuestionIndex = Math.floor(Math.random() * 2);
-      // randomQuestion[randomQuestionIndex](selectedAlbum);
-      nameTheAlbumTrackQuestion(selectedAlbum);
+      const randomQuestion = [
+        nameTheAlbumQuestion,
+        nameTheYearQuestion,
+        nameTheAlbumTrackQuestion
+      ];
+      const randomQuestionIndex = Math.floor(Math.random() * 3);
+      randomQuestion[randomQuestionIndex](selectedAlbum);
+      // nameTheAlbumTrackQuestion(selectedAlbum);
       getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
       setNextButtonIsClicked(true);
@@ -211,7 +217,7 @@ const Artist = () => {
       if (tracklist.length > 0) {
         const randomIndex = Math.floor(Math.random() * tracklist.length);
         const randomTrack = tracklist[randomIndex].title;
-
+        setRandomTrack(randomTrack);
         console.log('Randomly selected track:', randomTrack);
       } else {
         console.log('No tracks available for this album.');
@@ -223,7 +229,7 @@ const Artist = () => {
 
   // //********GET ONE TRACK FROM SELECTED ALBUM********//
   const nameTheAlbumTrackQuestion = (selectedAlbum) => {
-    console.log('-- NAME THE TRACK QUESTION');
+    console.log('-- NAME THE ALBUM FROM THE TRACK QUESTION');
     const remainingAlbums = albums.filter(
       (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
@@ -245,13 +251,14 @@ const Artist = () => {
       incorrectAnswers[0].title.length >= 3 &&
       incorrectAnswers[1].title.length >= 3 &&
       incorrectAnswers[0].title.slice(-3) ===
-        incorrectAnswers[1].title.slice(-3)
+      incorrectAnswers[1].title.slice(-3)
     ) {
       getRandomAlbum();
       return;
     }
-    const albumAnswersArray = [selectedAlbum, ...incorrectAnswers];
-    const shuffledAnswers = shuffleAnswers(albumAnswersArray);
+    const albumTrackAnswersArray = [selectedAlbum, ...incorrectAnswers];
+    console.log(albumTrackAnswersArray);
+    const shuffledAnswers = shuffleAnswers(albumTrackAnswersArray);
     setAlbumTrackAnswersArray(shuffledAnswers);
     setYearAnswersArray([]);
     setAlbumAnswersArray([]);
@@ -286,16 +293,53 @@ const Artist = () => {
               <button onClick={getRandomAlbum}>Start Quiz</button>
             </>
           )}
-          {quizStarted && (
+          {quizStarted && !albumTrackAnswersArray.length > 0 && (
             <div>
               <img
                 src={selectedAlbum?.cover_image}
                 alt={selectedAlbum?.title}
-                style={{ width: '250px', height: '250px' }}
+                style={{ cursor: 'pointer', width: '250px', height: '250px' }}
               />
             </div>
           )}
-
+          {quizStarted && albumTrackAnswersArray.length > 0 && (
+            <div>
+              {incorrectAnswersArray.map((incorrectImage) => (
+                <div>
+                  <img
+                    onClick={() => handleAnswerClick()}
+                    src={selectedAlbum?.cover_image}
+                    alt={selectedAlbum?.title}
+                    style={{
+                      cursor: 'pointer',
+                      width: '250px',
+                      height: '250px'
+                    }}
+                  />
+                  <img
+                    onClick={() => handleAnswerClick(incorrectImage)}
+                    src={incorrectImage?.cover_image}
+                    alt={incorrectImage?.title}
+                    style={{
+                      cursor: 'pointer',
+                      width: '250px',
+                      height: '250px'
+                    }}
+                  />
+                  <img
+                    onClick={() => handleAnswerClick(incorrectImage)}
+                    src={incorrectImage?.cover_image}
+                    alt={incorrectImage?.title}
+                    style={{
+                      cursor: 'pointer',
+                      width: '250px',
+                      height: '250px'
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
           {quizStarted && albumAnswersArray.length > 0 && (
             <div>
               <h3>What is the name of this album?</h3>
@@ -322,6 +366,13 @@ const Artist = () => {
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+          {quizStarted && albumTrackAnswersArray.length > 0 && (
+            <div>
+              <p>{randomTrack}</p>
+              <h3>This track was released on which of these albums?</h3>
+              <div></div>
             </div>
           )}
           {quizStarted && questionAnswered && setNextButtonIsClicked && (

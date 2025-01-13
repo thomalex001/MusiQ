@@ -35,22 +35,5 @@
 
 
 
-
-
-
-  const fetchAlbumsWithUniqueMasterId = async (artistId, country) => {
-    return API.GET(API.ENDPOINTS.getArtistAlbums(artistId, country))
-      .then(({ data }) => {
-      })
-      .catch((e) => {
-        console.error('Error fetching albums for country:', country, e);
-        return [];
-      });
-  };
-
-  //********FETCH ALBUM WHEN ARTIST ID CHANGES********//
-  useEffect(() => {
-    if (artist.id) {
-      fetchAlbumsForAllCountries(artist.id);
-    }
-  }, []);
+const randomQuestionIndex = Math.floor(Math.random() * 3);
+console.log(randomQuestionIndex)
