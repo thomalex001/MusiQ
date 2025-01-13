@@ -128,9 +128,9 @@ const Artist = () => {
       const randomQuestion = [
         nameTheAlbumQuestion,
         nameTheYearQuestion,
-        nameTheAlbumTrackQuestion
+        // nameTheAlbumTrackQuestion
       ];
-      const randomQuestionIndex = Math.floor(Math.random() * 3);
+      const randomQuestionIndex = Math.floor(Math.random() * 2);
       randomQuestion[randomQuestionIndex](selectedAlbum);
       // nameTheAlbumTrackQuestion(selectedAlbum);
       getSelectedAlbumDetails(selectedAlbum);
@@ -141,8 +141,33 @@ const Artist = () => {
     }
   };
 
-  //********QUESTION 1:******************************************//
+  //********QUESTION 2: FETCHING******************************************//
+  //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?********//
+  //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API********//
+  const getSelectedAlbumDetails = async (selectedAlbum) => {
+    try {
+      // Fetch the albums for the artist and country
+      const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
+      console.log('SELECTED ALBUM DETAILS:', data);
+      // //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
+      const tracklist = data.tracklist || [];
+
+      if (tracklist.length > 0) {
+        const randomIndex = Math.floor(Math.random() * tracklist.length);
+        const randomTrack = tracklist[randomIndex].title;
+        setRandomTrack(randomTrack);
+        console.log('Randomly selected track:', randomTrack);
+      } else {
+        console.log('No tracks available for this album.');
+      }
+    } catch (error) {
+      console.error('Error fetching album details:', error);
+    }
+  };
+
+  //********QUESTION 1 & 2 :******************************************//
   //********WHAT IS THE NAME OF THE ALBUM?********//
+   //*******WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   //********FILTER OUT ANSWERS SO THAT REMAINING ALBUMS ARE NOT THE SAME AS SELECTED ALBUM********//
   const nameTheAlbumQuestion = (selectedAlbum) => {
     console.log('-- NAMETHEALBUMQUESTION');
@@ -173,15 +198,29 @@ const Artist = () => {
     }
     const albumAnswersArray = [selectedAlbum, ...incorrectAnswers];
     const shuffledAnswers = shuffleAnswers(albumAnswersArray);
-    setAlbumAnswersArray(shuffledAnswers);
+    
+  //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
+    for (let i = 0; i < 1; i++) {
+      const randomChoice = Math.floor(Math.random() * 2);
+      if (randomChoice === 0) {
+        setAlbumTrackAnswersArray(shuffledAnswers); 
+        getSelectedAlbumDetails()
+        console.log("TRACK")// Call the first setState function
+      } else {
+        setAlbumAnswersArray(shuffledAnswers);
+        console.log("ALBUM") // Call the second setState function
+      }
+    }
     setYearAnswersArray([]);
+    
   };
 
   //********SHUFFLE ANSWERS********//
   const shuffleAnswers = (answers) => {
     return answers.sort(() => Math.random() - 0.5);
   };
-  //********QUESTION 2:******************************************//
+
+  //********QUESTION 3:******************************************//
   //********WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   const nameTheYearQuestion = (selectedAlbum) => {
     const yearOfAlbum = parseInt(selectedAlbum.year);
@@ -203,66 +242,7 @@ const Artist = () => {
     setAlbumAnswersArray([]);
   };
 
-  //********QUESTION 3:******************************************//
-  //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?********//
-  //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API********//
-  const getSelectedAlbumDetails = async (selectedAlbum) => {
-    try {
-      // Fetch the albums for the artist and country
-      const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
-      console.log('SELECTED ALBUM DETAILS:', data);
-      // //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
-      const tracklist = data.tracklist || [];
 
-      if (tracklist.length > 0) {
-        const randomIndex = Math.floor(Math.random() * tracklist.length);
-        const randomTrack = tracklist[randomIndex].title;
-        setRandomTrack(randomTrack);
-        console.log('Randomly selected track:', randomTrack);
-      } else {
-        console.log('No tracks available for this album.');
-      }
-    } catch (error) {
-      console.error('Error fetching album details:', error);
-    }
-  };
-
-  // //********GET ONE TRACK FROM SELECTED ALBUM********//
-  const nameTheAlbumTrackQuestion = (selectedAlbum) => {
-    console.log('-- NAME THE ALBUM FROM THE TRACK QUESTION');
-    const remainingAlbums = albums.filter(
-      (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
-    );
-
-    //   //********RANDOMLY SELECTED TWO INCORRECT ANSWERS********//
-    const randomIncorrectAnswers = [];
-    while (randomIncorrectAnswers.length < 2) {
-      const index = Math.floor(Math.random() * remainingAlbums.length);
-      if (!randomIncorrectAnswers.includes(index)) {
-        randomIncorrectAnswers.push(index);
-      }
-    }
-
-    //   //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE********//
-    const incorrectAnswers = randomIncorrectAnswers.map(
-      (index) => remainingAlbums[index]
-    );
-    if (
-      incorrectAnswers[0].title.length >= 3 &&
-      incorrectAnswers[1].title.length >= 3 &&
-      incorrectAnswers[0].title.slice(-3) ===
-      incorrectAnswers[1].title.slice(-3)
-    ) {
-      getRandomAlbum();
-      return;
-    }
-    const albumTrackAnswersArray = [selectedAlbum, ...incorrectAnswers];
-    console.log(albumTrackAnswersArray);
-    const shuffledAnswers = shuffleAnswers(albumTrackAnswersArray);
-    setAlbumTrackAnswersArray(shuffledAnswers);
-    setYearAnswersArray([]);
-    setAlbumAnswersArray([]);
-  };
 
   //********CHECK IF ANSWER IS CORRECT********//
   const handleAnswerClick = (answer) => {
@@ -298,15 +278,13 @@ const Artist = () => {
               <img
                 src={selectedAlbum?.cover_image}
                 alt={selectedAlbum?.title}
-                style={{ cursor: 'pointer', width: '250px', height: '250px' }}
+                style={{ width: '250px', height: '250px' }}
               />
             </div>
           )}
           {quizStarted && albumTrackAnswersArray.length > 0 && (
             <div>
-              {incorrectAnswersArray.map((incorrectImage) => (
-                <div>
-                  <img
+                <img
                     onClick={() => handleAnswerClick()}
                     src={selectedAlbum?.cover_image}
                     alt={selectedAlbum?.title}
@@ -316,6 +294,9 @@ const Artist = () => {
                       height: '250px'
                     }}
                   />
+              {albumTrackAnswersArray.map((incorrectImage) => (
+                <div>
+               
                   <img
                     onClick={() => handleAnswerClick(incorrectImage)}
                     src={incorrectImage?.cover_image}
