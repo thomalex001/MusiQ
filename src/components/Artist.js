@@ -14,11 +14,11 @@ const Artist = () => {
   const [selectedAlbum, setSelectedAlbum] = useState({});
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false); 
   const [country, setCountry] = useState('');
-  const [albumTrackAnswersArray, setAlbumTrackAnswersArray] = useState([]); // Store the fetched album tracks
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(null); // Error state
-  const [randomTrack, setRandomTrack] = useState(null); // Error state
-  const [incorrectAnswersArray, setIncorrectAnswersArray] = useState([]); // Error state
+  const [albumTrackAnswersArray, setAlbumTrackAnswersArray] = useState([]);
+  const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null); // Error state
+  const [randomTrack, setRandomTrack] = useState(null);
+  const [score, setScore] = useState(0);
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
@@ -27,17 +27,23 @@ const Artist = () => {
 
   //********SCORING FUNCTIONS********//
   //********COUNTDOWN FROM 5 ********//
-  
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(5);
   const countdown = () => {
     if (count < 5) {
       setCount(count + 1);
     } else {
-      alert("Countdown has finished!");
-      setQuizStarted(false)
-
+      setQuizStarted(false);
+      setCount(1);
     }
   };
+  const addPoint = () => {
+    setScore((prevScore) => {
+      const newScore = prevScore + 1;
+      console.log(newScore);
+      return newScore;
+    });
+  };
+
   //********CHECK IF IMAGE FROM ALBUMS IS A VALID IMAGE********//
   // const isImageValid = async (url) => {
   //   try {
@@ -151,7 +157,6 @@ const Artist = () => {
       setNextButtonIsClicked(true);
       setQuestionAnswered(false);
       setSelectedAlbum(selectedAlbum);
- 
     }
   };
 
@@ -212,7 +217,7 @@ const Artist = () => {
     }
     const albumAnswersArray = [selectedAlbum, ...incorrectAnswers];
     const albumTrackAnswersArray = [selectedAlbum, ...incorrectAnswers];
-    console.log('ALBUMTRACKARRAY', albumTrackAnswersArray);
+    // console.log('ALBUMTRACKARRAY', albumTrackAnswersArray);
     const shuffledAlbumTrackAnswers = shuffleAnswers(albumTrackAnswersArray);
     const shuffledAlbumAnswers = shuffleAnswers(albumAnswersArray);
 
@@ -267,19 +272,21 @@ const Artist = () => {
     ) {
       alert('Correct!');
       setQuestionAnswered(true);
+      addPoint();
     } else {
-      alert('Incorrect! Try again.');
+      alert('Incorrect!');
       console.log('CORRECT ANSWER', selectedAlbum.year, selectedAlbum.title);
+      setQuestionAnswered(true);
     }
   };
-  console.log(
-    'TRACK',
-    albumTrackAnswersArray.length,
-    'ALBUMM',
-    albumAnswersArray.length,
-    'YEAR',
-    yearAnswersArray.length
-  );
+  // console.log(
+  //   'TRACK',
+  //   albumTrackAnswersArray.length,
+  //   'ALBUMM',
+  //   albumAnswersArray.length,
+  //   'YEAR',
+  //   yearAnswersArray.length
+  // );
 
   return (
     <>
@@ -290,10 +297,11 @@ const Artist = () => {
           {!quizStarted && artistAlbumsData.length > 5 && (
             <>
               <h2>
-                Fantastic! There is a quiz available to test your knowledge on{' '}
-                {artist.id}:
+                {count === 5
+                  ? `Fantastic! There is a quiz available to test your knowledge on ${artist.id}`
+                  : `Your score is ${score}/5`}
               </h2>
-              <button onClick={getRandomAlbum}>Start Quiz</button>
+              <button onClick={getRandomAlbum}>{count === 5 ? 'Start Quiz' : 'Take Another Quiz'}</button>
             </>
           )}
           {quizStarted && (
@@ -340,7 +348,8 @@ const Artist = () => {
                   {albumAnswersArray.map((answer, index) => (
                     <button
                       key={index}
-                      onClick={() => handleAnswerClick(answer)}>
+                      onClick={() => handleAnswerClick(answer)}
+                      disabled={questionAnswered}>
                       {answer.title.replace(/^.*? - /, '').trim()}
                     </button>
                   ))}
@@ -354,7 +363,8 @@ const Artist = () => {
                 {yearAnswersArray.map((answer) => (
                   <button
                     key={answer}
-                    onClick={() => handleAnswerClick(answer)}>
+                    onClick={() => handleAnswerClick(answer)}
+                    disabled={questionAnswered}>
                     {answer}
                   </button>
                 ))}
@@ -368,19 +378,17 @@ const Artist = () => {
               <div></div>
             </div>
           )}
-          {quizStarted && questionAnswered && setNextButtonIsClicked && (
-            <button onClick={() => { getRandomAlbum(); countdown(); }}>Next Question</button>
-          )}
-          {quizStarted && !questionAnswered && setNextButtonIsClicked && (
+          {quizStarted && questionAnswered && nextButtonIsClicked && (
             <button
-              disabled={nextButtonIsClicked}
-              onClick={getRandomAlbum}>
-              Next Question
+              onClick={() => {
+                getRandomAlbum();
+                countdown();
+              }}>
+              {count === 5 ? 'Check Score' : 'Next Question'}
             </button>
           )}
         </div>
       </div>
-
       <div>
         {albums == null || albums.length === 0 ? (
           <p>Loading artist data...</p>
