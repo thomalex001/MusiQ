@@ -18,7 +18,7 @@ const Artist = () => {
   const [loading, setLoading] = useState(false); // Loading state
   const [error, setError] = useState(null); // Error state
   const [randomTrack, setRandomTrack] = useState(null); // Error state
-  const [incorrectAnswersArray, setIncorrectAnswersArray] = useState(''); // Error state
+  const [incorrectAnswersArray, setIncorrectAnswersArray] = useState([]); // Error state
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
@@ -128,16 +128,16 @@ const Artist = () => {
       const randomQuestion = [
         nameTheAlbumQuestion,
         nameTheYearQuestion,
-        // nameTheAlbumTrackQuestion
       ];
       const randomQuestionIndex = Math.floor(Math.random() * 2);
       randomQuestion[randomQuestionIndex](selectedAlbum);
-      // nameTheAlbumTrackQuestion(selectedAlbum);
+      
       getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
       setNextButtonIsClicked(true);
       setQuestionAnswered(false);
       setSelectedAlbum(selectedAlbum);
+      
     }
   };
 
@@ -156,7 +156,7 @@ const Artist = () => {
         const randomIndex = Math.floor(Math.random() * tracklist.length);
         const randomTrack = tracklist[randomIndex].title;
         setRandomTrack(randomTrack);
-        console.log('Randomly selected track:', randomTrack);
+        // console.log('Randomly selected track:', randomTrack);
       } else {
         console.log('No tracks available for this album.');
       }
@@ -170,7 +170,8 @@ const Artist = () => {
    //*******WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   //********FILTER OUT ANSWERS SO THAT REMAINING ALBUMS ARE NOT THE SAME AS SELECTED ALBUM********//
   const nameTheAlbumQuestion = (selectedAlbum) => {
-    console.log('-- NAMETHEALBUMQUESTION');
+    // console.log('-- NAMETHEALBUMQUESTION');
+    
     const remainingAlbums = albums.filter(
       (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
@@ -196,23 +197,25 @@ const Artist = () => {
       getRandomAlbum();
       return;
     }
+
     const albumAnswersArray = [selectedAlbum, ...incorrectAnswers];
-    const shuffledAnswers = shuffleAnswers(albumAnswersArray);
-    
-  //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
+    const albumTrackAnswersArray = [selectedAlbum, ...incorrectAnswers];
+    const shuffledAlbumTrackAnswers = shuffleAnswers(albumTrackAnswersArray);
+    const shuffledAlbumAnswers = shuffleAnswers(albumAnswersArray);
+
+    //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
     for (let i = 0; i < 1; i++) {
       const randomChoice = Math.floor(Math.random() * 2);
       if (randomChoice === 0) {
-        setAlbumTrackAnswersArray(shuffledAnswers); 
-        getSelectedAlbumDetails()
-        console.log("TRACK")// Call the first setState function
+        setAlbumAnswersArray([])
+        setAlbumTrackAnswersArray(shuffledAlbumTrackAnswers);
       } else {
-        setAlbumAnswersArray(shuffledAnswers);
-        console.log("ALBUM") // Call the second setState function
+        setAlbumTrackAnswersArray([])
+        setAlbumAnswersArray(shuffledAlbumAnswers);
+        console.log('ALBUM'); // Call the second setState function
       }
     }
     setYearAnswersArray([]);
-    
   };
 
   //********SHUFFLE ANSWERS********//
@@ -240,6 +243,7 @@ const Artist = () => {
     const shuffledAnswers = shuffleAnswers(yearAnswersArray);
     setYearAnswersArray(shuffledAnswers);
     setAlbumAnswersArray([]);
+    setAlbumTrackAnswersArray([]);
   };
 
 
@@ -257,6 +261,9 @@ const Artist = () => {
       console.log('CORRECT ANSWER', selectedAlbum.year, selectedAlbum.title);
     }
   };
+console.log("TRACK", albumTrackAnswersArray.length, "ALBUMM", albumAnswersArray.length,
+  "YEAR", yearAnswersArray.length
+)
 
   return (
     <>
@@ -273,41 +280,24 @@ const Artist = () => {
               <button onClick={getRandomAlbum}>Start Quiz</button>
             </>
           )}
+            {/*SELECTED ALBUM COVER_IMAGE RENDERING */}
           {quizStarted && !albumTrackAnswersArray.length > 0 && (
             <div>
               <img
+                key={selectedAlbum?.id}
                 src={selectedAlbum?.cover_image}
                 alt={selectedAlbum?.title}
                 style={{ width: '250px', height: '250px' }}
               />
             </div>
           )}
-          {quizStarted && albumTrackAnswersArray.length > 0 && (
+            {/* 3 ANSWERS COVER_IMAGE RENDERING */}
+          {quizStarted && albumTrackAnswersArray.length > 0 && !albumAnswersArray.length > 0 && (
             <div>
-                <img
-                    onClick={() => handleAnswerClick()}
-                    src={selectedAlbum?.cover_image}
-                    alt={selectedAlbum?.title}
-                    style={{
-                      cursor: 'pointer',
-                      width: '250px',
-                      height: '250px'
-                    }}
-                  />
               {albumTrackAnswersArray.map((incorrectImage) => (
                 <div>
-               
                   <img
-                    onClick={() => handleAnswerClick(incorrectImage)}
-                    src={incorrectImage?.cover_image}
-                    alt={incorrectImage?.title}
-                    style={{
-                      cursor: 'pointer',
-                      width: '250px',
-                      height: '250px'
-                    }}
-                  />
-                  <img
+                    key={incorrectImage?.id}
                     onClick={() => handleAnswerClick(incorrectImage)}
                     src={incorrectImage?.cover_image}
                     alt={incorrectImage?.title}
@@ -321,7 +311,7 @@ const Artist = () => {
               ))}
             </div>
           )}
-          {quizStarted && albumAnswersArray.length > 0 && (
+          {quizStarted && albumAnswersArray.length > 0 && !albumTrackAnswersArray.length > 0 && (
             <div>
               <h3>What is the name of this album?</h3>
               <div>
