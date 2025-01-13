@@ -27,22 +27,22 @@ const Artist = () => {
 
   //********SCORING FUNCTIONS********//
   //********COUNTDOWN FROM 5 ********//
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(1);
   const countdown = () => {
     if (count < 5) {
       setCount(count + 1);
     } else {
       setQuizStarted(false);
-      setCount(1);
     }
   };
+  console.log('COUNT',count)
+  //********ADD POINTS********//
+
   const addPoint = () => {
-    setScore((prevScore) => {
-      const newScore = prevScore + 1;
-      console.log(newScore);
-      return newScore;
-    });
+    setScore(score + 1)
   };
+  console.log('SCORE', score);
+  
 
   //********CHECK IF IMAGE FROM ALBUMS IS A VALID IMAGE********//
   // const isImageValid = async (url) => {
@@ -165,9 +165,8 @@ const Artist = () => {
   //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API********//
   const getSelectedAlbumDetails = async (selectedAlbum) => {
     try {
-      // Fetch the albums for the artist and country
       const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
-      console.log('SELECTED ALBUM DETAILS:', data);
+      // console.log('SELECTED ALBUM DETAILS:', data);
       // //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
       const tracklist = data.tracklist || [];
 
@@ -175,7 +174,6 @@ const Artist = () => {
         const randomIndex = Math.floor(Math.random() * tracklist.length);
         const randomTrack = tracklist[randomIndex].title;
         setRandomTrack(randomTrack);
-        // console.log('Randomly selected track:', randomTrack);
       } else {
         console.log('No tracks available for this album.');
       }
@@ -217,7 +215,6 @@ const Artist = () => {
     }
     const albumAnswersArray = [selectedAlbum, ...incorrectAnswers];
     const albumTrackAnswersArray = [selectedAlbum, ...incorrectAnswers];
-    // console.log('ALBUMTRACKARRAY', albumTrackAnswersArray);
     const shuffledAlbumTrackAnswers = shuffleAnswers(albumTrackAnswersArray);
     const shuffledAlbumAnswers = shuffleAnswers(albumAnswersArray);
 
@@ -230,7 +227,7 @@ const Artist = () => {
       } else {
         setAlbumTrackAnswersArray([]);
         setAlbumAnswersArray(shuffledAlbumAnswers);
-        console.log('ALBUM'); // Call the second setState function
+        console.log('ALBUM');
       }
     }
     setYearAnswersArray([]);
@@ -245,7 +242,7 @@ const Artist = () => {
   //********WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   const nameTheYearQuestion = (selectedAlbum) => {
     const yearOfAlbum = parseInt(selectedAlbum.year);
-    console.log('-- NAMETHEYEARQUESTION', selectedAlbum);
+    // console.log('-- NAMETHEYEARQUESTION', selectedAlbum);
     const randomYears = [];
     if (yearOfAlbum <= currentYearInt - 5) {
       randomYears.push(yearOfAlbum - 7);
@@ -298,10 +295,17 @@ const Artist = () => {
             <>
               <h2>
                 {count === 5
-                  ? `Fantastic! There is a quiz available to test your knowledge on ${artist.id}`
-                  : `Your score is ${score}/5`}
+                  ? `Your score is ${score}/5`
+                  : `Fantastic! There is a quiz available to test your knowledge on ${artist.id}`}
               </h2>
-              <button onClick={getRandomAlbum}>{count === 5 ? 'Start Quiz' : 'Take Another Quiz'}</button>
+              <button
+                onClick={() => {
+                  getRandomAlbum();
+                  setScore(0)
+                  setCount(1)
+                }}>
+                {count === 5 ? 'Take Another Quiz' : 'Start Quiz'}
+              </button>
             </>
           )}
           {quizStarted && (
