@@ -12,9 +12,10 @@ const Artist = () => {
   const [albumAnswersArray, setAlbumAnswersArray] = useState([]);
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [selectedAlbum, setSelectedAlbum] = useState({});
-  const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false); 
+  const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false);
   const [country, setCountry] = useState('');
   const [albumTrackAnswersArray, setAlbumTrackAnswersArray] = useState([]);
+  const [selectedAlbumsArray, setSelectedAlbumsArray] = useState([]);
   const [loading, setLoading] = useState(false);
   // const [error, setError] = useState(null); // Error state
   const [randomTrack, setRandomTrack] = useState(null);
@@ -25,24 +26,23 @@ const Artist = () => {
   const currentYearStr = `${today.getFullYear()}`;
   const currentYearInt = parseInt(currentYearStr);
 
+  //********ON CLICK ALBUM COVER_IMAGE ==> GOES TO ALBUMId PAGE ********//
+  const gotoAlbum = (albumId) => navigate(`/artist/album/${albumId}`);
+
   //********SCORING FUNCTIONS********//
-  //********COUNTDOWN FROM 5 ********//
+  //********COUNT FROM 1 TO 5 QUESTIONS ANSWERED ********//
   const [count, setCount] = useState(1);
-  const countdown = () => {
+  const countToFive = () => {
     if (count < 5) {
       setCount(count + 1);
     } else {
       setQuizStarted(false);
     }
   };
-  console.log('COUNT',count)
   //********ADD POINTS********//
-
   const addPoint = () => {
-    setScore(score + 1)
+    setScore(score + 1);
   };
-  console.log('SCORE', score);
-  
 
   //********CHECK IF IMAGE FROM ALBUMS IS A VALID IMAGE********//
   // const isImageValid = async (url) => {
@@ -81,7 +81,7 @@ const Artist = () => {
       });
   };
 
-  //********FETCH ALBUM WHEN ARTIST ID CHANGES********//
+  //********FETCH ALBUMS WHEN ARTIST ID CHANGES********//
   useEffect(() => {
     //********FETCH ALBUMS FROM DIFFERENT COUNTRIES********//
     const fetchAlbumsForAllCountries = async (artistId) => {
@@ -110,17 +110,15 @@ const Artist = () => {
       );
       //********FILTER TO RETURN ALBUMS FROM TOP COUNTRY ONLY********//
       // console.log("TOP COUNTRY IS", topCountry.country)
-
       // console.log("ALBUMS FROM ALL COUNTRIES", albumsFromAllCountries)
       albumsFromTopCountry = albumsFromAllCountries.filter(
         (album) => album.country === topCountry.country
       );
-      setArtistAlbumsData(albumsFromTopCountry); // Set all albums from all countries
-      setCountry(topCountry.country); // Set the country with the most albums
+      setArtistAlbumsData(albumsFromTopCountry);
+      setCountry(topCountry.country);
       setLoading(false);
       // console.log("ALBUMS FROM TOP COUNTRY", albumsFromTopCountry)
     };
-
     if (artist.id && !country) {
       fetchAlbumsForAllCountries(artist.id);
     }
@@ -128,16 +126,34 @@ const Artist = () => {
 
   if (loading) return <div>Loading...</div>;
   const albums = artistAlbumsData;
-
-  const gotoAlbum = (albumId) => navigate(`/artist/album/${albumId}`);
-  // console.log('ALBUMS', albums);
-
+  // console.log('ALBUMS', albums)//
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
+
+    
     if (albums.length > 0) {
       const randomAlbumIndex = Math.floor(Math.random() * albums.length);
       const selectedAlbum = albums[randomAlbumIndex];
 
+      //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
+      //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
+      // Check for duplicates before setting the state
+      const isDuplicate = selectedAlbumsArray.some(
+        (album) => album.title === selectedAlbum.title
+      );
+      if (isDuplicate) {
+        console.log('Duplicate found. Trying again...');
+        getRandomAlbum(); // Try again if a duplicate is found
+      } else {
+        // Add the album to the selectedAlbumsArray
+        setSelectedAlbumsArray((prevSelectedAlbums) => [
+          ...prevSelectedAlbums,
+          selectedAlbum
+        ]
+      );
+      
+    }
+    
       console.log(
         'SELECTED ALBUM',
         selectedAlbum.id,
@@ -160,7 +176,7 @@ const Artist = () => {
     }
   };
 
-  //********QUESTION 2: FETCHING******************************************//
+  //********QUESTION 3: FETCHING******************************************//
   //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?********//
   //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API********//
   const getSelectedAlbumDetails = async (selectedAlbum) => {
@@ -227,7 +243,6 @@ const Artist = () => {
       } else {
         setAlbumTrackAnswersArray([]);
         setAlbumAnswersArray(shuffledAlbumAnswers);
-        console.log('ALBUM');
       }
     }
     setYearAnswersArray([]);
@@ -272,7 +287,7 @@ const Artist = () => {
       addPoint();
     } else {
       alert('Incorrect!');
-      console.log('CORRECT ANSWER', selectedAlbum.year, selectedAlbum.title);
+      // console.log('CORRECT ANSWER', selectedAlbum.year, selectedAlbum.title);
       setQuestionAnswered(true);
     }
   };
@@ -301,8 +316,9 @@ const Artist = () => {
               <button
                 onClick={() => {
                   getRandomAlbum();
-                  setScore(0)
-                  setCount(1)
+                  setSelectedAlbumsArray([]);
+                  setScore(0);
+                  setCount(1);
                 }}>
                 {count === 5 ? 'Take Another Quiz' : 'Start Quiz'}
               </button>
@@ -386,7 +402,7 @@ const Artist = () => {
             <button
               onClick={() => {
                 getRandomAlbum();
-                countdown();
+                countToFive();
               }}>
               {count === 5 ? 'Check Score' : 'Next Question'}
             </button>
