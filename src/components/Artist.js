@@ -20,6 +20,8 @@ const Artist = () => {
   // const [error, setError] = useState(null); // Error state
   const [randomTrack, setRandomTrack] = useState(null);
   const [score, setScore] = useState(0);
+  const [quizIsFinished, setQuizIsFinished] = useState(false);
+
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
@@ -37,6 +39,7 @@ const Artist = () => {
       setCount(count + 1);
     } else {
       setQuizStarted(false);
+      setQuizIsFinished(true)
     }
   };
   //********ADD POINTS********//
@@ -129,23 +132,19 @@ const Artist = () => {
   // console.log('ALBUMS', albums)//
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
-
-    
     if (albums.length > 0) {
       const randomAlbumIndex = Math.floor(Math.random() * albums.length);
       const selectedAlbum = albums[randomAlbumIndex];
 
       //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
       //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
-      // Check for duplicates before setting the state
       const isDuplicate = selectedAlbumsArray.some(
         (album) => album.title === selectedAlbum.title
       );
       if (isDuplicate) {
         console.log('Duplicate found. Trying again...');
-        getRandomAlbum(); // Try again if a duplicate is found
+        getRandomAlbum();
       } else {
-        // Add the album to the selectedAlbumsArray
         setSelectedAlbumsArray((prevSelectedAlbums) => [
           ...prevSelectedAlbums,
           selectedAlbum
@@ -153,7 +152,6 @@ const Artist = () => {
       );
       
     }
-    
       console.log(
         'SELECTED ALBUM',
         selectedAlbum.id,
@@ -170,6 +168,7 @@ const Artist = () => {
 
       getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
+      setQuizIsFinished(false)
       setNextButtonIsClicked(true);
       setQuestionAnswered(false);
       setSelectedAlbum(selectedAlbum);
@@ -177,13 +176,13 @@ const Artist = () => {
   };
 
   //********QUESTION 3: FETCHING******************************************//
-  //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?********//
-  //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API********//
+  //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?******************//
+  //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API******************//
   const getSelectedAlbumDetails = async (selectedAlbum) => {
     try {
       const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
-      // console.log('SELECTED ALBUM DETAILS:', data);
-      // //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
+      console.log('SELECTED ALBUM DETAILS:', data);
+  //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
       const tracklist = data.tracklist || [];
 
       if (tracklist.length > 0) {
@@ -208,7 +207,7 @@ const Artist = () => {
       (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
 
-    //********RANDOMLY SELECT TWO INCORRECT ANSWERS********//
+    //********RANDOMLY SELECT TWO INCORRECT ANSWERS*********************//
     const randomIncorrectAnswers = [];
     while (randomIncorrectAnswers.length < 2) {
       const index = Math.floor(Math.random() * remainingAlbums.length);
@@ -216,7 +215,7 @@ const Artist = () => {
         randomIncorrectAnswers.push(index);
       }
     }
-    //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE********//
+    //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE****//
     const incorrectAnswers = randomIncorrectAnswers.map(
       (index) => remainingAlbums[index]
     );
@@ -309,9 +308,9 @@ const Artist = () => {
           {!quizStarted && artistAlbumsData.length > 5 && (
             <>
               <h2>
-                {count === 5
+                {quizIsFinished
                   ? `Your score is ${score}/5`
-                  : `Fantastic! There is a quiz available to test your knowledge on ${artist.id}`}
+                  : `Fantastic! There is a quiz available to test your knowledge on ${artist.id}.`}
               </h2>
               <button
                 onClick={() => {
@@ -320,7 +319,7 @@ const Artist = () => {
                   setScore(0);
                   setCount(1);
                 }}>
-                {count === 5 ? 'Take Another Quiz' : 'Start Quiz'}
+                {quizIsFinished ? 'Take Another Quiz' : 'Start Quiz'}
               </button>
             </>
           )}
@@ -393,7 +392,7 @@ const Artist = () => {
           )}
           {quizStarted && albumTrackAnswersArray.length > 0 && (
             <div>
-              <p>{randomTrack}</p>
+              <p>"{randomTrack}"</p>
               <h3>This track was released on which of these albums?</h3>
               <div></div>
             </div>
@@ -404,7 +403,7 @@ const Artist = () => {
                 getRandomAlbum();
                 countToFive();
               }}>
-              {count === 5 ? 'Check Score' : 'Next Question'}
+              {count !== 5 ? 'Next Question' : 'Check Score' }
             </button>
           )}
         </div>
