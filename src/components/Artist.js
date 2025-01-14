@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
 import { useParams, useNavigate } from 'react-router-dom';
+import AlbumDetails from './AlbumDetails';
 // import QuizCard from './QuizCard';
+import AlbumsList from './AlbumsList';
+import Quiz from './Quiz';
 
 const Artist = () => {
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
@@ -16,20 +19,18 @@ const Artist = () => {
   const [country, setCountry] = useState('');
   const [albumTrackAnswersArray, setAlbumTrackAnswersArray] = useState([]);
   const [selectedAlbumsArray, setSelectedAlbumsArray] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null); // Error state
   const [randomTrack, setRandomTrack] = useState(null);
   const [score, setScore] = useState(0);
   const [quizIsFinished, setQuizIsFinished] = useState(false);
-
+  const [albumIsClicked, setAlbumIsClicked] = useState(false);
+  const [clickedAlbum, setClickedAlbum] = useState(false);
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
   const currentYearStr = `${today.getFullYear()}`;
   const currentYearInt = parseInt(currentYearStr);
-
-  //********ON CLICK ALBUM COVER_IMAGE ==> GOES TO ALBUMId PAGE ********//
-  const gotoAlbum = (albumId) => navigate(`/artist/album/${albumId}`);
 
   //********SCORING FUNCTIONS********//
   //********COUNT FROM 1 TO 5 QUESTIONS ANSWERED ********//
@@ -39,7 +40,7 @@ const Artist = () => {
       setCount(count + 1);
     } else {
       setQuizStarted(false);
-      setQuizIsFinished(true)
+      setQuizIsFinished(true);
     }
   };
   //********ADD POINTS********//
@@ -128,13 +129,16 @@ const Artist = () => {
   }, [artist.id, country]);
 
   if (loading) return <div>Loading...</div>;
-  const albums = artistAlbumsData;
+  // const albums = artistAlbumsData;
   // console.log('ALBUMS', albums)//
+
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
-    if (albums.length > 0) {
-      const randomAlbumIndex = Math.floor(Math.random() * albums.length);
-      const selectedAlbum = albums[randomAlbumIndex];
+    if (artistAlbumsData.length > 0) {
+      const randomAlbumIndex = Math.floor(
+        Math.random() * artistAlbumsData.length
+      );
+      const selectedAlbum = artistAlbumsData[randomAlbumIndex];
 
       //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
       //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
@@ -148,10 +152,8 @@ const Artist = () => {
         setSelectedAlbumsArray((prevSelectedAlbums) => [
           ...prevSelectedAlbums,
           selectedAlbum
-        ]
-      );
-      
-    }
+        ]);
+      }
       console.log(
         'SELECTED ALBUM',
         selectedAlbum.id,
@@ -168,7 +170,7 @@ const Artist = () => {
 
       getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
-      setQuizIsFinished(false)
+      setQuizIsFinished(false);
       setNextButtonIsClicked(true);
       setQuestionAnswered(false);
       setSelectedAlbum(selectedAlbum);
@@ -179,11 +181,14 @@ const Artist = () => {
   //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?******************//
   //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API******************//
   const getSelectedAlbumDetails = async (selectedAlbum) => {
+    console.log('YOU ENTERED GETSELECTEDALBUMDETAILS');
     try {
       const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
       console.log('SELECTED ALBUM DETAILS:', data);
-  //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
+      //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
       const tracklist = data.tracklist || [];
+      //********STORE ALBUM_ID DETAILS IN SET_CLICKED_ALBUM WHEN ALBUM IS CLICKED BY USER*******//
+      setClickedAlbum(data);
 
       if (tracklist.length > 0) {
         const randomIndex = Math.floor(Math.random() * tracklist.length);
@@ -203,7 +208,7 @@ const Artist = () => {
   //********FILTER OUT ANSWERS SO THAT REMAINING ALBUMS ARE NOT THE SAME AS SELECTED ALBUM********//
   const nameTheAlbumQuestion = (selectedAlbum) => {
     // console.log('-- NAMETHEALBUMQUESTION');
-    const remainingAlbums = albums.filter(
+    const remainingAlbums = artistAlbumsData.filter(
       (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
 
@@ -290,14 +295,13 @@ const Artist = () => {
       setQuestionAnswered(true);
     }
   };
-  // console.log(
-  //   'TRACK',
-  //   albumTrackAnswersArray.length,
-  //   'ALBUMM',
-  //   albumAnswersArray.length,
-  //   'YEAR',
-  //   yearAnswersArray.length
-  // );
+
+  //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP ********//
+  const handleAlbumClick = (album) => {
+    setAlbumIsClicked(true);
+    getSelectedAlbumDetails(album);
+    return;
+  };
 
   return (
     <>
@@ -403,34 +407,53 @@ const Artist = () => {
                 getRandomAlbum();
                 countToFive();
               }}>
-              {count !== 5 ? 'Next Question' : 'Check Score' }
+              {count !== 5 ? 'Next Question' : 'Check Score'}
             </button>
           )}
         </div>
-      </div>
-      <div>
-        {albums == null || albums.length === 0 ? (
-          <p>Loading artist data...</p>
-        ) : (
+        {/*END QUIZ SECTION */}
+
+        {/*ALBUM DETAILS SECTION */}
+        {albumIsClicked && (
           <div>
-            {albums.map((album) =>
-              album.master_id ? (
-                <div key={album.id}>
-                  <img
-                    onClick={() => gotoAlbum(album.id)}
-                    src={album.cover_image}
-                    alt={album.title}
-                    style={{
-                      cursor: 'pointer',
-                      width: '150px',
-                      height: '150px'
-                    }}
-                  />
+            <h2>{clickedAlbum?.artists_sort}</h2>
+            <h3>{clickedAlbum?.title}</h3>
+            {clickedAlbum?.styles?.map((style) => (
+              <h4>{style}</h4>
+            ))}
+            <h4>{clickedAlbum?.year}</h4>
+            <div>
+              {clickedAlbum?.tracklist?.map((track) => (
+                <div>
+                  <p key={track.position}>{track.position}</p>
+                  <p key={track.title}>{track.title}</p>
                 </div>
-              ) : null
-            )}
+              ))}
+            </div>
+            <div>
+              {clickedAlbum?.images?.map((image) => (
+                <img
+                  key={image?.uri}
+                  onClick={() => setAlbumIsClicked(false)}
+                  src={image?.resource_url}
+                  alt={clickedAlbum.title}
+                  style={{
+                    cursor: 'pointer',
+                    width: '150px',
+                    height: '150px'
+                  }}
+                />
+              ))}
+            </div>
           </div>
         )}
+
+        {/*END ALBUM DETAILS*/}
+
+        <AlbumsList
+          albums={artistAlbumsData}
+          handleAlbumClick={(album) => handleAlbumClick(album)}
+        />
       </div>
     </>
   );
