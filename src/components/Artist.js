@@ -302,14 +302,14 @@ const Artist = () => {
     <>
       <div className='artist-container'>
         {/*QUIZ SECTION */}
-        <div className='title-and-quiz-container'>
-          <h1>{artist.id}</h1>
+        <h1>{artist.id}</h1>
+        <div className={quizStarted ?'quiz-container-active' : 'quiz-container-inactive'}>
           {!quizStarted && artistAlbumsData.length > 5 && (
             <>
               <h2>
                 {quizIsFinished
                   ? `Your score is ${score}/5`
-                  : `Fantastic! There is a quiz available to test your knowledge on ${artist.id}.`}
+                  : `Fantastic! There is a quiz available to test your knowledge on ${artist.id}:`}
               </h2>
               <button
                 onClick={() => {
@@ -323,13 +323,11 @@ const Artist = () => {
             </>
           )}
           {quizStarted && (
-            <div>
               <p>Question {count}/5</p>
-            </div>
           )}
           {/*SELECTED ALBUM COVER_IMAGE RENDERING */}
           {quizStarted && !albumTrackAnswersArray.length > 0 && (
-            <div>
+            <div className='selected-album-image-box'>
               <img
                 src={selectedAlbum?.cover_image}
                 alt={selectedAlbum?.title}
@@ -337,32 +335,28 @@ const Artist = () => {
               />
             </div>
           )}
-          {/* 3 ANSWERS COVER_IMAGE RENDERING */}
+          {/* 3 ANSWERS ALBUM COVERS RENDERING */}
           {quizStarted &&
             albumTrackAnswersArray.length > 0 &&
             !albumAnswersArray.length > 0 && (
-              <div className='name-the-track-answers-images'>
+              <div className='answer-images-box'>
                 {albumTrackAnswersArray.map((album) => (
                   <img
                     key={album?.id}
                     onClick={() => handleAnswerClick(album)}
                     src={album?.cover_image}
                     alt={album?.title}
-                    style={{
-                      cursor: 'pointer',
-                      width: '150px',
-                      height: '150px'
-                    }}
                   />
                 ))}
               </div>
             )}
+          {/* 3 ANSWERS ALBUM_TITLE RENDERING*/}
           {quizStarted &&
             albumAnswersArray.length > 0 &&
             !albumTrackAnswersArray.length > 0 && (
-              <div className='name-the-album-or-year-box'>
-                <h3>What is the name of this album?</h3>
-                <div className='name-the-album-or-year-answers'>
+              <div className='question-box'>
+                <h3>What is the title of this album?</h3>
+                <div className='answers-button-box'>
                   {albumAnswersArray.map((answer, index) => (
                     <button
                       key={index}
@@ -375,9 +369,9 @@ const Artist = () => {
               </div>
             )}
           {quizStarted && yearAnswersArray.length > 0 && (
-            <div className='name-the-album-or-year-box'>
+            <div className='question-box'>
               <h3>What year was this album first released?</h3>
-              <div className='name-the-album-or-year-answers'>
+              <div className='answers-button-box'>
                 {yearAnswersArray.map((answer) => (
                   <button
                     key={answer}
@@ -390,14 +384,15 @@ const Artist = () => {
             </div>
           )}
           {quizStarted && albumTrackAnswersArray.length > 0 && (
-            <div>
+            <div className='question-box'>
               <p>"{randomTrack}"</p>
-              <h3>This track was released on which of these albums?</h3>
-              <div></div>
+              <h3 id='track-question-h3'>This track was released on which of these albums?</h3>
             </div>
           )}
+
           {quizStarted && questionAnswered && nextButtonIsClicked && (
-            <button id='next-button'
+            <button
+              id='next-button'
               onClick={() => {
                 getRandomAlbum();
                 countToFive();
@@ -408,7 +403,7 @@ const Artist = () => {
         </div>
         {/*END QUIZ SECTION */}
 
-        {/*ALBUM DETAILS SECTION */}
+        {/*USER CLICKS ON ALBUM, SHOW DETAILS SECTION */}
         {albumIsClicked && (
           <div>
             <h2>{clickedAlbum?.artists_sort}</h2>
@@ -432,11 +427,6 @@ const Artist = () => {
                   onClick={() => setAlbumIsClicked(false)}
                   src={image?.resource_url}
                   alt={clickedAlbum.title}
-                  style={{
-                    cursor: 'pointer',
-                    width: '150px',
-                    height: '150px'
-                  }}
                 />
               ))}
             </div>
