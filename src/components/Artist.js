@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
 import { useParams, useNavigate } from 'react-router-dom';
-import AlbumDetails from './AlbumDetails';
-// import QuizCard from './QuizCard';
 import AlbumsList from './AlbumsList';
-import Quiz from './Quiz';
 
 const Artist = () => {
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
@@ -286,11 +283,9 @@ const Artist = () => {
       answer.title === selectedAlbum.title ||
       parseInt(answer) === parseInt(selectedAlbum.year)
     ) {
-      alert('Correct!');
       setQuestionAnswered(true);
       addPoint();
     } else {
-      alert('Incorrect!');
       // console.log('CORRECT ANSWER', selectedAlbum.year, selectedAlbum.title);
       setQuestionAnswered(true);
     }
@@ -305,9 +300,9 @@ const Artist = () => {
 
   return (
     <>
-      <div>
+      <div className='artist-container'>
         {/*QUIZ SECTION */}
-        <div>
+        <div className='title-and-quiz-container'>
           <h1>{artist.id}</h1>
           {!quizStarted && artistAlbumsData.length > 5 && (
             <>
@@ -346,7 +341,7 @@ const Artist = () => {
           {quizStarted &&
             albumTrackAnswersArray.length > 0 &&
             !albumAnswersArray.length > 0 && (
-              <div>
+              <div className='name-the-track-answers-images'>
                 {albumTrackAnswersArray.map((album) => (
                   <img
                     key={album?.id}
@@ -355,8 +350,8 @@ const Artist = () => {
                     alt={album?.title}
                     style={{
                       cursor: 'pointer',
-                      width: '250px',
-                      height: '250px'
+                      width: '150px',
+                      height: '150px'
                     }}
                   />
                 ))}
@@ -365,9 +360,9 @@ const Artist = () => {
           {quizStarted &&
             albumAnswersArray.length > 0 &&
             !albumTrackAnswersArray.length > 0 && (
-              <div>
+              <div className='name-the-album-or-year-box'>
                 <h3>What is the name of this album?</h3>
-                <div>
+                <div className='name-the-album-or-year-answers'>
                   {albumAnswersArray.map((answer, index) => (
                     <button
                       key={index}
@@ -380,9 +375,9 @@ const Artist = () => {
               </div>
             )}
           {quizStarted && yearAnswersArray.length > 0 && (
-            <div>
+            <div className='name-the-album-or-year-box'>
               <h3>What year was this album first released?</h3>
-              <div>
+              <div className='name-the-album-or-year-answers'>
                 {yearAnswersArray.map((answer) => (
                   <button
                     key={answer}
@@ -402,7 +397,7 @@ const Artist = () => {
             </div>
           )}
           {quizStarted && questionAnswered && nextButtonIsClicked && (
-            <button
+            <button id='next-button'
               onClick={() => {
                 getRandomAlbum();
                 countToFive();

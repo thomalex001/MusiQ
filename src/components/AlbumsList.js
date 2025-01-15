@@ -1,7 +1,7 @@
 export default function AlbumsList({albums, handleAlbumClick}) {
   
   return (
-    <div>
+    <div className='albums-list'>
       {albums.map((album) =>
         album.master_id ? (
           <div key={album.id}>

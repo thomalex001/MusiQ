@@ -1,2 +1,24 @@
-@import '_Navbar';
+@import '_Search';
+@import '_Artist';
 
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  margin: 0
+
+}
+body {
+  background-color: rgb(174, 208, 232);
+  color: rgb(38, 36, 36);
+  margin: 0;
+  height: 100%;
+  // display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  
+  font-family: 'Roboto', sans-serif;
+}

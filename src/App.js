@@ -1,6 +1,4 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-import AlbumDetails from './components/AlbumDetails';
 import Search from './components/Search';
 import Artist from './components/Artist';
 

@@ -20,7 +20,7 @@ export default function Search() {
     setLoading(true);  // Set loading state when starting the search
 
     // Make the API request only if the query length is >= 2
-    if (searchQuery.length >= 2) {
+    if (searchQuery.length >= 1) {
       API.GET(API.ENDPOINTS.search(searchQuery))
         .then(({ data }) => {
           // console.log('DATA', data);
@@ -52,8 +52,9 @@ export default function Search() {
 
 
   return (
-    <div>
+    <div className='search-input-container'>
       <input
+      id='search-input'
         type="text"
         placeholder="Search an artist or band"
         value={query}

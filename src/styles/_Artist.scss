@@ -1,0 +1,56 @@
+.artist-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+img {
+  border-radius: 3px
+}
+
+}
+
+.title-and-quiz-container {
+  background-color: rgb(155, 188, 227);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  padding-bottom: 30px;
+}
+
+.name-the-track-answers-images {
+  display: flex;
+}
+
+.name-the-album-or-year-box {
+display: flex;
+flex-direction: column;
+justify-content: center;
+
+h3 {
+  text-align: center
+}
+}
+
+.name-the-album-or-year-answers {
+  display: flex;
+  justify-content: center;
+}
+
+.artist-container button {
+  font-size: 18px;
+  width: 150px;
+  height: 30px
+}
+
+#next-button {
+  width: 450px
+}
+
+
+
+/* ALBUMS_LIST COMPONENT */
+.albums-list {
+  display: flex;
+  flex-wrap: wrap;
+}
