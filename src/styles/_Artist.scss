@@ -24,9 +24,9 @@ button {
   height: 445px;
   text-align: center;
   margin: 12.5px;
-  // padding: 5%;
   border-radius: 15px;
   transition: .4s ease-in-out;
+  box-shadow: 2px 2px 5px rgb(96, 137, 183);
 }
 
 .quiz-container-inactive {
@@ -40,14 +40,16 @@ button {
   margin: 12.5px;
   border-radius: 15px;
   transition: .4s ease-in-out;
+  box-shadow: 2px 2px 5px rgb(96, 137, 183);
 }
+
 
 .selected-album-image-box {
   height: 250px;
 }
 
 .answer-images-box {
-  height: 250px;
+  height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,7 +59,14 @@ button {
     cursor: pointer;
     width: 30%;
   }
+}
 
+.answer-image-is-correct {
+  border: 3px solid rgb(7, 177, 7);
+  animation: bounce 1s ease-in-out; 
+}
+.answer-image-is-incorrect {
+  opacity: 0.5;
 }
 
 .question-box {
@@ -76,13 +85,45 @@ p {
 }
 
 #track-question-h3 {
-  margin: 5px
+  margin-bottom: 15px
 }
 
 .answers-button-box {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  }
+
+  .answer-button-is-correct {
+    opacity: 1;
+    background-color: rgb(72, 162, 45);
+    color: white;
+    animation: bounce 1s ease-in-out;  /* Apply bounce animation on hover */
+  }
+
+  @keyframes bounce {
+    0% {
+      transform: scale(1);  /* Normal size */
+    }
+    20% {
+      transform: scale(1.2);  /* Slightly larger */
+    }
+    40% {
+      transform: scale(0.9);  /* Slightly smaller */
+    }
+    60% {
+      transform: scale(1.1);  /* Slightly larger */
+    }
+    80% {
+      transform: scale(1);  /* Back to normal size */
+    }
+    100% {
+      transform: scale(1);  /* Ensure it ends with the original size */
+    }
+  }
+
+  .answer-button-is-incorrect {
+    opacity: 0.5;
   }
 
 .artist-container button {

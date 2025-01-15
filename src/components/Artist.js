@@ -6,7 +6,6 @@ import AlbumsList from './AlbumsList';
 const Artist = () => {
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
   const artist = useParams();
-  const navigate = useNavigate();
   const [quizStarted, setQuizStarted] = useState(false);
   const [yearAnswersArray, setYearAnswersArray] = useState([]);
   const [albumAnswersArray, setAlbumAnswersArray] = useState([]);
@@ -23,6 +22,7 @@ const Artist = () => {
   const [quizIsFinished, setQuizIsFinished] = useState(false);
   const [albumIsClicked, setAlbumIsClicked] = useState(false);
   const [clickedAlbum, setClickedAlbum] = useState(false);
+  const [answerIsCorrect, setAnswerIsCorrect] = useState(null);
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
@@ -283,11 +283,13 @@ const Artist = () => {
       answer.title === selectedAlbum.title ||
       parseInt(answer) === parseInt(selectedAlbum.year)
     ) {
-      setQuestionAnswered(true);
+      setAnswerIsCorrect(true);
       addPoint();
+      setQuestionAnswered(true);
     } else {
       // console.log('CORRECT ANSWER', selectedAlbum.year, selectedAlbum.title);
       setQuestionAnswered(true);
+      setAnswerIsCorrect(false);
     }
   };
 
@@ -303,7 +305,10 @@ const Artist = () => {
       <div className='artist-container'>
         {/*QUIZ SECTION */}
         <h1>{artist.id}</h1>
-        <div className={quizStarted ?'quiz-container-active' : 'quiz-container-inactive'}>
+        <div
+          className={
+            quizStarted ? 'quiz-container-active' : 'quiz-container-inactive'
+          }>
           {!quizStarted && artistAlbumsData.length > 5 && (
             <>
               <h2>
@@ -322,9 +327,7 @@ const Artist = () => {
               </button>
             </>
           )}
-          {quizStarted && (
-              <p>Question {count}/5</p>
-          )}
+          {quizStarted && <p>Question {count}/5</p>}
           {/*SELECTED ALBUM COVER_IMAGE RENDERING */}
           {quizStarted && !albumTrackAnswersArray.length > 0 && (
             <div className='selected-album-image-box'>
@@ -342,6 +345,14 @@ const Artist = () => {
               <div className='answer-images-box'>
                 {albumTrackAnswersArray.map((album) => (
                   <img
+                  className={
+                    questionAnswered
+                    ? (album.title === selectedAlbum.title
+                      ? 'answer-image-is-correct' // Correct answer
+                      : 'answer-image-is-incorrect' // Incorrect answer
+                    )
+                  : '' // Empty class when question hasn't been answered yet
+              }
                     key={album?.id}
                     onClick={() => handleAnswerClick(album)}
                     src={album?.cover_image}
@@ -359,8 +370,15 @@ const Artist = () => {
                 <div className='answers-button-box'>
                   {albumAnswersArray.map((answer, index) => (
                     <button
+                      className={
+                        questionAnswered
+                          ? answer.title === selectedAlbum.title
+                            ? 'answer-button-is-correct'
+                            : 'answer-button-is-incorrect'
+                          : ''
+                      }
                       key={index}
-                      onClick={() => handleAnswerClick(answer)}
+                      onClick={(answer) => handleAnswerClick(answer)}
                       disabled={questionAnswered}>
                       {answer.title.replace(/^.*? - /, '').trim()}
                     </button>
@@ -374,6 +392,13 @@ const Artist = () => {
               <div className='answers-button-box'>
                 {yearAnswersArray.map((answer) => (
                   <button
+                    className={
+                      questionAnswered
+                        ? parseInt(answer) === parseInt(selectedAlbum.year)
+                          ? 'answer-button-is-correct'
+                          : 'answer-button-is-incorrect'
+                        : ''
+                    }
                     key={answer}
                     onClick={() => handleAnswerClick(answer)}
                     disabled={questionAnswered}>
@@ -386,7 +411,9 @@ const Artist = () => {
           {quizStarted && albumTrackAnswersArray.length > 0 && (
             <div className='question-box'>
               <p>"{randomTrack}"</p>
-              <h3 id='track-question-h3'>This track was released on which of these albums?</h3>
+              <h3 id='track-question-h3'>
+                This track was released on which of these albums?
+              </h3>
             </div>
           )}
 
