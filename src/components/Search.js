@@ -69,18 +69,17 @@ export default function Search() {
             <p>No results found for "{debouncedQuery}"</p>
           )}
           {searchedResults.map((result) => (
-            <div key={result.id}>
-              {result.type === 'artist' && (
-                <>
-                  <p>{result.title}</p>
+            <div className='search-results-box' key={result.id}>
+              {(result.type === 'artist' ) && (
+                <div className='result-image-box '>
                   <img
                     onClick={() => goToArtist(result.title)}
                     src={result.cover_image}
                     alt={result.title}
-                    style={{ cursor: 'pointer', width: '150px', height: '150px' }}
-                  />
-                </>
+                    />
+                </div>
               )}
+              <p>{result.title}</p>
             </div>
           ))}
         </div>

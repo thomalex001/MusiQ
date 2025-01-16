@@ -447,7 +447,7 @@ const Artist = () => {
                 </div>
               ))}
             </div>
-            <div>
+            <div className='album-show'>
               {clickedAlbum?.images?.map((image) => (
                 <img
                   key={image?.uri}

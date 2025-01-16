@@ -142,4 +142,18 @@ width: 97%
 .albums-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+
+  img {
+    margin: 3px
+  }
 }
+
+/* SHOW DETAILS FROM ALBUM WHEN USER CLICKS */
+// .album-show{ 
+//   width: 50%;
+
+//   img {
+//     // height: 250px
+//   }
+// }
