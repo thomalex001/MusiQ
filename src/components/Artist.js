@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import AlbumsList from './AlbumsList';
+import TrackSlider from './common/TrackSlider';
+import { TfiClose } from 'react-icons/tfi';
 
 const Artist = () => {
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
@@ -23,6 +25,13 @@ const Artist = () => {
   const [albumIsClicked, setAlbumIsClicked] = useState(false);
   const [clickedAlbum, setClickedAlbum] = useState(false);
   const [answerIsCorrect, setAnswerIsCorrect] = useState(null);
+
+  // const [currentTracks, setCurrentTracks] = useState(null);
+  // const [prevPage, setPrevPage] = useState(null);
+  // const [nextPage, setNextPage] = useState(null);
+  // const [currentPage, setCurrentPage] = useState(0);
+  // const [tracksPerPage, setTracksPerPage] = useState(0);
+  // const [totalTracks, setTotalTracks] = useState(0);
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
@@ -126,7 +135,8 @@ const Artist = () => {
   }, [artist.id, country]);
 
   if (loading) return <div>Loading...</div>;
-  if (artistAlbumsData.length === 0) return <div>Sorry, no data for this artist...</div>;
+  if (artistAlbumsData.length === 0)
+    return <div>Sorry, no data for this artist...</div>;
   // const albums = artistAlbumsData;
   // console.log('ALBUMS', albums)//
 
@@ -259,6 +269,7 @@ const Artist = () => {
   //********WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   const nameTheYearQuestion = (selectedAlbum) => {
     const yearOfAlbum = parseInt(selectedAlbum.year);
+    console.log(yearOfAlbum);
     // console.log('-- NAMETHEYEARQUESTION', selectedAlbum);
     const randomYears = [];
     if (yearOfAlbum <= currentYearInt - 5) {
@@ -303,9 +314,6 @@ const Artist = () => {
 
   return (
     <>
-    {/* {artistAlbumsData  &&(
-<p>Sorry, no data for this artist...</p>
-    )} */}
       <div className='artist-container'>
         {/*QUIZ SECTION */}
         <h1>{artist.id}</h1>
@@ -349,14 +357,13 @@ const Artist = () => {
               <div className='answer-images-box'>
                 {albumTrackAnswersArray.map((album) => (
                   <img
-                  className={
-                    questionAnswered
-                    ? (album.title === selectedAlbum.title
-                      ? 'answer-image-is-correct' // Correct answer
-                      : 'answer-image-is-incorrect' // Incorrect answer
-                    )
-                  : '' // Empty class when question hasn't been answered yet
-              }
+                    className={
+                      questionAnswered
+                        ? album.title === selectedAlbum.title
+                          ? 'answer-image-is-correct' // Correct answer
+                          : 'answer-image-is-incorrect' // Incorrect answer
+                        : '' // Empty class when question hasn't been answered yet
+                    }
                     key={album?.id}
                     onClick={() => handleAnswerClick(album)}
                     src={album?.cover_image}
@@ -436,32 +443,60 @@ const Artist = () => {
 
         {/*USER CLICKS ON ALBUM, SHOW DETAILS SECTION */}
         {albumIsClicked && (
-          <div>
-            <h2>{clickedAlbum?.artists_sort}</h2>
-            <h3>{clickedAlbum?.title}</h3>
-            {clickedAlbum?.styles?.map((style) => (
-              <h4>{style}</h4>
-            ))}
-            <h4>{clickedAlbum?.year}</h4>
-            <div>
-              {clickedAlbum?.tracklist?.map((track) => (
-                <div>
-                  <p key={track.position}>{track.position}</p>
-                  <p key={track.title}>{track.title}</p>
+          <>
+            <div
+              className={
+                albumIsClicked
+                  ? 'album-show-container-active'
+                  : 'album-show-container-inactive'
+              }>
+              <TfiClose
+              id='tfi-close'
+                onClick={() => setAlbumIsClicked(false)}
+                style={{ cursor: 'pointer' }}
+              />
+
+              <div className='album-show-primary-image-and-text-box'>
+                <div className='album-show-primary-image'>
+                  {clickedAlbum?.images?.[0]?.resource_url && (
+                    <img
+                      key={clickedAlbum.images[0]?.uri}
+                      src={clickedAlbum.images[0]?.resource_url}
+                      alt={clickedAlbum?.title || 'Image'}
+                    />
+                  )}
                 </div>
-              ))}
+                <div className='album-show-text'>
+                  <h2>{clickedAlbum?.title}</h2>
+                  <h2>{clickedAlbum?.artists_sort}</h2>
+                  {clickedAlbum?.styles?.map((style) => (
+                    <h4>{style}</h4>
+                  ))}
+                  <h4>{clickedAlbum?.year}</h4>
+                  <div>
+                    {/* {clickedAlbum?.tracklist?.map(() => ( */}
+
+                    <TrackSlider albumTracks={clickedAlbum.tracklist} />
+                    {/* ))} */}
+                  </div>
+                </div>
+
+                {/*SLIDER FOR TRACK NAME AND POSITION */}
+              </div>
+              <div className='album-show-secondary-images'>
+                {clickedAlbum?.images?.map(
+                  (image) =>
+                    image.type !== 'primary' && (
+                      <img
+                        key={image?.uri}
+                        src={image?.resource_url}
+                        alt={clickedAlbum.title}
+                      />
+                    )
+                )}
+              </div>
             </div>
-            <div className='album-show'>
-              {clickedAlbum?.images?.map((image) => (
-                <img
-                  key={image?.uri}
-                  onClick={() => setAlbumIsClicked(false)}
-                  src={image?.resource_url}
-                  alt={clickedAlbum.title}
-                />
-              ))}
-            </div>
-          </div>
+          </>
         )}
 
         {/*END ALBUM DETAILS*/}

@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import {debounce} from 'lodash';
+import ArtistsImage1 from '../media/best-artists-60s.png';
+import ArtistsImage2 from '../media/best-artists-70s.png';
+import ArtistsImage3 from '../media/best-artists-80s.png';
+import ArtistsImage4 from '../media/best-artists-90s.png';
+import ArtistsImage5 from '../media/best-artists-2000s.png';
+import ArtistsImage6 from '../media/best-artists-2020s.png';
 
 export default function Search() {
   const [query, setQuery] = useState('');
@@ -54,6 +60,8 @@ export default function Search() {
 
 
   return (
+    <>
+      <img src={ArtistsImage1} alt={'artists-1960s'}></img>
     <div className='search-container'>
       <input
         id='search-input'
@@ -93,5 +101,6 @@ export default function Search() {
         </div>
       )}
     </div>
+    </>
   );
 };
