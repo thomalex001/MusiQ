@@ -12,39 +12,41 @@ export default function Search() {
 
   const handleSearch = debounce((searchQuery) => {
     if (searchQuery.length < 2) {
-      setSearchedResults([]);  // Clear results if search query is too short
-      setLoading(false);  // Stop loading
-      return;  // Don't make the API call if query is less than 2 characters
+      setSearchedResults([]); // Clear results if search query is too short
+      setLoading(false); // Stop loading
+      return; // Don't make the API call if query is less than 2 characters
     }
 
-    setLoading(true);  // Set loading state when starting the search
+    setLoading(true); // Set loading state when starting the search
 
     // Make the API request only if the query length is >= 2
-    if (searchQuery.length >= 1) {
+    if (searchQuery.length >= 2) {
       API.GET(API.ENDPOINTS.search(searchQuery))
         .then(({ data }) => {
           // console.log('DATA', data);
-          setSearchedResults(data.results.slice(0, 5));  // Store the results from the API
+          setSearchedResults(data.results.slice(0, 5)); // Store the results from the API
         })
         .catch((e) => console.error(e))
-        .finally(() => setLoading(false));  // Stop loading when the request is finished
+        .finally(() => setLoading(false)); // Stop loading when the request is finished
     }
-  }, 300);  // 500ms debounce delay
+  }, 500); // 500ms debounce delay
 
   // Handles the input change event
   const handleChange = (e) => {
     const value = e.target.value;
-    setQuery(value);  // Update the query
+    setQuery(value); // Update the query
   };
 
   // Trigger debounced search whenever query changes
   useEffect(() => {
-    setDebouncedQuery(query);  // Update the debounced query
+    setDebouncedQuery(query); // Update the debounced query
   }, [query]);
 
   // Perform search when the debounced query changes
   useEffect(() => {
-    handleSearch(debouncedQuery);  // Trigger debounced search function
+    if (debouncedQuery !== '') {
+      handleSearch(debouncedQuery); // Trigger debounced search function
+    }
   }, [debouncedQuery]);  // Only trigger when debounced query changes
 
   // Navigate to artist's page
@@ -52,34 +54,40 @@ export default function Search() {
 
 
   return (
-    <div className='search-input-container'>
+    <div className='search-container'>
       <input
-      id='search-input'
-        type="text"
-        placeholder="Search an artist or band"
+        id='search-input'
+        type='text'
+        placeholder='Search an artist or band'
         value={query}
         onChange={handleChange}
       />
-      {loading && <p>Loading...</p>} {/* Show loading message while fetching data */}
-      
+      {loading && <p>Loading...</p>}{' '}
+      {/* Show loading message while fetching data */}
       {/* Show results only after typing finishes (i.e., after debounce delay) */}
       {debouncedQuery && !loading && (
-        <div>
+        <div className='search-results-container'>
           {searchedResults.length === 0 && (
-            <p>No results found for "{debouncedQuery}"</p>
+            <p id='no-result-message'>
+              Sorry, no results found for "{debouncedQuery}"
+            </p>
           )}
           {searchedResults.map((result) => (
-            <div className='search-results-box' key={result.id}>
-              {(result.type === 'artist' ) && (
-                <div className='result-image-box '>
+            <div
+              className='search-results-box'
+              key={result.id}
+              onClick={() => goToArtist(result.title)}>
+              {result.type === 'artist' && (
+                <>
                   <img
-                    onClick={() => goToArtist(result.title)}
                     src={result.cover_image}
                     alt={result.title}
-                    />
-                </div>
+                  />
+                  <div className='result-text-div'>
+                    <p id='result-text'>{result.title}</p>
+                  </div>
+                </>
               )}
-              <p>{result.title}</p>
             </div>
           ))}
         </div>

@@ -126,6 +126,7 @@ const Artist = () => {
   }, [artist.id, country]);
 
   if (loading) return <div>Loading...</div>;
+  if (artistAlbumsData.length === 0) return <div>Sorry, no data for this artist...</div>;
   // const albums = artistAlbumsData;
   // console.log('ALBUMS', albums)//
 
@@ -302,6 +303,9 @@ const Artist = () => {
 
   return (
     <>
+    {/* {artistAlbumsData  &&(
+<p>Sorry, no data for this artist...</p>
+    )} */}
       <div className='artist-container'>
         {/*QUIZ SECTION */}
         <h1>{artist.id}</h1>
