@@ -10,10 +10,18 @@
   padding-bottom: 10px;
 }
 
-.arrows {
+.arrow-active {
+  opacity: 0.2;
   cursor: pointer;
   width: 50px;
   display: flex;
   justify-content: center;
-  
+}
+
+.arrow-inactive {
+  opacity: 1;
+  cursor: pointer;
+  width: 50px;
+  display: flex;
+  justify-content: center;
 }

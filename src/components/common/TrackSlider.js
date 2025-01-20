@@ -54,13 +54,21 @@ const TrackSlider = ({ albumTracks }) => {
       {/* Pagination Controls */}
       <div className='slider-controls'>
         <div
-          className='arrows'
+            className={
+              currentPage === 0
+              ? 'arrow-active'
+              : 'arrow-inactive'
+            }
           onClick={prevPage}
           disabled={currentPage === 0}>
           <MdKeyboardDoubleArrowLeft />
         </div>
         <div
-          className='arrows'
+             className={
+              (currentPage + 1) * tracksPerPage >= totalTracks
+              ? 'arrow-active'
+              : 'arrow-inactive'
+            }
           onClick={nextPage}
           disabled={(currentPage + 1) * tracksPerPage >= totalTracks}>
           <MdKeyboardDoubleArrowRight />
