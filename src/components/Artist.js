@@ -325,7 +325,7 @@ const Artist = () => {
             <>
               <h2>
                 {quizIsFinished
-                  ? `Your score is ${score}/5`
+                  ? `You scored ${score}/5 this time.`
                   : `Fantastic! There is a quiz available to test your knowledge on ${artist.id}:`}
               </h2>
               <button
@@ -339,7 +339,7 @@ const Artist = () => {
               </button>
             </>
           )}
-          {quizStarted && <p>Question {count}/5</p>}
+          {quizStarted && <h2>Question {count}/5</h2>}
           {/*SELECTED ALBUM COVER_IMAGE RENDERING */}
           {quizStarted && !albumTrackAnswersArray.length > 0 && (
             <div className='selected-album-image-box'>
@@ -435,49 +435,49 @@ const Artist = () => {
                 getRandomAlbum();
                 countToFive();
               }}>
-              {count !== 5 ? 'Next Question' : 'Check Score'}
+              {count !== 5 ? 'Next Question' : 'Check your score'}
             </button>
           )}
         </div>
         {/*END QUIZ SECTION */}
 
+       {/*START OF ALBUM DETAILS*/}
         {/*USER CLICKS ON ALBUM, SHOW DETAILS SECTION */}
         {albumIsClicked && (
           <>
             <div
               className={
                 albumIsClicked
-                  ? 'album-show-container-active'
-                  : 'album-show-container-inactive'
+                ? 'album-show-container-active'
+                : 'album-show-container-inactive'
               }>
-              <TfiClose
-              id='tfi-close'
-                onClick={() => setAlbumIsClicked(false)}
-                style={{ cursor: 'pointer' }}
-              />
+                <TfiClose
+                id='tfi-close'
+                  onClick={() => setAlbumIsClicked(false)}
+                  style={{ cursor: 'pointer' }}
+                />
 
               <div className='album-show-primary-image-and-text-box'>
                 <div className='album-show-primary-image'>
                   {clickedAlbum?.images?.[0]?.resource_url && (
                     <img
-                      key={clickedAlbum.images[0]?.uri}
-                      src={clickedAlbum.images[0]?.resource_url}
-                      alt={clickedAlbum?.title || 'Image'}
+                    key={clickedAlbum.images[0]?.uri}
+                    src={clickedAlbum.images[0]?.resource_url}
+                    alt={clickedAlbum?.title || 'Image'}
                     />
                   )}
                 </div>
-                <div className='album-show-text'>
-                  <h2>{clickedAlbum?.title}</h2>
-                  <h2>{clickedAlbum?.artists_sort}</h2>
+                <div className='album-show-text-box'>
+                  <h1>{clickedAlbum?.title}</h1>
+                  <h1>{clickedAlbum?.artists_sort}</h1>
+                  <div className='music-styles'>
                   {clickedAlbum?.styles?.map((style) => (
-                    <h4>{style}</h4>
+                    <h2>{style}</h2>
                   ))}
-                  <h4>{clickedAlbum?.year}</h4>
+                  </div>
+                  <h2>{clickedAlbum?.year}</h2>
                   <div>
-                    {/* {clickedAlbum?.tracklist?.map(() => ( */}
-
                     <TrackSlider albumTracks={clickedAlbum.tracklist} />
-                    {/* ))} */}
                   </div>
                 </div>
 
@@ -488,12 +488,12 @@ const Artist = () => {
                   (image) =>
                     image.type !== 'primary' && (
                       <img
-                        key={image?.uri}
-                        src={image?.resource_url}
-                        alt={clickedAlbum.title}
+                      key={image?.uri}
+                      src={image?.resource_url}
+                      alt={clickedAlbum.title}
                       />
                     )
-                )}
+                  )}
               </div>
             </div>
           </>

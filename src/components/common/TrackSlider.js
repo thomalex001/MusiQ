@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react';
+import {
+  MdKeyboardDoubleArrowRight,
+  MdKeyboardDoubleArrowLeft
+} from 'react-icons/md';
+
 
 // TrackSlider Component to show the tracklist with pagination
 const TrackSlider = ({ albumTracks }) => {
-  const tracksPerPage = 8;  // Number of tracks to show per page
+  const tracksPerPage = 7;  // Number of tracks to show per page
   const [currentPage, setCurrentPage] = useState(0);  // Current page in the pagination
   const [currentTracks, setCurrentTracks] = useState([]);
 
@@ -33,26 +38,33 @@ const TrackSlider = ({ albumTracks }) => {
   } 
 
   return (
-    <div>
-      <div className="tracklist">
+    <div className='trackslider-container'>
+      <div className='track-name-and-number'>
         {currentTracks?.map((track, index) => (
-          <div key={index} className="track-item">
-            <p>{track.position}. {track.title}</p>
+          <div
+            key={index}
+            className='track-item'>
+            <p>
+              {track.position}. {track.title}
+            </p>
           </div>
         ))}
       </div>
 
       {/* Pagination Controls */}
-      <div className="slider-controls">
-        <button onClick={prevPage} disabled={currentPage === 0}>
-          Previous
-        </button>
-        <button
+      <div className='slider-controls'>
+        <div
+          className='arrows'
+          onClick={prevPage}
+          disabled={currentPage === 0}>
+          <MdKeyboardDoubleArrowLeft />
+        </div>
+        <div
+          className='arrows'
           onClick={nextPage}
-          disabled={(currentPage + 1) * tracksPerPage >= totalTracks}
-        >
-          Next
-        </button>
+          disabled={(currentPage + 1) * tracksPerPage >= totalTracks}>
+          <MdKeyboardDoubleArrowRight />
+        </div>
       </div>
     </div>
   );

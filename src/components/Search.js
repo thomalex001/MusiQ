@@ -61,7 +61,7 @@ export default function Search() {
 
   return (
     <>
-      <img src={ArtistsImage1} alt={'artists-1960s'}></img>
+      <img id='background-image' src={ArtistsImage1} alt={'artists-1960s'}></img>
     <div className='search-container'>
       <input
         id='search-input'

@@ -4,11 +4,11 @@
   align-items: center;
 
 img {
-  border-radius: 4%;
+  border-radius: 10px;
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
 }
 button {
-  border-radius: 4%;
+  border-radius: 5px;
   border-width: 1px;
   margin: 1px;
 }
@@ -27,6 +27,11 @@ button {
   border-radius: 15px;
   transition: .4s ease-in-out;
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
+
+  h2 {
+    padding: 10px;
+    font-size: 20px;
+  }
 }
 
 .quiz-container-inactive {
@@ -34,6 +39,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
   width: 60%;
   height: 150px;
   text-align: center;
@@ -41,6 +47,11 @@ button {
   border-radius: 15px;
   transition: .4s ease-in-out;
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
+
+  h2 {
+    padding: 10px;
+    font-size: 20px;
+  }
 }
 
 
@@ -151,30 +162,52 @@ width: 97%
 }
 
 /* ALBUM DETAILS WHEN USER CLICKS */
-// #tfi-close{
-//   display: flex;
-  
-// }
+
+#tfi-close {
+  padding: 5px
+}
 
 .album-show-container-active{ 
   background-color: rgb(70, 89, 121);
+  box-shadow: 2px 2px 5px rgb(96, 137, 183);
   color: white;
-  width: 70%;
+  width: 800px;
   display: flex;
   flex-wrap: wrap;
-  align-items: left;
   flex-direction: column;
-  transition: 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
   z-index: 0;
+  border-radius: 10px;
+  padding-bottom: 30px;
+  opacity: 1;
+
 
   img {
     height: 350px;
     width: 350px;
+    box-shadow: 2px 2px 5px rgb(47, 60, 74);
+    margin: 10px
   }
+
+button {
+height: 30px
+  }
+
 }
 
 .album-show-container-inactive {
+  background-color: rgb(70, 89, 121);
+  box-shadow: 2px 2px 5px rgb(96, 137, 183);
+  color: white;
+  width: 800px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
   transition: 1s ease-in-out;
+  z-index: 0;
+  border-radius: 10px;
+  padding-bottom: 30px;
+  opacity: 0;
 }
 
 .album-show-primary-image-and-text-box  {
@@ -183,13 +216,31 @@ width: 97%
   align-items: center;
 }
 
-.track-name-and-number {
+.album-show-text-box {
   display: flex;
-  width: 350px;
+  flex-direction: column;
+  height: 350px;
+  margin: 10px;
+  
+  h1 {
+    font-size: 20px;
+    padding-bottom: 5px;
+    width: 350px
+  }
 
+  h2 {
+  font-size: 16px;
+  padding: 0 5px 5px 0;
+  }
+}
+
+.track-name-and-number {
+  width: 350px;
   p {
+    font-size: 14px;
     border-bottom: 1px solid rgba(158, 158, 193, 0.57);
-    padding: 5px
+    padding: 5px 0;
+    transition: .4s ease-in-out;
   }
 }
 
@@ -201,6 +252,6 @@ width: 97%
   flex-direction: row;
 }
 
-
-/* TRACKSLIDER*/
-
+.music-styles {
+  display: flex;
+}

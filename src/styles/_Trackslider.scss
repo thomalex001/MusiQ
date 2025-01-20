@@ -1,0 +1,19 @@
+.trackslider-container {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.slider-controls {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.arrows {
+  cursor: pointer;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  
+}
