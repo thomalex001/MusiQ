@@ -2,12 +2,9 @@ import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
 import { useParams, useNavigate } from 'react-router-dom';
 import {debounce} from 'lodash';
+import Navbar from './common/Navbar';
 import ArtistsImage1 from '../media/best-artists-60s.png';
-import ArtistsImage2 from '../media/best-artists-70s.png';
-import ArtistsImage3 from '../media/best-artists-80s.png';
-import ArtistsImage4 from '../media/best-artists-90s.png';
-import ArtistsImage5 from '../media/best-artists-2000s.png';
-import ArtistsImage6 from '../media/best-artists-2020s.png';
+import RandomWallpaper from './common/RandomWallpaper';
 
 export default function Search() {
   const [query, setQuery] = useState('');
@@ -61,46 +58,51 @@ export default function Search() {
 
   return (
     <>
-      <img id='background-image' src={ArtistsImage1} alt={'artists-1960s'}></img>
-    <div className='search-container'>
-      <input
-        id='search-input'
-        type='text'
-        placeholder='Search an artist or band'
-        value={query}
-        onChange={handleChange}
-      />
-      {loading && <p>Loading...</p>}{' '}
-      {/* Show loading message while fetching data */}
-      {/* Show results only after typing finishes (i.e., after debounce delay) */}
-      {debouncedQuery && !loading && (
-        <div className='search-results-container'>
-          {searchedResults.length === 0 && (
-            <p id='no-result-message'>
-              Sorry, no results found for "{debouncedQuery}"
-            </p>
-          )}
-          {searchedResults.map((result) => (
-            <div
-              className='search-results-box'
-              key={result.id}
-              onClick={() => goToArtist(result.title)}>
-              {result.type === 'artist' && (
-                <>
-                  <img
-                    src={result.cover_image}
-                    alt={result.title}
-                  />
-                  <div className='result-text-div'>
-                    <p id='result-text'>{result.title}</p>
-                  </div>
-                </>
+      <Navbar />
+      <div className='search-main-container'>
+        <RandomWallpaper />
+        <div className='search-container'>
+          <input
+            id='search-input'
+            type='text'
+            placeholder='Search an artist or band'
+            value={query}
+            onChange={handleChange}
+          />
+          {loading && <p>Loading...</p>}{' '}
+          {/* Show loading message while fetching data */}
+          {/* Show results only after typing finishes (i.e., after debounce delay) */}
+          {debouncedQuery && !loading && (
+            <div className='search-results-container'>
+              {searchedResults.length === 0 && (
+                <div className='no-result-message-box'>
+                  <p id='no-result-message'>
+                    Sorry, no results found for "{debouncedQuery}"
+                  </p>
+                </div>
               )}
+              {searchedResults.map((result) => (
+                <div
+                  className='search-results-box'
+                  key={result.id}
+                  onClick={() => goToArtist(result.title)}>
+                  {result.type === 'artist' && (
+                    <>
+                      <img
+                        src={result.cover_image}
+                        alt={result.title}
+                      />
+                      <div className='result-text-div'>
+                        <p id='result-text'>{result.title}</p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
-    </div>
+      </div>
     </>
   );
 };

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import AlbumsList from './AlbumsList';
 import TrackSlider from './common/TrackSlider';
 import { TfiClose } from 'react-icons/tfi';
+import Navbar from './common/Navbar';
 
 const Artist = () => {
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
@@ -148,6 +149,25 @@ const Artist = () => {
       );
       const selectedAlbum = artistAlbumsData[randomAlbumIndex];
 
+      if (!selectedAlbum.year) {
+        getRandomAlbum();
+        return;
+      }
+
+      console.log(
+        'SELECTED ALBUM ',
+        selectedAlbum.id,
+        ' - ',
+        selectedAlbum.title,
+        ' - ',
+        selectedAlbum.year
+      );
+
+      // if (selectedAlbum.year === undefined || selectedAlbum.year === 0 || isNaN(selectedAlbum.year)) {
+      //   getRandomAlbum()
+      //   console.log('UNDEFINED YEAR')
+      // }
+
       //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
       //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
       const isDuplicate = selectedAlbumsArray.some(
@@ -162,14 +182,6 @@ const Artist = () => {
           selectedAlbum
         ]);
       }
-      console.log(
-        'SELECTED ALBUM',
-        selectedAlbum.id,
-        ' - ',
-        selectedAlbum.title,
-        ' - ',
-        selectedAlbum.year
-      );
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
       const randomQuestion = [nameTheAlbumQuestion, nameTheYearQuestion];
@@ -189,10 +201,10 @@ const Artist = () => {
   //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?******************//
   //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API******************//
   const getSelectedAlbumDetails = async (selectedAlbum) => {
-    console.log('YOU ENTERED GETSELECTEDALBUMDETAILS');
+    // console.log('YOU ENTERED GETSELECTEDALBUMDETAILS');
     try {
       const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
-      console.log('SELECTED ALBUM DETAILS:', data);
+      // console.log('SELECTED ALBUM DETAILS:', data);
       //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
       const tracklist = data.tracklist || [];
       //********STORE ALBUM_ID DETAILS IN SET_CLICKED_ALBUM WHEN ALBUM IS CLICKED BY USER*******//
@@ -314,6 +326,7 @@ const Artist = () => {
 
   return (
     <>
+      <Navbar />
       <div className='artist-container'>
         {/*QUIZ SECTION */}
         <h1>{artist.id}</h1>
@@ -441,29 +454,29 @@ const Artist = () => {
         </div>
         {/*END QUIZ SECTION */}
 
-       {/*START OF ALBUM DETAILS*/}
+        {/*START OF ALBUM DETAILS*/}
         {/*USER CLICKS ON ALBUM, SHOW DETAILS SECTION */}
         {albumIsClicked && (
           <>
             <div
               className={
                 albumIsClicked
-                ? 'album-show-container-active'
-                : 'album-show-container-inactive'
+                  ? 'album-show-container-active'
+                  : 'album-show-container-inactive'
               }>
-                <TfiClose
+              <TfiClose
                 id='tfi-close'
-                  onClick={() => setAlbumIsClicked(false)}
-                  style={{ cursor: 'pointer' }}
-                />
+                onClick={() => setAlbumIsClicked(false)}
+                style={{ cursor: 'pointer' }}
+              />
 
               <div className='album-show-primary-image-and-text-box'>
                 <div className='album-show-primary-image'>
                   {clickedAlbum?.images?.[0]?.resource_url && (
                     <img
-                    key={clickedAlbum.images[0]?.uri}
-                    src={clickedAlbum.images[0]?.resource_url}
-                    alt={clickedAlbum?.title || 'Image'}
+                      key={clickedAlbum.images[0]?.uri}
+                      src={clickedAlbum.images[0]?.resource_url}
+                      alt={clickedAlbum?.title || 'Image'}
                     />
                   )}
                 </div>
@@ -471,11 +484,15 @@ const Artist = () => {
                   <h1>{clickedAlbum?.title}</h1>
                   <h1>{clickedAlbum?.artists_sort}</h1>
                   <div className='music-styles'>
-                  {clickedAlbum?.styles?.map((style) => (
-                    <h2>{style}</h2>
-                  ))}
+                    <h2>
+                      {clickedAlbum?.styles?.[0]} {clickedAlbum?.styles?.[1]}
+                    </h2>
                   </div>
-                  <h2>{clickedAlbum?.year}</h2>
+                  <h2>
+                    {clickedAlbum?.year !== 0
+                      ? clickedAlbum.year
+                      : ''}
+                  </h2>
                   <div>
                     <TrackSlider albumTracks={clickedAlbum.tracklist} />
                   </div>
@@ -488,12 +505,12 @@ const Artist = () => {
                   (image) =>
                     image.type !== 'primary' && (
                       <img
-                      key={image?.uri}
-                      src={image?.resource_url}
-                      alt={clickedAlbum.title}
+                        key={image?.uri}
+                        src={image?.resource_url}
+                        alt={clickedAlbum.title}
                       />
                     )
-                  )}
+                )}
               </div>
             </div>
           </>
