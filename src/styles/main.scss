@@ -14,9 +14,18 @@ body {
   color: rgb(38, 36, 36);
   margin: 0;
   height: 100%;
-  font-family: 'Roboto', sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
 }
 
 * {
   margin: 0
+}
+
+h1 {
+  font-size: 50px;
+  color: rgb(19, 11, 81);
+  font-family: "Expletus Sans", serif;
 }

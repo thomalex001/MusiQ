@@ -5,7 +5,9 @@ import ArtistsImage4 from '../../media/best-artists-90s.png';
 import ArtistsImage5 from '../../media/best-artists-2000s.png';
 import ArtistsImage6 from '../../media/best-artists-2020s.png';
 
-export default function RandomWallpaper() {
+import React from 'react';
+
+const RandomWallpaper = React.memo(() => {
   const randomImages = [
     ArtistsImage1,
     ArtistsImage2,
@@ -23,3 +25,5 @@ export default function RandomWallpaper() {
     </>
   )
 }
+)
+export default RandomWallpaper

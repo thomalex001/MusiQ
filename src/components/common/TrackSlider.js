@@ -7,7 +7,7 @@ import {
 
 // TrackSlider Component to show the tracklist with pagination
 const TrackSlider = ({ albumTracks }) => {
-  const tracksPerPage = 7;  // Number of tracks to show per page
+  const tracksPerPage = 8;  // Number of tracks to show per page
   const [currentPage, setCurrentPage] = useState(0);  // Current page in the pagination
   const [currentTracks, setCurrentTracks] = useState([]);
 
@@ -44,9 +44,12 @@ const TrackSlider = ({ albumTracks }) => {
           <div
             key={index}
             className='track-item'>
+              {track.position !== "" && (
             <p>
               {track.position}{'. '}{track.title}{' - '}{track.duration}
             </p>
+
+              )}
           </div>
         ))}
       </div>

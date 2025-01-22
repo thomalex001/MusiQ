@@ -16,7 +16,7 @@ function App() {
         />
         <Route
           path='*'
-          element={<p>Not a valid route</p>}
+          element={<p>This page doesn't exist...</p>}
         />
       </Routes>
     </BrowserRouter>

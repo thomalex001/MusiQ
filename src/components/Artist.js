@@ -5,6 +5,7 @@ import AlbumsList from './AlbumsList';
 import TrackSlider from './common/TrackSlider';
 import { TfiClose } from 'react-icons/tfi';
 import Navbar from './common/Navbar';
+import noDataImage from './../media/no-data-image.png';
 
 const Artist = () => {
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
@@ -135,9 +136,8 @@ const Artist = () => {
     }
   }, [artist.id, country]);
 
-  if (loading) return <div>Loading...</div>;
-  if (artistAlbumsData.length === 0)
-    return <div>Sorry, no data for this artist...</div>;
+  if (loading) return <div class='loader'></div>;
+
   // const albums = artistAlbumsData;
   // console.log('ALBUMS', albums)//
 
@@ -330,6 +330,31 @@ const Artist = () => {
       <div className='artist-container'>
         {/*QUIZ SECTION */}
         <h1>{artist.id}</h1>
+        {artistAlbumsData.length === 0 && (
+        <div className='no-data-container'>
+            <p>
+              Sorry, we couldn't find any data for this artist...Please reload the page or try a new
+              search.
+            </p>
+          <img
+            src={noDataImage}
+            alt={'pianist-sad'}
+          />
+        </div>
+        )}
+        {artistAlbumsData.length < 5 && (
+        <div className='less-than-5-albums-container'>
+            <h2>
+              Sorry, there aren't enough albums for {artist.id} to load a quiz but
+              you can still click on the albums below for more details:
+            </h2>
+          {/* <img
+            src={noDataImage}
+            alt={'pianist-sad'}
+          /> */}
+        </div>
+        )}
+
         <div
           className={
             quizStarted ? 'quiz-container-active' : 'quiz-container-inactive'
@@ -453,7 +478,6 @@ const Artist = () => {
           )}
         </div>
         {/*END QUIZ SECTION */}
-
         {/*START OF ALBUM DETAILS*/}
         {/*USER CLICKS ON ALBUM, SHOW DETAILS SECTION */}
         {albumIsClicked && (
@@ -488,11 +512,7 @@ const Artist = () => {
                       {clickedAlbum?.styles?.[0]} {clickedAlbum?.styles?.[1]}
                     </h2>
                   </div>
-                  <h2>
-                    {clickedAlbum?.year !== 0
-                      ? clickedAlbum.year
-                      : ''}
-                  </h2>
+                  <h2>{clickedAlbum?.year !== 0 ? clickedAlbum.year : ''}</h2>
                   <div>
                     <TrackSlider albumTracks={clickedAlbum.tracklist} />
                   </div>
@@ -515,9 +535,7 @@ const Artist = () => {
             </div>
           </>
         )}
-
         {/*END ALBUM DETAILS*/}
-
         <AlbumsList
           albums={artistAlbumsData}
           handleAlbumClick={(album) => handleAlbumClick(album)}

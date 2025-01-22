@@ -1,5 +1,5 @@
 import logo from '../../media/mq-logo.png';
-import { useNavigate, Navigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -9,6 +9,7 @@ export default function Navbar() {
   const goToHomepage = () => navigate('/search')
   
   return (
+    <>
     <div className='navbar'>
         <img
         onClick={goToHomepage}
@@ -17,10 +18,11 @@ export default function Navbar() {
           alt={'logo'}
         />
       <ul className='navbar-list'>
-        <li>MusiQ</li>
+        <li>About</li>
         <li>Portfolio</li>
         <li>Alex Thomas</li>
       </ul>
     </div>
+    </>
   );
 }
