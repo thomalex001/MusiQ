@@ -384,7 +384,6 @@ const Artist = () => {
               <img
                 src={selectedAlbum?.cover_image}
                 alt={selectedAlbum?.title}
-                style={{ width: '250px', height: '250px' }}
               />
             </div>
           )}

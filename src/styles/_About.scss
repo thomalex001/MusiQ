@@ -5,10 +5,17 @@
   padding-bottom: 20px;
   font-size: 17px;
 
+  @media screen and (max-width: 572px) {
+    width: 90%
+  }
+  @media screen and (max-width: 449px) {
+    width: 90%
+  }
+
   h1 {
     font-family: "Inconsolata", serif;
     font-size: 45px;
-    // padding-bottom: 5px
+
   }
   p {
     font-family: "Inconsolata", serif;

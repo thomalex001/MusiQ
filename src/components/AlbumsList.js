@@ -9,11 +9,6 @@ export default function AlbumsList({albums, handleAlbumClick}) {
               onClick={() => handleAlbumClick(album)}
               src={album.cover_image}
               alt={album.title}
-              style={{
-                cursor: 'pointer',
-                width: '150px',
-                height: '150px'
-              }}
             />
           </div>
         ) : null
