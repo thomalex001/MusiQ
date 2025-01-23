@@ -1,0 +1,38 @@
+.about-text {
+  width: 70%;
+  height: 50%;
+  border: 2px solid rgb(19, 11, 81);
+  padding-bottom: 20px;
+  font-size: 17px;
+
+  h1 {
+    font-family: "Inconsolata", serif;
+    font-size: 45px;
+    // padding-bottom: 5px
+  }
+  p {
+    font-family: "Inconsolata", serif;
+    padding: 0 15px 
+  }
+}
+
+.api-links {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  padding: 5px 0;
+
+  code {
+    padding: 0 15px;
+  }
+
+  a {
+font-size: 17px;
+padding-left: none;
+  }
+}
+
+#about-last-p {
+  padding-bottom: 20px;
+  padding-top: 20px;
+}

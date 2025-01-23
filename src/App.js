@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Search from './components/Search';
 import Artist from './components/Artist';
+import About from './components/About';
 
 function App() {
   return (
@@ -13,6 +14,10 @@ function App() {
         <Route
           path='/artist/:id'
           element={<Artist />}
+        />
+        <Route
+          path='/about'
+          element={<About />}
         />
         <Route
           path='*'

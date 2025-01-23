@@ -1,28 +1,63 @@
 import logo from '../../media/mq-logo.png';
 import { useNavigate } from 'react-router-dom';
-
-
-
+import PortfolioThumb from '../../media/portfolio-thumb.png';
+import GitHubProfileThumb from '../../media/github-profile.png';
 
 export default function Navbar() {
-  const navigate = useNavigate()
-  const goToHomepage = () => navigate('/search')
-  
+  const navigate = useNavigate();
+  const goToHomepage = () => navigate('/search');
+  const goToAbout = () => navigate('/about');
+  const goToPortfolio = () => navigate('/about');
+
   return (
     <>
-    <div className='navbar'>
+      <div className='navbar'>
         <img
-        onClick={goToHomepage}
+          onClick={goToHomepage}
           id='logo'
           src={logo}
           alt={'logo'}
         />
-      <ul className='navbar-list'>
-        <li>About</li>
-        <li>Portfolio</li>
-        <li>Alex Thomas</li>
-      </ul>
-    </div>
+        <ul className='navbar-list'>
+          <li onClick={goToAbout}>About</li>
+
+          <div class='dropdown'>
+          <li>Portfolio </li>
+          <div class='dropdown-content'>
+            <a
+              href='https://alex-thomas.dev/'
+              target='_blank'
+              rel='noreferrer'>
+              <img
+                src={PortfolioThumb}
+                alt='portfolio-thumb'
+                // onClick={goToPortfolio}
+                style={{ cursor: 'pointer' }}
+              />
+            </a>
+          </div>
+           
+          </div>
+
+          <div class='dropdown'>
+          <li>GitHub</li>
+          <div class='dropdown-content'>
+            <a
+              href='https://github.com/thomalex001'
+              target='_blank'
+              rel='noreferrer'>
+              <img
+                src={GitHubProfileThumb}
+                alt='github-profile-thumb'
+                // onClick={goToPortfolio}
+                style={{ cursor: 'pointer' }}
+              />
+            </a>
+          </div>
+           
+          </div>
+        </ul>
+      </div>
     </>
   );
 }
