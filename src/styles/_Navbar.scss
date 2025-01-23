@@ -26,7 +26,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-
 }
 
 #logo {
@@ -53,27 +52,49 @@
   100% {background-position: 250% 0, 250% 0}
 }
 
-.dropdown {
+.dropdown-portfolio {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.dropdown-github {
   display: flex;
   justify-content: flex-end;
+  position: relative;
 }
+
 .dropdown-content {
   visibility: hidden;  
   opacity: 0;         
   position: absolute;
+  top: 20px;
   transition: opacity .4s, visibility 0s .4s;  
 }
-// .dropdown:hover 
-.dropdown-content {
+
+.dropdown-github:hover .dropdown-content,
+.dropdown-portfolio:hover .dropdown-content {
   visibility: visible;  
   opacity: 1;         
   transition: opacity .4s, visibility 0s; 
 }
 
+.dropdown-content a {
+  display: block
+}
 .dropdown-content img {
   border-radius: 5px;
   opacity: 1; 
   transition: none;  
   width: 150px;
-  padding-top: 20px
+  margin-top: 5px;
+  border: 2px solid transparent
+}
+
+.dropdown-content:hover img {
+  border-color: $color-offwhite;
+}
+
+.dropdown-content:hover img {
+  border-color: $color-darkblue
 }

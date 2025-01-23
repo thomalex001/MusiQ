@@ -22,19 +22,19 @@
   
     a:link { 
       text-decoration: none; 
-      color: rgb(39, 13, 242);
+      color: rgb(0, 114, 235);
     } 
     a:visited { 
       // text-decoration: none; 
-      color: rgb(29, 3, 231);
+      color: rgb(0, 114, 235);
     } 
     a:hover { 
       // text-decoration: none; 
-      color: rgb(39, 13, 242);
+      color: rgb(0, 114, 235);
     } 
     a:active { 
       // text-decoration: none; 
-      color: rgb(39, 13, 242);
+      color: rgb(0, 114, 235);
       
     }
     
@@ -58,7 +58,7 @@
   // justify-content: center;
   font-family: "Poppins", serif;
   position: absolute;
-  top: 55%;
+  padding-top: 100px;
 
   p {
     padding-top: 10px;
@@ -73,14 +73,13 @@
   border-radius: 5px;
   border-width: 0px; 
   padding-left: 10px;
-  font-size: 20px;
+  font-size: 18px;
   box-shadow: 2px 2px 5px rgb(18, 26, 34);
   opacity: 0.85;
   font-family: poppins;
   // position: absolute;
 }
 #search-input::placeholder {
-  font-size: 20px;
   color: black
 }
 

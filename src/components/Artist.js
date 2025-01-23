@@ -364,7 +364,7 @@ const Artist = () => {
               <h2>
                 {quizIsFinished
                   ? `You scored ${score}/5 this time.`
-                  : `Fantastic! There is a quiz available to test your knowledge on ${artist.id}:`}
+                  : <span>Fantastic!<br/> There is a quiz available to test your knowledge on {artist.id}:</span>}
               </h2>
               <button
                 onClick={() => {
