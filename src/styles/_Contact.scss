@@ -1,0 +1,149 @@
+.contact-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $color-greyblue;
+  padding-bottom: 20px;
+  font-family: "Inconsolata", serif;
+  color: $color-navyblue;
+
+  h1 {
+    font-size: 30px;
+    padding-top: 20px;
+  }
+
+}
+
+#linked-in-icon {
+  height: 30px;
+}
+
+.material-symbols-outlined {
+  color: $color-navyblue;
+  padding: 4px;
+}
+
+.contact-inner-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+
+@media screen and (max-width: 1099px) {
+  flex-direction: column;
+  width: auto
+  }
+}
+
+.contact-inner-container h2 {
+  margin: 0;
+  font-size: 20px;
+    
+  @media screen and (max-width: 1099px) {
+    font-size: 18px
+  }
+
+  @media screen and (max-width: 449px) {
+    font-size: 16px
+  }
+}
+
+.email-contact-box {
+  display: flex; 
+  align-items: center;
+  position: relative;
+}
+.email-contact-box:hover {
+  transform: scale(1.1);
+
+  @media screen and (max-width: 1099px) {
+    transform: none
+  }
+}
+
+i.icon {
+  font-size: 24px;
+  height: 20px;
+
+  @media screen and (max-width: 1099px) {
+    height: 19px;
+    font-size: 22px;
+    margin-right: 10px
+  }
+  @media screen and (max-width: 449px) {
+    font-size: 20px
+  }
+}
+
+#copy-button {
+  left: 101%;
+  padding-bottom: 10px;
+  filter: brightness(10%);
+  color: rgb(255, 255, 255);
+  font-size: 13px;
+  position: absolute;
+  width: 20px;
+
+  img {
+    width: 20px;
+  }
+
+  @media screen and (max-width: 1099px) {
+    left: 88%;
+    font-size: 11px;
+    
+    img {
+      width: 19px
+    }
+  }
+
+  @media screen and (max-width: 449px) {
+    font-size: 10px; 
+    
+    img {
+      width: 17px
+    }
+  }
+}
+
+#copy-button:hover {
+ cursor:pointer
+}
+
+.linked-in-contact-box, .github-contact-box {
+  display: flex; 
+  cursor: pointer;
+  align-items: center;
+}
+
+.linked-in-contact-box{
+
+  a:link { 
+    text-decoration: none; 
+    color: rgb(0, 114, 235);
+  } 
+  a:visited { 
+    // text-decoration: none; 
+    color: $color-navyblue;
+  } 
+  a:hover { 
+    // text-decoration: none; 
+    color: rgb(0, 114, 235);
+  } 
+  a:active { 
+    // text-decoration: none; 
+    color: rgb(0, 114, 235);
+    
+  }
+
+  @media screen and (max-width: 1099px) {
+      padding: 5px 0
+    }
+}
+
+.linked-in-contact-box:hover, .github-contact-box:hover {
+transform: scale(1.1);
+
+  @media screen and (max-width: 1099px) {
+    transform: none
+  }
+}

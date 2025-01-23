@@ -6,6 +6,7 @@ import TrackSlider from './common/TrackSlider';
 import { TfiClose } from 'react-icons/tfi';
 import Navbar from './common/Navbar';
 import noDataImage from './../media/no-data-image.png';
+import Contact from '../components/Contact'
 
 const Artist = () => {
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
@@ -540,6 +541,7 @@ const Artist = () => {
           handleAlbumClick={(album) => handleAlbumClick(album)}
         />
       </div>
+      <Contact/>
     </>
   );
 };
