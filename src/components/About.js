@@ -1,4 +1,5 @@
 import Navbar from './common/Navbar';
+import Contact from './../components/Contact'
 
 export default function About() {
   return (
@@ -64,6 +65,7 @@ export default function About() {
           </p>
         </div>
       </div>
+      <Contact/>
     </>
   );
 }
