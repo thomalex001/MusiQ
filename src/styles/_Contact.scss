@@ -6,12 +6,17 @@
   padding-bottom: 20px;
   font-family: "Inconsolata", serif;
   color: $color-navyblue;
-  // height: 300px;
+  flex-shrink: 0;
+  // position: absolute;
+  // bottom: 0;
+  // left: 0;
+  // right: 0;
 
   h1 {
     font-size: 30px;
-    padding-top: 20px;
+    padding: 20px;
   }
+
 
 }
 
@@ -52,26 +57,15 @@
   display: flex; 
   align-items: center;
   position: relative;
+  // padding: 0 20px;
 }
 .email-contact-box:hover {
-  transform: scale(1.1);
+  transform: scale(1.04);
+  transition: 0.1s ease-in;
+
 
   @media screen and (max-width: 1099px) {
     transform: none
-  }
-}
-
-i.icon {
-  font-size: 24px;
-  height: 20px;
-
-  @media screen and (max-width: 1099px) {
-    height: 19px;
-    font-size: 22px;
-    margin-right: 10px
-  }
-  @media screen and (max-width: 449px) {
-    font-size: 20px
   }
 }
 
@@ -107,10 +101,10 @@ i.icon {
 }
 
 #copy-button:hover {
- cursor:pointer
+  cursor:pointer
 }
 
-.linked-in-contact-box, .github-contact-box {
+.linked-in-contact-box {
   display: flex; 
   cursor: pointer;
   align-items: center;
@@ -141,8 +135,9 @@ i.icon {
     }
 }
 
-.linked-in-contact-box:hover, .github-contact-box:hover {
-transform: scale(1.1);
+.linked-in-contact-box:hover {
+transform: scale(1.04);
+transition: 0.1s ease-in;
 
   @media screen and (max-width: 1099px) {
     transform: none

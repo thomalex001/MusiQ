@@ -11,15 +11,17 @@ const Contact = forwardRef((props, ref) => {
       <h1>Contact</h1>
       <div className='contact-inner-container'>
         <div className='email-contact-box'>
-          <span class="material-symbols-outlined">
-mail
-</span>
+          <span class='material-symbols-outlined'>mail</span>
 
           <h2>thomasalex06@gmail</h2>
           <CopyButton link={linkToCopy} />
         </div>
         <div className='linked-in-contact-box'>
-          <img id='linked-in-icon' src={LinkedInIcon} alt='linked-in-icon'/>
+          <img
+            id='linked-in-icon'
+            src={LinkedInIcon}
+            alt='linked-in-icon'
+          />
 
           <a
             href='https://www.linkedin.com/in/alex-thomas-london/'
@@ -28,16 +30,6 @@ mail
             rel='noreferrer'>
             <h2>in/alex-thomas-london</h2>
           </a>
-        </div>
-        <div className='github-contact-box'>
-          {/* <Icon name='github square' /> */}
-          {/* <a
-            href='https://github.com/thomalex001/'
-            alt='alex-thomas-linked-in'
-            target='blank'
-            rel='noreferrer'>
-            <h2>github.com/thomalex001</h2>
-          </a> */}
         </div>
       </div>
     </footer>

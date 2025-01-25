@@ -328,13 +328,13 @@ const Artist = () => {
   return (
     <>
       <Navbar />
-      <div className='artist-container'>
+      <div className='main artist-container'>
         {/*QUIZ SECTION */}
         <h1>{artist.id}</h1>
         {artistAlbumsData.length === 0 && (
         <div className='no-data-container'>
             <p>
-              Sorry, we couldn't find any data for this artist...Please reload the page or try a new
+              Sorry, we couldn't find any data for {artist.id} ...Please reload the page or try a new
               search.
             </p>
           <img
@@ -343,11 +343,11 @@ const Artist = () => {
           />
         </div>
         )}
-        {artistAlbumsData.length < 5 && (
+        {artistAlbumsData.length < 5 && artistAlbumsData.length !== 0 && (
         <div className='less-than-5-albums-container'>
             <h2>
               Sorry, there aren't enough albums for {artist.id} to load a quiz but
-              you can still click on the albums below for more details:
+              you can still click on the covers below for more details:
             </h2>
           {/* <img
             src={noDataImage}

@@ -17,11 +17,16 @@
 
 }
 
+.main {
+  flex-grow: 1;
+}
+
 .search-page {
   display: flex;
   flex-direction: column;
   align-items:  center;
   margin-bottom: 50px;
+  min-height: 60vh;
 
   h1 {
     font-family: "Bungee Shade", serif;
@@ -57,19 +62,14 @@
 
 .search-main-container {
   display: flex;
-  // justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
 .search-container {
-  // width: 100%;
-  // height: 100vh;
   display: flex;
   align-items: center;
   flex-direction: column;
-  // position: relative;
-  // justify-content: center;
   font-family: "Poppins", serif;
   position: absolute;
   padding-top: 100px;
