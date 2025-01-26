@@ -29,19 +29,38 @@
   flex-direction: column;
   align-items: center;
   color: rgb(19, 11, 81);
+  border: 2px solid $color-greyblue;
+  margin: 40px;
+  border-radius: 20px;
+  position: relative;
+
+  @media screen and (max-width: 572px) {
+    margin: 10px;
+  }
+
+
+  h1 {
+    top: 0;
+    background-color: $color-skyblue;
+    margin: -37px;
+    padding: 0 15px;
+    z-index: 0;
+  }
 
 img {
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
+
 }
 
 button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: $color-skyblue;
   border-radius: 10px;
   border-width: 2px;
-  border-color: #130b51;
+  border-color: $color-navyblue;
   color: #130b51;
   border-style: solid;
   margin: 1px;
@@ -51,10 +70,10 @@ button {
   height: 40px;
 
   @media screen and (max-width: 572px) {
-    width: 97%;
+    width: 90%;
   }
 
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
   }
 }
 
@@ -68,21 +87,21 @@ button {
   width: 60%;
   height: 445px;
   text-align: center;
-  margin: 12.5px;
+  margin: 45px 12.5px 20px;;
   border-radius: 15px;
   transition: .4s ease-in-out;
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
   font-family: "Inconsolata", serif;
 
-  @media screen and (max-width: 1099px) {
-    width: 80%;
-  }
-  @media screen and (max-width: 572px) {
+  @media screen and (max-width: 850px) {
     width: 90%;
+  }
+  @media screen and (max-width: 590px) {
+    // width: 90%;
     height: 600px;
   }
-  @media screen and (max-width: 449px) {
-    width: 90%;
+  @media screen and (max-width: 320px) {
+    // width: 90%;
   }
 
   h2 {
@@ -91,17 +110,21 @@ button {
   }
 }
 
+.quiz-inner-container {
+  padding: 35px 0;
+}
+
 .quiz-container-inactive {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   width: 60%;
-  // height: 150px;
   text-align: center;
   border-radius: 15px;
   transition: .4s ease-in-out;
   font-family: "Inconsolata", serif;
+  padding: 10px;
 
 button {
   font-size: 15px;
@@ -112,13 +135,13 @@ button {
   @media screen and (max-width: 572px) {
 
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
 
   }
 }
 
 h2 {
-    padding: 10px;
+    padding: 20px;
     font-size: 20px;
   }
 }
@@ -127,9 +150,29 @@ h2 {
 .selected-album-image-box {
   height: 250px;
 
+  @media screen and (max-width: 572px) {
+    width: 190px;
+    height: 190px;
+  }
+  
+  @media screen and (max-width: 320px) {
+    width: 170px;
+    height: 170px;
+  }
+
   img {
     width: 250px;
     height: 250px;
+
+    @media screen and (max-width: 572px) {
+      width: 190px;
+      height: 190px;
+    }
+    
+    @media screen and (max-width: 320px) {
+      width: 170px;
+      height: 170px;
+    }
   }
 }
 
@@ -139,7 +182,7 @@ h2 {
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: 572px) {
+  @media screen and (max-width: 590px) {
     height: 400px;
     flex-direction: column
   }
@@ -150,12 +193,11 @@ h2 {
     height: 140px;
     width: 140px;
 
-    @media screen and (max-width: 572px) {
+    @media screen and (max-width: 590px) {
       width: 120px;
       height: 120px;
     }
-
-    @media screen and (max-width: 449px) {
+    @media screen and (max-width: 320px) {
     }
 
   }
@@ -197,6 +239,10 @@ p {
     flex-direction: column;
     justify-content: center;
     align-content: center;
+
+  button {
+    // padding: 0 115px;
+  }
   }
 
 }
@@ -238,7 +284,8 @@ p {
 }
 
 #next-button {
-width: 97%
+width: 90%;
+margin-bottom: 10px;
 }
 
 /* ALBUMS_LIST COMPONENT */
@@ -259,7 +306,7 @@ width: 97%
       width: 140px;
       height: 140px;
     }
-    @media screen and (max-width: 449px) {
+    @media screen and (max-width: 320px) {
       width: 120px;
       height: 120px;
     }
@@ -293,7 +340,7 @@ width: 97%
   @media screen and (max-width: 572px) {
     
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
 
   }
 
@@ -310,14 +357,18 @@ width: 97%
     }
     @media screen and (max-width: 572px) {
     }
-    @media screen and (max-width: 449px) {
+    @media screen and (max-width: 320px) {
     }
 
   }
 
-button {
-height: 30px
-  }
+// button {
+// height: 0px;
+
+// @media screen and (max-width: 572px) {
+//   padding: 0 10px;
+// }
+//   }
 
 }
 
@@ -348,7 +399,7 @@ height: 30px
   }
   @media screen and (max-width: 572px) {
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
   }
 
 }
@@ -365,7 +416,7 @@ height: 30px
   }
   @media screen and (max-width: 572px) {
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
 
   }
   
@@ -386,7 +437,7 @@ height: 30px
   }
   @media screen and (max-width: 572px) {
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
 
   }
     
@@ -411,7 +462,7 @@ height: 30px
   }
   @media screen and (max-width: 572px) {
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
   }
 
   p {

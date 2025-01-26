@@ -15,6 +15,15 @@
     font-size: 19px;
     font-family: "Inconsolata", serif;
     border-radius: 5px;
+
+    @media screen and (max-width: 572px) {
+      // margin-left: 10px;
+      margin-top: -10px;
+      font-size: 16px;
+      padding: 0 10px;
+
+      }
+    
   }
   li:hover {
     color: rgb(0, 114, 235);
@@ -36,6 +45,11 @@
   margin-top: 15px;
   border-radius: 10px;
   cursor: pointer;
+
+  @media screen and (max-width: 572px) {
+  margin-left: 10px;
+  margin-top: 10px;
+  }
 }
 
 /* HTML: <div class="loader"></div> */
@@ -71,6 +85,7 @@
   position: absolute;
   top: 20px;
   transition: opacity .4s, visibility 0s .4s;  
+  z-index: 999;
 }
 
 .dropdown-github:hover .dropdown-content,
@@ -78,6 +93,7 @@
   visibility: visible;  
   opacity: 1;         
   transition: opacity .4s, visibility 0s; 
+  z-index: 999;
 }
 
 .dropdown-content a {
@@ -89,7 +105,8 @@
   transition: none;  
   width: 150px;
   margin-top: 5px;
-  border: 2px solid transparent
+  border: 2px solid transparent;
+  z-index: 999;
 }
 
 .dropdown-content:hover img {

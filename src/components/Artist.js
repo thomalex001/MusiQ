@@ -361,7 +361,7 @@ const Artist = () => {
             quizStarted ? 'quiz-container-active' : 'quiz-container-inactive'
           }>
           {!quizStarted && artistAlbumsData.length > 5 && (
-            <>
+            <div className='quiz-inner-container'>
               <h2>
                 {quizIsFinished
                   ? `You scored ${score}/5 this time.`
@@ -376,7 +376,7 @@ const Artist = () => {
                 }}>
                 {quizIsFinished ? 'Take Another Quiz' : 'Start Quiz'}
               </button>
-            </>
+            </div>
           )}
           {quizStarted && <h2>Question {count}/5</h2>}
           {/*SELECTED ALBUM COVER_IMAGE RENDERING */}
