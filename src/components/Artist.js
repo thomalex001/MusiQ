@@ -334,7 +334,7 @@ const Artist = () => {
         {artistAlbumsData.length === 0 && (
         <div className='no-data-container'>
             <p>
-              Sorry, we couldn't find any data for {artist.id} ...Please reload the page or try a new
+              Sorry, we couldn't find any data for {artist.id}... Please reload the page or try a new
               search.
             </p>
           <img

@@ -1,12 +1,29 @@
 .no-data-container {
-  padding-top: 10px;
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   p {
     width: 300px;
     position: absolute;
-    color: rgb(228, 225, 225);
+    color: rgb(249, 249, 249);
     font-family: "Inconsolata", serif;
-    padding: 10px
+    padding: 10px;
+    margin-top: -250px;
+
+    @media screen and (max-width: 320px) {
+      width: 200px;
+      margin-top: 0px;
+      font-size: 12px;
+    }
+  }
+
+  img {
+    @media screen and (max-width: 320px) {
+      width: 200px;
+      margin-top: 50px;
+    }
   }
 }
 
@@ -33,6 +50,7 @@
   margin: 40px;
   border-radius: 20px;
   position: relative;
+  justify-content: center;
 
   @media screen and (max-width: 572px) {
     margin: 10px;
@@ -42,10 +60,40 @@
   h1 {
     top: 0;
     background-color: $color-skyblue;
-    margin: -37px;
+    margin: -40px;
     padding: 0 15px;
     z-index: 0;
+
+    @media screen and (max-width: 688px) {
+      font-size: 35px;
+      margin: -27px;
+    }
+    @media screen and (max-width: 572px) {
+      font-size: 30px;
+      margin: -24px;
+    }
+    @media screen and (max-width: 450px) {
+      font-size: 25px;
+      margin: -20px;
+    }
+    @media screen and (max-width: 320px) {
+      font-size: 25px;
+      margin: -19px;
+    }
   }
+
+h2 span {
+
+  @media screen and (max-width: 688px) {
+  }
+  @media screen and (max-width: 572px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 450px) {
+  }
+  @media screen and (max-width: 320px) {
+  }
+}
 
 img {
   border-radius: 10px;
@@ -111,7 +159,19 @@ button {
 }
 
 .quiz-inner-container {
-  padding: 35px 0;
+  padding: 50px 0;
+
+  @media screen and (max-width: 850px) {
+    padding: 10px 0;
+  }
+  @media screen and (max-width: 688px) {
+    padding: 10px 0;
+  }
+  @media screen and (max-width: 600px) {
+  }
+  @media screen and (max-width: 450px) {
+    padding: 0
+  }
 }
 
 .quiz-container-inactive {
@@ -124,19 +184,26 @@ button {
   border-radius: 15px;
   transition: .4s ease-in-out;
   font-family: "Inconsolata", serif;
-  padding: 10px;
+  padding: 27px;
+
+  @media screen and (max-width: 1099px) {
+    // padding: 10px;
+  }
+  @media screen and (max-width: 572px) {
+    // padding: 10px;
+  }
+  @media screen and (max-width: 320px) {
+  }
 
 button {
   font-size: 15px;
+  width: 200px;
   
   @media screen and (max-width: 1099px) {
-    width: 200px;
   }
   @media screen and (max-width: 572px) {
-
   }
   @media screen and (max-width: 320px) {
-
   }
 }
 
@@ -239,24 +306,22 @@ p {
     flex-direction: column;
     justify-content: center;
     align-content: center;
-
-  button {
-    // padding: 0 115px;
-  }
   }
 
+  .answer-button-is-correct {
+    opacity: 1;
+    background-color: rgb(72, 162, 45);
+    color: white;
+    animation: 1s bounce ease-in-out;
+    animation-timing-function: linear;
+  }
+  
 }
 
 .answers-button-box > *:last-child {
   margin-bottom: 20px;
 }
 
-.answer-button-is-correct {
-  opacity: 1;
-  background-color: rgb(72, 162, 45);
-  color: white;
-  animation: bounce 1s ease-in-out;
-}
 
 @keyframes bounce {
     0% {
@@ -265,15 +330,15 @@ p {
     20% {
       transform: scale(1.2);  /* Slightly larger */
     }
-    40% {
+    50% {
       transform: scale(1);  /* Slightly smaller */
     }
-    60% {
+    75% {
       transform: scale(1.1);  /* Slightly larger */
     }
-    80% {
-      transform: scale(1);  /* Back to normal size */
-    }
+    // 80% {
+    //   transform: scale(1.05);  /* Back to normal size */
+    // }
     100% {
       transform: scale(1);  /* Ensure it ends with the original size */
     }
@@ -317,7 +382,7 @@ margin-bottom: 10px;
 /* ALBUM DETAILS WHEN USER CLICKS */
 
 #tfi-close {
-  padding: 10px;
+  padding: 5px;
 }
 
 .album-show-container-active{ 
@@ -328,17 +393,18 @@ margin-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  align-content: center;
+  justify-content: center;
   transition: opacity 1s ease-in-out;
   z-index: 0;
   border-radius: 10px;
-  padding-bottom: 30px;
+  padding-bottom: 15px;
   margin: 10px 0;
   opacity: 1;
 
   @media screen and (max-width: 1099px) {
   }
   @media screen and (max-width: 572px) {
-    
   }
   @media screen and (max-width: 320px) {
 
@@ -357,18 +423,12 @@ margin-bottom: 10px;
     }
     @media screen and (max-width: 572px) {
     }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 460px) {
+      width: 200px;
+      height: 200px;
     }
 
   }
-
-// button {
-// height: 0px;
-
-// @media screen and (max-width: 572px) {
-//   padding: 0 10px;
-// }
-//   }
 
 }
 
@@ -380,7 +440,7 @@ margin-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  transition: 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
   z-index: 0;
   border-radius: 10px;
   padding-bottom: 30px;
@@ -390,11 +450,12 @@ margin-bottom: 10px;
 
 
 .album-show-primary-image-and-text-box  {
+  margin-top: 15px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 940px) {
     flex-direction: column;
   }
   @media screen and (max-width: 572px) {
@@ -407,12 +468,10 @@ margin-bottom: 10px;
 .album-show-text-box {
   display: flex;
   flex-direction: column;
-  // height: 350px;
   margin: 10px;
+  border-radius: 5px;
 
-  @media screen and (max-width: 720px) {
-    align-items: center;
-    height: auto;
+  @media screen and (max-width: 940px) {
   }
   @media screen and (max-width: 572px) {
   }
@@ -423,14 +482,15 @@ margin-bottom: 10px;
   h1 {
     color: rgb(251, 251, 251);
     font-size: 20px;
-    padding-bottom: 5px;
+    padding: 0;
+    margin: 0;
     width: 350px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: transparent;
     
-
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 940px) {
     width: auto;
     white-space: wrap;
     text-align: center;
@@ -451,14 +511,20 @@ margin-bottom: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media screen and (max-width: 940px) {
+    width: auto;
+    white-space: wrap;
+    text-align: center;
+    }
   }
 }
 
 .track-name-and-number {
   width: 350px;
 
-  @media screen and (max-width: 720px) {
-    padding: 0 10px;
+  @media screen and (max-width: 940px) {
+    // padding: 0 10px;
   }
   @media screen and (max-width: 572px) {
   }
@@ -469,10 +535,15 @@ margin-bottom: 10px;
     font-size: 14px;
     border-bottom: 1px solid rgba(158, 158, 193, 0.57);
     padding: 5px 0;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    @media screen and (max-width: 828px) {
+      margin: 0 30px;
+    }
+    @media screen and (max-width: 460px) {
+      margin: 0 70px;
+    }
   }
 }
 
@@ -485,6 +556,8 @@ margin-bottom: 10px;
 }
 
 .music-styles {
-  display: flex;
-
+  display: flex;;
+  @media screen and (max-width: 940px) {
+    justify-content: center;
+  }
 }
