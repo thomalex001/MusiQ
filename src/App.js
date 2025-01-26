@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Search from './components/Search';
 import Artist from './components/Artist';
 import About from './components/About';
+import TheClash from './media/the-clash.jpg'
 
 
 function App() {
@@ -22,7 +23,10 @@ function App() {
         />
         <Route
           path='*'
-          element={<p>This page doesn't exist...</p>}
+          element={<div className='page-not-found'>
+            <p>Sorry, this page doesn't exist...</p>
+            <img src={TheClash} alt='the-clash-smashing-guitar'/>
+          </div>}
         />
       </Routes>
     </BrowserRouter>
