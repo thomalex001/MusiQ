@@ -332,40 +332,46 @@ const Artist = () => {
         {/*QUIZ SECTION */}
         <h1 id='artist-name-h1'>{artist.id}</h1>
         {artistAlbumsData.length === 0 && (
-        <div className='no-data-container'>
+          <div className='no-data-container'>
             <p>
-              Sorry, we couldn't find any data for {artist.id}... Please reload the page or try a new
-              search.
+              Sorry, we couldn't find any data for {artist.id}... Please reload
+              the page or try a new search.
             </p>
-          <img
-            src={noDataImage}
-            alt={'pianist-sad'}
-          />
-        </div>
+            <img
+              src={noDataImage}
+              alt={'pianist-sad'}
+            />
+          </div>
         )}
         {artistAlbumsData.length < 5 && artistAlbumsData.length !== 0 && (
-        <div className='less-than-5-albums-container'>
+          <div className='less-than-5-albums-container'>
             <h2>
-              Sorry, there aren't enough albums for {artist.id} to load a quiz but
-              you can still click on the covers below for more details:
+              Sorry, there aren't enough albums for {artist.id} to load a quiz
+              but you can still click on the covers below for more details:
             </h2>
-          {/* <img
+            {/* <img
             src={noDataImage}
             alt={'pianist-sad'}
           /> */}
-        </div>
+          </div>
         )}
 
         <div
           className={
-            quizStarted ? 'quiz-container-active' : 'quiz-container-inactive'
+            quizStarted ? 'quiz-container is-active' : 'quiz-container'
           }>
           {!quizStarted && artistAlbumsData.length > 5 && (
             <div className='quiz-inner-container'>
               <h2>
-                {quizIsFinished
-                  ? `You scored ${score}/5 this time.`
-                  : <span>Fantastic!<br/> There is a quiz available to test your knowledge on {artist.id}:</span>}
+                {quizIsFinished ? (
+                  `You scored ${score}/5 this time.`
+                ) : (
+                  <span>
+                    Fantastic!
+                    <br /> There is a quiz available to test your knowledge on{' '}
+                    {artist.id}:
+                  </span>
+                )}
               </h2>
               <button
                 onClick={() => {
@@ -373,6 +379,7 @@ const Artist = () => {
                   setSelectedAlbumsArray([]);
                   setScore(0);
                   setCount(1);
+                  setAlbumIsClicked(false);
                 }}>
                 {quizIsFinished ? 'Take Another Quiz' : 'Start Quiz'}
               </button>
@@ -481,67 +488,66 @@ const Artist = () => {
         {/*START OF ALBUM DETAILS*/}
         {/*USER CLICKS ON ALBUM, SHOW DETAILS SECTION */}
         {albumIsClicked && (
-          <>
-            <div
-              className={
-                albumIsClicked
-                  ? 'album-show-container-active'
-                  : 'album-show-container-inactive'
-              }>
-              <TfiClose
-                id='tfi-close'
-                onClick={() => setAlbumIsClicked(false)}
-                style={{ cursor: 'pointer' }}
-              />
+          <div
+            className={
+              albumIsClicked
+                ? 'album-show-container is-active'
+                : 'album-show-container'
+            }>
+            <TfiClose
+              id='tfi-close'
+              onClick={() => setAlbumIsClicked(false)}
+              style={{ cursor: 'pointer' }}
+            />
 
-              <div className='album-show-primary-image-and-text-box'>
-                <div className='album-show-primary-image'>
-                  {clickedAlbum?.images?.[0]?.resource_url && (
-                    <img
-                      key={clickedAlbum.images[0]?.uri}
-                      src={clickedAlbum.images[0]?.resource_url}
-                      alt={clickedAlbum?.title || 'Image'}
-                    />
-                  )}
-                </div>
-                <div className='album-show-text-box'>
-                  <h1>{clickedAlbum?.title}</h1>
-                  <h1>{clickedAlbum?.artists_sort}</h1>
-                  <div className='music-styles'>
-                    <h2>
-                      {clickedAlbum?.styles?.[0]} {clickedAlbum?.styles?.[1]}
-                    </h2>
-                  </div>
-                  <h2>{clickedAlbum?.year !== 0 ? clickedAlbum.year : ''}</h2>
-                  <div>
-                    <TrackSlider albumTracks={clickedAlbum.tracklist} />
-                  </div>
-                </div>
-
-                {/*SLIDER FOR TRACK NAME AND POSITION */}
-              </div>
-              <div className='album-show-secondary-images'>
-                {clickedAlbum?.images?.map(
-                  (image) =>
-                    image.type !== 'primary' && (
-                      <img
-                        key={image?.uri}
-                        src={image?.resource_url}
-                        alt={clickedAlbum.title}
-                      />
-                    )
+            <div className='album-show-primary-image-and-text-box'>
+              <div className='album-show-primary-image'>
+                {clickedAlbum?.images?.[0]?.resource_url && (
+                  <img
+                    key={clickedAlbum.images[0]?.uri}
+                    src={clickedAlbum.images[0]?.resource_url}
+                    alt={clickedAlbum?.title || 'Image'}
+                  />
                 )}
               </div>
+              <div className='album-show-text-box'>
+                <h1>{clickedAlbum?.title}</h1>
+                <h1>{clickedAlbum?.artists_sort}</h1>
+                <div className='music-styles'>
+                  <h2>
+                    {clickedAlbum?.styles?.[0]} {clickedAlbum?.styles?.[1]}
+                  </h2>
+                </div>
+                <h2>{clickedAlbum?.year !== 0 ? clickedAlbum.year : ''}</h2>
+                <div>
+                  <TrackSlider albumTracks={clickedAlbum.tracklist} />
+                </div>
+              </div>
+
+              {/*SLIDER FOR TRACK NAME AND POSITION */}
             </div>
-          </>
+            <div className='album-show-secondary-images'>
+              {clickedAlbum?.images?.map(
+                (image) =>
+                  image.type !== 'primary' && (
+                    <img
+                      key={image?.uri}
+                      src={image?.resource_url}
+                      alt={clickedAlbum.title}
+                    />
+                  )
+              )}
+            </div>
+          </div>
         )}
         {/*END ALBUM DETAILS*/}
         <AlbumsList
           albums={artistAlbumsData}
           handleAlbumClick={(album) => handleAlbumClick(album)}
+          disabled={quizStarted}
         />
       </div>
-      <Contact/>
+      <Contact />
     </>
   );
 };
