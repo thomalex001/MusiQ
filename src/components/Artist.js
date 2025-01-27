@@ -360,7 +360,7 @@ const Artist = () => {
                     className={
                       questionAnswered
                         ? album.title === selectedAlbum.title
-                          ? 'answer-image-is-correct' /
+                          ? 'answer-image-is-correct' 
                           : 'answer-image-is-incorrect' 
                         : '' 
                     }
