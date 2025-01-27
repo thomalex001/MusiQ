@@ -61,7 +61,7 @@ export default function Search() {
       <Navbar />
       <div className='main'>
         <div className='search-page'>
-          <h1>MusiQ App</h1>
+          <h1>MusiQ-All</h1>
           <h2>
             Data provided by{' '}
             <a

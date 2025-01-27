@@ -12,32 +12,37 @@
     padding: 10px;
     margin-top: -250px;
 
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 400px) {
       width: 200px;
-      margin-top: 0px;
+      margin-top: -120px;
       font-size: 12px;
     }
   }
 
   img {
-    @media screen and (max-width: 320px) {
-      width: 200px;
+    @media screen and (max-width: 400px) {
+      width: 250px;
       margin-top: 50px;
     }
   }
 }
 
 .less-than-5-albums-container {
-  // position: absolute;
-  // top: 27%;
-  padding: 15px;
+  padding: 30px;
 
   h2 {
-    width: 300px;
+    max-width: 300px;
     color: rgb(19, 11, 81);
     font-family: "Expletus Sans", serif;
     font-size: 19px;
     text-align: center;
+
+    @media screen and (max-width: 688px) {
+      font-size: 16px;
+    }
+    @media screen and (max-width: 320px) {
+      font-size: 14px;
+    }
   }
 }
 
@@ -57,12 +62,13 @@
   }
 
 
-  h1 {
+  #artist-name-h1 {
     top: 0;
     background-color: $color-skyblue;
     margin: -40px;
     padding: 0 15px;
     z-index: 0;
+    position: absolute;
 
     @media screen and (max-width: 688px) {
       font-size: 35px;
@@ -389,7 +395,7 @@ margin-bottom: 10px;
   background-color: rgb(70, 89, 121);
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
   color: white;
-  width: 90%;
+  // width: 90%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -399,7 +405,7 @@ margin-bottom: 10px;
   z-index: 0;
   border-radius: 10px;
   padding-bottom: 15px;
-  margin: 10px 0;
+  margin: 10px 20px;
   opacity: 1;
 
   @media screen and (max-width: 1099px) {
@@ -407,7 +413,6 @@ margin-bottom: 10px;
   @media screen and (max-width: 572px) {
   }
   @media screen and (max-width: 320px) {
-
   }
 
 
@@ -497,8 +502,11 @@ margin-bottom: 10px;
   }
   @media screen and (max-width: 572px) {
   }
-  @media screen and (max-width: 320px) {
-
+  @media screen and (max-width: 450px) {
+    font-size: 14px;
+    // flex-wrap: wrap;
+    // word-wrap: break-word; 
+    // overflow-wrap: break-word
   }
     
   }
@@ -513,10 +521,15 @@ margin-bottom: 10px;
   text-overflow: ellipsis;
 
   @media screen and (max-width: 940px) {
-    width: auto;
+    // width: auto;
     white-space: wrap;
     text-align: center;
     }
+  @media screen and (max-width: 450px) {
+    font-size: 12px;
+
+    }
+      
   }
 }
 
@@ -524,9 +537,10 @@ margin-bottom: 10px;
   width: 350px;
 
   @media screen and (max-width: 940px) {
-    // padding: 0 10px;
+    width:400px;
   }
-  @media screen and (max-width: 572px) {
+  @media screen and (max-width:450px) {
+    width:250px;
   }
   @media screen and (max-width: 320px) {
   }
@@ -539,10 +553,10 @@ margin-bottom: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     @media screen and (max-width: 828px) {
-      margin: 0 30px;
+      margin-left: 30px;
     }
     @media screen and (max-width: 460px) {
-      margin: 0 70px;
+      margin-left: 5px;
     }
   }
 }

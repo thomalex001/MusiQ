@@ -330,7 +330,7 @@ const Artist = () => {
       <Navbar />
       <div className='main artist-container'>
         {/*QUIZ SECTION */}
-        <h1>{artist.id}</h1>
+        <h1 id='artist-name-h1'>{artist.id}</h1>
         {artistAlbumsData.length === 0 && (
         <div className='no-data-container'>
             <p>

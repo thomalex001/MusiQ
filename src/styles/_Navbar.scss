@@ -47,8 +47,10 @@
   cursor: pointer;
 
   @media screen and (max-width: 572px) {
-  margin-left: 10px;
-  margin-top: 10px;
+    margin-left: 10px;
+    margin-top: 13px;
+  }
+  @media screen and (max-width: 450px) {
   }
 }
 
