@@ -88,24 +88,16 @@
     }
   }
 
-h2 span {
-
-  @media screen and (max-width: 688px) {
-  }
-  @media screen and (max-width: 572px) {
+  h2 span {
+    @media screen and (max-width: 572px) {
     font-size: 16px;
+    }
   }
-  @media screen and (max-width: 450px) {
-  }
-  @media screen and (max-width: 320px) {
-  }
-}
 
-img {
-  border-radius: 10px;
-  box-shadow: 2px 2px 5px rgb(96, 137, 183);
-
-}
+  img {
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px rgb(96, 137, 183);
+  }
 
 button {
   white-space: nowrap;
@@ -125,11 +117,8 @@ button {
 
   @media screen and (max-width: 572px) {
     width: 90%;
+    }
   }
-
-  @media screen and (max-width: 320px) {
-  }
-}
 
 }
 
@@ -141,8 +130,6 @@ button {
   }
   @media screen and (max-width: 688px) {
     padding: 10px 0;
-  }
-  @media screen and (max-width: 600px) {
   }
   @media screen and (max-width: 450px) {
     padding: 0
@@ -179,17 +166,16 @@ button {
     }
   }
 
-  button {
-    font-size: 15px;
-    width: 200px;
-  }
+    button {
+      font-size: 15px;
+      width: 200px;
+    }
 
-  h2 {
+    h2 {
     padding: 20px;
     font-size: 20px;
   }
 }
-
 
 .selected-album-image-box {
   height: 250px;
@@ -198,12 +184,10 @@ button {
     width: 190px;
     height: 190px;
   }
-  
   @media screen and (max-width: 320px) {
     width: 170px;
     height: 170px;
   }
-
   img {
     width: 250px;
     height: 250px;
@@ -243,7 +227,6 @@ button {
     }
     @media screen and (max-width: 320px) {
     }
-
   }
 }
 
@@ -251,23 +234,25 @@ button {
   border: 3px solid rgb(7, 177, 7);
   animation: bounce 1s ease-in-out; 
 }
+
 .answer-image-is-incorrect {
   opacity: 0.5;
 }
 
 .question-box {
-display: flex;
-flex-direction: column;
-text-align: center;
-width: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
 
-h3 {
+  h3 {
   text-align: center;
   margin: 12px
-}
-p {
+
+  }
+  p {
   margin: 5px;
-}
+  }
 }
 
 #track-question-h3 {
@@ -292,32 +277,27 @@ p {
     animation: 1s bounce ease-in-out;
     animation-timing-function: linear;
   }
-  
 }
 
 .answers-button-box > *:last-child {
   margin-bottom: 20px;
 }
 
-
 @keyframes bounce {
     0% {
-      transform: scale(1);  /* Normal size */
+      transform: scale(1);  
     }
     20% {
-      transform: scale(1.2);  /* Slightly larger */
+      transform: scale(1.2);  
     }
     50% {
-      transform: scale(1);  /* Slightly smaller */
+      transform: scale(1);  
     }
     75% {
-      transform: scale(1.1);  /* Slightly larger */
+      transform: scale(1.1);  
     }
-    // 80% {
-    //   transform: scale(1.05);  /* Back to normal size */
-    // }
     100% {
-      transform: scale(1);  /* Ensure it ends with the original size */
+      transform: scale(1); 
     }
   }
 
@@ -352,7 +332,6 @@ margin-bottom: 10px;
       width: 120px;
       height: 120px;
     }
-
   }
 }
 
@@ -366,7 +345,6 @@ margin-bottom: 10px;
 #tfi-close {
   padding: 15px;
 }
-
 
 .album-show-container {
   background-color: rgb(70, 89, 121);
@@ -456,15 +434,9 @@ margin-bottom: 10px;
     white-space: wrap;
     text-align: center;
   }
-  @media screen and (max-width: 572px) {
-  }
   @media screen and (max-width: 450px) {
     font-size: 14px;
-    // flex-wrap: wrap;
-    // word-wrap: break-word; 
-    // overflow-wrap: break-word
   }
-    
   }
 
   h2 {
@@ -477,15 +449,12 @@ margin-bottom: 10px;
   text-overflow: ellipsis;
 
   @media screen and (max-width: 940px) {
-    // width: auto;
     white-space: wrap;
     text-align: center;
     }
   @media screen and (max-width: 450px) {
     font-size: 12px;
-
-    }
-      
+    } 
   }
 }
 
@@ -497,8 +466,6 @@ margin-bottom: 10px;
   }
   @media screen and (max-width:450px) {
     width:250px;
-  }
-  @media screen and (max-width: 320px) {
   }
 
   p {
@@ -526,7 +493,8 @@ margin-bottom: 10px;
 }
 
 .music-styles {
-  display: flex;;
+  display: flex;
+  
   @media screen and (max-width: 940px) {
     justify-content: center;
   }

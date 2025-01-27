@@ -12,29 +12,26 @@ const Artist = () => {
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
   const artist = useParams();
   const [quizStarted, setQuizStarted] = useState(false);
+
   const [yearAnswersArray, setYearAnswersArray] = useState([]);
-  const [albumAnswersArray, setAlbumAnswersArray] = useState([]);
-  const [questionAnswered, setQuestionAnswered] = useState(false);
-  const [selectedAlbum, setSelectedAlbum] = useState({});
-  const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false);
-  const [country, setCountry] = useState('');
   const [albumTrackAnswersArray, setAlbumTrackAnswersArray] = useState([]);
+  const [albumAnswersArray, setAlbumAnswersArray] = useState([]);
+
+  const [selectedAlbum, setSelectedAlbum] = useState({});
   const [selectedAlbumsArray, setSelectedAlbumsArray] = useState([]);
-  const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null); // Error state
   const [randomTrack, setRandomTrack] = useState(null);
+  
+  const [answerIsCorrect, setAnswerIsCorrect] = useState(null);
+  const [questionAnswered, setQuestionAnswered] = useState(false);
+  const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false);
+
+  const [country, setCountry] = useState('');
+  const [loading, setLoading] = useState(true);
+
   const [score, setScore] = useState(0);
   const [quizIsFinished, setQuizIsFinished] = useState(false);
   const [albumIsClicked, setAlbumIsClicked] = useState(false);
   const [clickedAlbum, setClickedAlbum] = useState(false);
-  const [answerIsCorrect, setAnswerIsCorrect] = useState(null);
-
-  // const [currentTracks, setCurrentTracks] = useState(null);
-  // const [prevPage, setPrevPage] = useState(null);
-  // const [nextPage, setNextPage] = useState(null);
-  // const [currentPage, setCurrentPage] = useState(0);
-  // const [tracksPerPage, setTracksPerPage] = useState(0);
-  // const [totalTracks, setTotalTracks] = useState(0);
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
@@ -57,18 +54,6 @@ const Artist = () => {
     setScore(score + 1);
   };
 
-  //********CHECK IF IMAGE FROM ALBUMS IS A VALID IMAGE********//
-  // const isImageValid = async (url) => {
-  //   try {
-  //     const response = await fetch(url, { method: 'HEAD', mode: 'no-cors' });
-  //     return (
-  //       response.ok && response.headers.get('Content-Type').includes('image')
-  //     );
-  //   } catch (e) {
-  //     return false;
-  //   }
-  // };
-
   //********FETCH ONLY ALBUMS WITH A UNIQUE MASTER ID********//
   const fetchAlbumsWithUniqueMasterId = async (artistId, country) => {
     return API.GET(API.ENDPOINTS.getArtistAlbums(artistId, country))
@@ -79,11 +64,10 @@ const Artist = () => {
           if (album.master_id && !seenMasterIds.has(album.master_id)) {
             seenMasterIds.add(album.master_id);
             uniqueAlbums.push(album);
-            // console.log("DATA", data)
           }
         });
-        // console.log("UNIQUE ALBUMS", uniqueAlbums)
-        //********FILTER OUT ALBUMS WITH SPACER.GIF AS A COVER_IMAGE AS IT SHOWS A SINGLE PIXEL********//
+
+  //********FILTER OUT ALBUMS WITH SPACER.GIF AS A COVER_IMAGE AS IT SHOWS A SINGLE PIXEL********//
         return uniqueAlbums.filter(
           (album) => album.cover_image?.slice(-10) !== 'spacer.gif'
         );
@@ -96,7 +80,7 @@ const Artist = () => {
 
   //********FETCH ALBUMS WHEN ARTIST ID CHANGES********//
   useEffect(() => {
-    //********FETCH ALBUMS FROM DIFFERENT COUNTRIES********//
+  //********FETCH ALBUMS FROM DIFFERENT COUNTRIES********//
     const fetchAlbumsForAllCountries = async (artistId) => {
       const countries = ['US', 'USA', 'France'];
       let albumsFromAllCountries = [];
@@ -114,23 +98,20 @@ const Artist = () => {
         });
         albumsFromAllCountries = [...albumsFromAllCountries, ...countryAlbums]; // Collect albums from all countries
       }
-      //********FIND THE COUNTRY WITH THE MOST ALBUMS********//
+  //********FIND THE COUNTRY WITH THE MOST ALBUMS********//
       const topCountry = countFromAllCountries.reduce(
         (max, current) => {
           return current.count > max.count ? current : max;
         },
         { country, count: 0 }
       );
-      //********FILTER TO RETURN ALBUMS FROM TOP COUNTRY ONLY********//
-      // console.log("TOP COUNTRY IS", topCountry.country)
-      // console.log("ALBUMS FROM ALL COUNTRIES", albumsFromAllCountries)
+  //********FILTER TO RETURN ALBUMS FROM TOP COUNTRY ONLY********//
       albumsFromTopCountry = albumsFromAllCountries.filter(
         (album) => album.country === topCountry.country
       );
       setArtistAlbumsData(albumsFromTopCountry);
       setCountry(topCountry.country);
       setLoading(false);
-      // console.log("ALBUMS FROM TOP COUNTRY", albumsFromTopCountry)
     };
     if (artist.id && !country) {
       fetchAlbumsForAllCountries(artist.id);
@@ -138,9 +119,6 @@ const Artist = () => {
   }, [artist.id, country]);
 
   if (loading) return <div class='loader'></div>;
-
-  // const albums = artistAlbumsData;
-  // console.log('ALBUMS', albums)//
 
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
@@ -155,22 +133,8 @@ const Artist = () => {
         return;
       }
 
-      console.log(
-        'SELECTED ALBUM ',
-        selectedAlbum.id,
-        ' - ',
-        selectedAlbum.title,
-        ' - ',
-        selectedAlbum.year
-      );
-
-      // if (selectedAlbum.year === undefined || selectedAlbum.year === 0 || isNaN(selectedAlbum.year)) {
-      //   getRandomAlbum()
-      //   console.log('UNDEFINED YEAR')
-      // }
-
-      //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
-      //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
+  //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
+  //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
       const isDuplicate = selectedAlbumsArray.some(
         (album) => album.title === selectedAlbum.title
       );
@@ -202,13 +166,11 @@ const Artist = () => {
   //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?******************//
   //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API******************//
   const getSelectedAlbumDetails = async (selectedAlbum) => {
-    // console.log('YOU ENTERED GETSELECTEDALBUMDETAILS');
     try {
       const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
-      // console.log('SELECTED ALBUM DETAILS:', data);
-      //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
+  //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
       const tracklist = data.tracklist || [];
-      //********STORE ALBUM_ID DETAILS IN SET_CLICKED_ALBUM WHEN ALBUM IS CLICKED BY USER*******//
+  //********STORE ALBUM_ID DETAILS IN SET_CLICKED_ALBUM WHEN ALBUM IS CLICKED BY USER*******//
       setClickedAlbum(data);
 
       if (tracklist.length > 0) {
@@ -228,12 +190,11 @@ const Artist = () => {
   //*******WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   //********FILTER OUT ANSWERS SO THAT REMAINING ALBUMS ARE NOT THE SAME AS SELECTED ALBUM********//
   const nameTheAlbumQuestion = (selectedAlbum) => {
-    // console.log('-- NAMETHEALBUMQUESTION');
     const remainingAlbums = artistAlbumsData.filter(
       (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
 
-    //********RANDOMLY SELECT TWO INCORRECT ANSWERS*********************//
+  //********RANDOMLY SELECT TWO INCORRECT ANSWERS*********************//
     const randomIncorrectAnswers = [];
     while (randomIncorrectAnswers.length < 2) {
       const index = Math.floor(Math.random() * remainingAlbums.length);
@@ -241,7 +202,7 @@ const Artist = () => {
         randomIncorrectAnswers.push(index);
       }
     }
-    //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE****//
+  //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE****//
     const incorrectAnswers = randomIncorrectAnswers.map(
       (index) => remainingAlbums[index]
     );
@@ -259,7 +220,7 @@ const Artist = () => {
     const shuffledAlbumTrackAnswers = shuffleAnswers(albumTrackAnswersArray);
     const shuffledAlbumAnswers = shuffleAnswers(albumAnswersArray);
 
-    //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
+  //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
     for (let i = 0; i < 1; i++) {
       const randomChoice = Math.floor(Math.random() * 2);
       if (randomChoice === 0) {
@@ -282,8 +243,7 @@ const Artist = () => {
   //********WHAT YEAR THIS ALBUM WAS FIRST RELEASED?********//
   const nameTheYearQuestion = (selectedAlbum) => {
     const yearOfAlbum = parseInt(selectedAlbum.year);
-    console.log(yearOfAlbum);
-    // console.log('-- NAMETHEYEARQUESTION', selectedAlbum);
+
     const randomYears = [];
     if (yearOfAlbum <= currentYearInt - 5) {
       randomYears.push(yearOfAlbum - 7);
@@ -312,7 +272,6 @@ const Artist = () => {
       addPoint();
       setQuestionAnswered(true);
     } else {
-      // console.log('CORRECT ANSWER', selectedAlbum.year, selectedAlbum.title);
       setQuestionAnswered(true);
       setAnswerIsCorrect(false);
     }
@@ -349,10 +308,6 @@ const Artist = () => {
               Sorry, there aren't enough albums for {artist.id} to load a quiz
               but you can still click on the covers below for more details:
             </h2>
-            {/* <img
-            src={noDataImage}
-            alt={'pianist-sad'}
-          /> */}
           </div>
         )}
 
@@ -405,9 +360,9 @@ const Artist = () => {
                     className={
                       questionAnswered
                         ? album.title === selectedAlbum.title
-                          ? 'answer-image-is-correct' // Correct answer
-                          : 'answer-image-is-incorrect' // Incorrect answer
-                        : '' // Empty class when question hasn't been answered yet
+                          ? 'answer-image-is-correct' /
+                          : 'answer-image-is-incorrect' 
+                        : '' 
                     }
                     key={album?.id}
                     onClick={() => handleAnswerClick(album)}

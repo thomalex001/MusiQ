@@ -15,44 +15,42 @@ export default function Search() {
 
   const handleSearch = debounce((searchQuery) => {
     if (searchQuery.length < 2) {
-      setSearchedResults([]); // Clear results if search query is too short
-      setLoading(false); // Stop loading
-      return; // Don't make the API call if query is less than 2 characters
+      setSearchedResults([]); 
+      setLoading(false); 
+      return; 
     }
 
-    setLoading(true); // Set loading state when starting the search
+    setLoading(true); 
 
-    // Make the API request only if the query length is >= 2
+  
     if (searchQuery.length >= 2) {
       API.GET(API.ENDPOINTS.search(searchQuery))
         .then(({ data }) => {
-          // console.log('DATA', data);
-          setSearchedResults(data.results.slice(0, 5)); // Store the results from the API
+
+          setSearchedResults(data.results.slice(0, 5)); 
         })
         .catch((e) => console.error(e))
-        .finally(() => setLoading(false)); // Stop loading when the request is finished
+        .finally(() => setLoading(false)); 
     }
-  }, 500); // 500ms debounce delay
+  }, 500); 
 
-  // Handles the input change event
   const handleChange = (e) => {
     const value = e.target.value;
-    setQuery(value); // Update the query
+    setQuery(value); 
   };
 
-  // Trigger debounced search whenever query changes
+ 
   useEffect(() => {
-    setDebouncedQuery(query); // Update the debounced query
+    setDebouncedQuery(query);
   }, [query]);
 
-  // Perform search when the debounced query changes
+
   useEffect(() => {
     if (debouncedQuery !== '') {
-      handleSearch(debouncedQuery); // Trigger debounced search function
+      handleSearch(debouncedQuery); 
     }
-  }, [debouncedQuery]);  // Only trigger when debounced query changes
+  }, [debouncedQuery]); 
 
-  // Navigate to artist's page
   const goToArtist = (artistId) => navigate(`/artist/${artistId}`);
 
 
@@ -89,8 +87,6 @@ export default function Search() {
                 </div>
               )}
 
-              {/* Show loading message while fetching data */}
-              {/* Show results only after typing finishes (i.e., after debounce delay) */}
               {debouncedQuery && !loading && (
                 <div className='search-results-container'>
                   {searchedResults.length === 0 && (

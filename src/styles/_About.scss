@@ -8,13 +8,10 @@
   @media screen and (max-width: 885px) {
     width: 90%
   }
-  @media screen and (max-width: 320px) {
-  }
 
   h1 {
     font-family: "Inconsolata", serif;
     font-size: 45px;
-
   }
   p {
     font-family: "Inconsolata", serif;
@@ -28,9 +25,6 @@
   font-size: 15px;
   padding: 5px 0;
 
-  @media screen and (max-width: 572px) {
-    // font-size: 15px;
-  }
   @media screen and (max-width: 424px) {
     font-size: 13px;
   }
@@ -38,25 +32,23 @@
     font-size: 11.3px;
   }
 
-
   code {
     padding: 0 15px;
   }
 
   a {
-font-size: 17px;
-padding-left: none;
+    font-size: 17px;
+    padding-left: none;
 
-@media screen and (max-width: 572px) {
-  font-size: 17px;
-}
-@media screen and (max-width: 424px) {
-  font-size: 15px;
-}
-@media screen and (max-width: 360px) {
-  font-size: 14px;
-}
-
+    @media screen and (max-width: 572px) {
+      font-size: 17px;
+    }
+    @media screen and (max-width: 424px) {
+      font-size: 15px;
+    }
+    @media screen and (max-width: 360px) {
+      font-size: 14px;
+    }
   }
 }
 
