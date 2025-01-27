@@ -46,7 +46,7 @@ const TrackSlider = ({ albumTracks }) => {
             className='track-item'>
               {track.position !== "" && (
             <p>
-              {track.position}{'. '}{track.title}{' - '}{track.duration}
+              {track.position}{'. '}{track.title}{'  '}{track.duration}
             </p>
 
               )}

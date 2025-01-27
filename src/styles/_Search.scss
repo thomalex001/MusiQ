@@ -6,13 +6,17 @@
   @media screen and (max-width: 718px) {
     width: 600px
   }
-  
-  @media screen and (max-width: 572px) {
+  @media screen and (max-width: 608px) {
       width: 500px
     }
-    
-  @media screen and (max-width: 449px) {
-    width: 400px
+  @media screen and (max-width: 514px) {
+    width: 350px
+  }
+  @media screen and (max-width: 360px) {
+    width: 320px
+  }
+  @media screen and (max-width: 320px) {
+    width: 300px
   }
 
 }
@@ -31,6 +35,7 @@
   h1 {
     font-family: "Bungee Shade", serif;
     padding: 10px;
+    text-align: center;
   }
 
   h2 {
@@ -38,6 +43,7 @@
     font-family: "Inconsolata", serif;
     padding-bottom: 20px;
     color: rgb(19, 11, 81);
+    text-align: center;
   
     a:link { 
       text-decoration: none; 
@@ -74,8 +80,11 @@
   position: absolute;
   padding-top: 100px;
 
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 514px) {
     padding-top: 70px;
+  }
+  @media screen and (max-width: 320px) {
+    // padding-top: 70px;
   }
 
   p {
@@ -96,9 +105,25 @@
   opacity: 0.85;
   font-family: poppins;
 
-  @media screen and (max-width: 449px) {
-    width: 370px;
+  @media screen and (max-width: 718px) {
+    // width: 600px
   }
+  @media screen and (max-width: 608px) {
+      // width: 500px
+    }
+  @media screen and (max-width: 514px) {
+    width: 270px;
+    height: 30px;
+  }
+  @media screen and (max-width: 360px) {
+    width: 270px;
+    height: 30px;
+  }
+  @media screen and (max-width: 320px) {
+    width: 270px;
+    height: 30px;
+  }
+  
 
 }
 #search-input::placeholder {

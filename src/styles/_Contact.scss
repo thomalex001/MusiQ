@@ -3,14 +3,10 @@
   flex-direction: column;
   align-items: center;
   background-color: $color-greyblue;
-  padding-bottom: 20px;
+  padding-bottom:30px;
   font-family: "Inconsolata", serif;
   color: $color-navyblue;
   flex-shrink: 0;
-  // position: absolute;
-  // bottom: 0;
-  // left: 0;
-  // right: 0;
 
   h1 {
     font-size: 30px;
@@ -57,12 +53,10 @@
   display: flex; 
   align-items: center;
   position: relative;
-  // padding: 0 20px;
+  transition: 0.1s ease-in;
 }
 .email-contact-box:hover {
   transform: scale(1.04);
-  transition: 0.1s ease-in;
-
 
   @media screen and (max-width: 1099px) {
     transform: none
@@ -111,6 +105,7 @@
 }
 
 .linked-in-contact-box{
+  transition: 0.1s ease-in;
 
   a:link { 
     text-decoration: none; 
@@ -137,7 +132,6 @@
 
 .linked-in-contact-box:hover {
 transform: scale(1.04);
-transition: 0.1s ease-in;
 
   @media screen and (max-width: 1099px) {
     transform: none

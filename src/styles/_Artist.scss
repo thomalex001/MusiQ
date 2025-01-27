@@ -1,26 +1,48 @@
 .no-data-container {
-  padding-top: 10px;
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   p {
     width: 300px;
     position: absolute;
-    color: rgb(228, 225, 225);
+    color: rgb(249, 249, 249);
     font-family: "Inconsolata", serif;
-    padding: 10px
+    padding: 10px;
+    margin-top: -250px;
+
+    @media screen and (max-width: 400px) {
+      width: 200px;
+      margin-top: -120px;
+      font-size: 12px;
+    }
+  }
+
+  img {
+    @media screen and (max-width: 400px) {
+      width: 250px;
+      margin-top: 50px;
+    }
   }
 }
 
 .less-than-5-albums-container {
-  // position: absolute;
-  // top: 27%;
-  padding: 15px;
+  padding: 30px;
 
   h2 {
-    width: 300px;
+    max-width: 300px;
     color: rgb(19, 11, 81);
     font-family: "Expletus Sans", serif;
     font-size: 19px;
     text-align: center;
+
+    @media screen and (max-width: 688px) {
+      font-size: 16px;
+    }
+    @media screen and (max-width: 320px) {
+      font-size: 14px;
+    }
   }
 }
 
@@ -29,19 +51,70 @@
   flex-direction: column;
   align-items: center;
   color: rgb(19, 11, 81);
+  border: 2px solid $color-greyblue;
+  margin: 40px;
+  border-radius: 20px;
+  position: relative;
+  justify-content: center;
+
+  @media screen and (max-width: 572px) {
+    margin: 10px;
+  }
+
+
+  #artist-name-h1 {
+    top: 0;
+    background-color: $color-skyblue;
+    margin: -40px;
+    padding: 0 15px;
+    z-index: 0;
+    position: absolute;
+
+    @media screen and (max-width: 688px) {
+      font-size: 35px;
+      margin: -27px;
+    }
+    @media screen and (max-width: 572px) {
+      font-size: 30px;
+      margin: -24px;
+    }
+    @media screen and (max-width: 450px) {
+      font-size: 25px;
+      margin: -20px;
+    }
+    @media screen and (max-width: 320px) {
+      font-size: 25px;
+      margin: -19px;
+    }
+  }
+
+h2 span {
+
+  @media screen and (max-width: 688px) {
+  }
+  @media screen and (max-width: 572px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 450px) {
+  }
+  @media screen and (max-width: 320px) {
+  }
+}
 
 img {
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
+
 }
 
 button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  background-color: $color-skyblue;
   border-radius: 10px;
   border-width: 2px;
-  border-color: #130b51;
+  border-color: $color-navyblue;
   color: #130b51;
   border-style: solid;
   margin: 1px;
@@ -51,74 +124,68 @@ button {
   height: 40px;
 
   @media screen and (max-width: 572px) {
-    width: 97%;
-  }
-
-  @media screen and (max-width: 449px) {
-  }
-}
-
-}
-
-.quiz-container-active {
-  background-color: rgba(110, 149, 195, 0.328);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 60%;
-  height: 445px;
-  text-align: center;
-  margin: 12.5px;
-  border-radius: 15px;
-  transition: .4s ease-in-out;
-  box-shadow: 2px 2px 5px rgb(96, 137, 183);
-  font-family: "Inconsolata", serif;
-
-  @media screen and (max-width: 1099px) {
-    width: 80%;
-  }
-  @media screen and (max-width: 572px) {
-    width: 90%;
-    height: 600px;
-  }
-  @media screen and (max-width: 449px) {
     width: 90%;
   }
 
-  h2 {
-    padding: 10px;
-    font-size: 20px;
+  @media screen and (max-width: 320px) {
   }
 }
 
-.quiz-container-inactive {
+}
+
+.quiz-inner-container {
+  padding: 50px 0;
+
+  @media screen and (max-width: 850px) {
+    padding: 10px 0;
+  }
+  @media screen and (max-width: 688px) {
+    padding: 10px 0;
+  }
+  @media screen and (max-width: 600px) {
+  }
+  @media screen and (max-width: 450px) {
+    padding: 0
+  }
+}
+
+.quiz-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   width: 60%;
-  // height: 150px;
   text-align: center;
   border-radius: 15px;
   transition: .4s ease-in-out;
   font-family: "Inconsolata", serif;
+  padding: 27px;
 
-button {
-  font-size: 15px;
+  &.is-active {
+    background-color: rgba(110, 149, 195, 0.328);
+    height: 445px;
+    margin: 45px 12.5px 20px;
+    box-shadow: 2px 2px 5px rgb(96, 137, 183);
   
-  @media screen and (max-width: 1099px) {
+    @media screen and (max-width: 850px) {
+      width: 90%;
+    }
+    @media screen and (max-width: 590px) {
+      height: 600px;
+    }
+  
+    h2 {
+      padding: 10px;
+    }
+  }
+
+  button {
+    font-size: 15px;
     width: 200px;
   }
-  @media screen and (max-width: 572px) {
 
-  }
-  @media screen and (max-width: 449px) {
-
-  }
-}
-
-h2 {
-    padding: 10px;
+  h2 {
+    padding: 20px;
     font-size: 20px;
   }
 }
@@ -127,9 +194,29 @@ h2 {
 .selected-album-image-box {
   height: 250px;
 
+  @media screen and (max-width: 572px) {
+    width: 190px;
+    height: 190px;
+  }
+  
+  @media screen and (max-width: 320px) {
+    width: 170px;
+    height: 170px;
+  }
+
   img {
     width: 250px;
     height: 250px;
+
+    @media screen and (max-width: 572px) {
+      width: 190px;
+      height: 190px;
+    }
+    
+    @media screen and (max-width: 320px) {
+      width: 170px;
+      height: 170px;
+    }
   }
 }
 
@@ -139,7 +226,7 @@ h2 {
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: 572px) {
+  @media screen and (max-width: 590px) {
     height: 400px;
     flex-direction: column
   }
@@ -150,12 +237,11 @@ h2 {
     height: 140px;
     width: 140px;
 
-    @media screen and (max-width: 572px) {
+    @media screen and (max-width: 590px) {
       width: 120px;
       height: 120px;
     }
-
-    @media screen and (max-width: 449px) {
+    @media screen and (max-width: 320px) {
     }
 
   }
@@ -199,18 +285,20 @@ p {
     align-content: center;
   }
 
+  .answer-button-is-correct {
+    opacity: 1;
+    background-color: rgb(72, 162, 45);
+    color: white;
+    animation: 1s bounce ease-in-out;
+    animation-timing-function: linear;
+  }
+  
 }
 
 .answers-button-box > *:last-child {
   margin-bottom: 20px;
 }
 
-.answer-button-is-correct {
-  opacity: 1;
-  background-color: rgb(72, 162, 45);
-  color: white;
-  animation: bounce 1s ease-in-out;
-}
 
 @keyframes bounce {
     0% {
@@ -219,15 +307,15 @@ p {
     20% {
       transform: scale(1.2);  /* Slightly larger */
     }
-    40% {
+    50% {
       transform: scale(1);  /* Slightly smaller */
     }
-    60% {
+    75% {
       transform: scale(1.1);  /* Slightly larger */
     }
-    80% {
-      transform: scale(1);  /* Back to normal size */
-    }
+    // 80% {
+    //   transform: scale(1.05);  /* Back to normal size */
+    // }
     100% {
       transform: scale(1);  /* Ensure it ends with the original size */
     }
@@ -238,7 +326,8 @@ p {
 }
 
 #next-button {
-width: 97%
+width: 90%;
+margin-bottom: 10px;
 }
 
 /* ALBUMS_LIST COMPONENT */
@@ -259,7 +348,7 @@ width: 97%
       width: 140px;
       height: 140px;
     }
-    @media screen and (max-width: 449px) {
+    @media screen and (max-width: 320px) {
       width: 120px;
       height: 120px;
     }
@@ -267,61 +356,19 @@ width: 97%
   }
 }
 
+.album-cover-isdisabled{
+  pointer-events: none;
+  cursor: default;
+}
+
 /* ALBUM DETAILS WHEN USER CLICKS */
 
 #tfi-close {
-  padding: 10px;
+  padding: 15px;
 }
 
-.album-show-container-active{ 
-  background-color: rgb(70, 89, 121);
-  box-shadow: 2px 2px 5px rgb(96, 137, 183);
-  color: white;
-  width: 90%;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  transition: opacity 1s ease-in-out;
-  z-index: 0;
-  border-radius: 10px;
-  padding-bottom: 30px;
-  margin: 10px 0;
-  opacity: 1;
 
-  @media screen and (max-width: 1099px) {
-  }
-  @media screen and (max-width: 572px) {
-    
-  }
-  @media screen and (max-width: 449px) {
-
-  }
-
-
-  img {
-    height: 350px;
-    width: 350px;
-    box-shadow: 2px 2px 5px rgb(47, 60, 74);
-    margin: 10px;
-
-    @media screen and (max-width: 828px) {
-      width: 300px;
-      height: 300px;
-    }
-    @media screen and (max-width: 572px) {
-    }
-    @media screen and (max-width: 449px) {
-    }
-
-  }
-
-button {
-height: 30px
-  }
-
-}
-
-.album-show-container-inactive {
+.album-show-container {
   background-color: rgb(70, 89, 121);
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
   color: white;
@@ -329,26 +376,52 @@ height: 30px
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  transition: 1s ease-in-out;
+  opacity: 0;
+  transition: 1s ease;
   z-index: 0;
   border-radius: 10px;
   padding-bottom: 30px;
-  opacity: 0;
+
+  &.is-active { 
+    align-content: center;
+    width: 90%;
+    justify-content: center;
+    opacity: 1;
+    padding-bottom: 15px;
+    margin: 10px 20px;
+
+    img {
+      height: 350px;
+      width: 350px;
+      box-shadow: 2px 2px 5px rgb(47, 60, 74);
+      margin: 10px;
+
+      @media screen and (max-width: 828px) {
+        width: 300px;
+        height: 300px;
+      }
+      @media screen and (max-width: 460px) {
+        width: 200px;
+        height: 200px;
+      }
+    }
+  }
 }
 
 
 
 .album-show-primary-image-and-text-box  {
+  margin-top: 15px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 
-  @media screen and (max-width: 760px) {
+  @media screen and (max-width: 940px) {
     flex-direction: column;
   }
   @media screen and (max-width: 572px) {
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
   }
 
 }
@@ -356,38 +429,40 @@ height: 30px
 .album-show-text-box {
   display: flex;
   flex-direction: column;
-  // height: 350px;
   margin: 10px;
+  border-radius: 5px;
 
-  @media screen and (max-width: 720px) {
-    align-items: center;
-    height: auto;
+  @media screen and (max-width: 940px) {
   }
   @media screen and (max-width: 572px) {
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
 
   }
   
   h1 {
     color: rgb(251, 251, 251);
     font-size: 20px;
-    padding-bottom: 5px;
+    padding: 0;
+    margin: 0;
     width: 350px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: transparent;
     
-
-  @media screen and (max-width: 720px) {
+  @media screen and (max-width: 940px) {
     width: auto;
     white-space: wrap;
     text-align: center;
   }
   @media screen and (max-width: 572px) {
   }
-  @media screen and (max-width: 449px) {
-
+  @media screen and (max-width: 450px) {
+    font-size: 14px;
+    // flex-wrap: wrap;
+    // word-wrap: break-word; 
+    // overflow-wrap: break-word
   }
     
   }
@@ -400,28 +475,45 @@ height: 30px
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media screen and (max-width: 940px) {
+    // width: auto;
+    white-space: wrap;
+    text-align: center;
+    }
+  @media screen and (max-width: 450px) {
+    font-size: 12px;
+
+    }
+      
   }
 }
 
 .track-name-and-number {
   width: 350px;
 
-  @media screen and (max-width: 720px) {
-    padding: 0 10px;
+  @media screen and (max-width: 940px) {
+    width:400px;
   }
-  @media screen and (max-width: 572px) {
+  @media screen and (max-width:450px) {
+    width:250px;
   }
-  @media screen and (max-width: 449px) {
+  @media screen and (max-width: 320px) {
   }
 
   p {
     font-size: 14px;
     border-bottom: 1px solid rgba(158, 158, 193, 0.57);
     padding: 5px 0;
-
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    @media screen and (max-width: 940px) {
+      margin-left: 55px;
+    }
+    @media screen and (max-width: 460px) {
+      margin-left: 5px;
+    }
   }
 }
 
@@ -434,6 +526,8 @@ height: 30px
 }
 
 .music-styles {
-  display: flex;
-
+  display: flex;;
+  @media screen and (max-width: 940px) {
+    justify-content: center;
+  }
 }
