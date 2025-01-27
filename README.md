@@ -1,70 +1,141 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# MUSIQ ALL
 
-## Available Scripts
+![musiq-all.png ](./src//media/musiq-all.png "")
+## Project Description
+**Musiq All** 
+is a website that allows you to search for your favorite music Artists or Bands and test your knowledge with a tailored Quiz.
+This website was built with React. 
 
-In the project directory, you can run:
+## Deployment Link
+ [https://musiq-all.co.uk/](https://musiq-all.co.uk/ "Musiq-All")
 
-### `npm start`
+### API Links
+ https://api.discogs.com/database/search
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+ https://api.discogs.com/releases/  
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started/Code Installation
+Ensure that you have cloned repositories onto your machine and follow these steps:
 
-### `npm test`
+1. In the front-end CLI, run `npm i` on the root level to install dependencies.
+2. Then run the command `npm start` to run program in your local environment.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+### Dependencies
+* React 
+* SASS
+* Axios 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Timeframe 
+This personal project took 2 weeks to complete from the search of an API to deployment. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## Technologies Used
+* HTML/SASS/JavaScript
+* React
+* Visual Studio Code
+* Postman
+* Git/GitHub
+* Axios packages
+* Google Fonts
+* Squarespace
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Technical Requirements
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Consume an API** built with React
+- **Aesthetically pleasing** using SASS
+- **Responsive** to mobile/tablet/desktop using SASS
+- **Accessible** using Accessibility Insights for Web Chrome extension
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## API Research
+![postman.png ](./src//media/postman.png  "")
 
-## Learn More
+  * Searched for an API which would allow multiple requests and have sufficient data to create a website 
+  * Understand each endpoints limits by manipulating their data 
+  * Analyzing data to plan the development of a quiz
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Build/Code Process
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Fetching Data from The API 
 
-### Code Splitting
+  * Created an account on Dicsogs.com in order to receive credentials to access their API directory
+  * Used Postman to analyze data from each endpoints
+  * **Search** endpoint required a significant amount of testing with multiple parameters (Artist Name, Country, Releases Type etc...)
+  * **Releases** endpoint was much more straightforward as it only requires the **releaseID** however the data was not well organised at times and it required extra attention to be able to fetch the correct information
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Developing The React app
 
-### Analyzing the Bundle Size
+* Installation
+  * Created a new repository on GitHub. 
+  * Initial setup of the frontend application by installing the   dependencies:
+    * Axios 
+    * CORS 
+    * SASS
+    * Created a `.gitignore` file and added `“node module”; “.env”; “DS_store”`.
+  * Added the boiler plate code to fetch data from both endpoints:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```javascript
+import axios from 'axios';
 
-### Making a Progressive Web App
+const KEY = process.env.REACT_APP_API_KEY;
+const SECRET = process.env.REACT_APP_API_SECRET;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+const ENDPOINTS = {
+  search: (query) =>
+    `https://api.discogs.com/database/search?q=${query}&key=${KEY}&secret=${SECRET}`,
+  getArtistAlbums: (query, country) =>
+    `https://api.discogs.com/database/search?q=${query}&country=${country}&artist=${query}&type=release&format=album&artist=${query}&type=release&format=album&key=${KEY}&secret=${SECRET}`,
+  getAlbum: (selectedAlbumId) =>
+    `https://api.discogs.com/releases/${selectedAlbumId}`
+};
 
-### Advanced Configuration
+const GET = (endpoint) => axios.get(endpoint);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+export const API = { GET, ENDPOINTS };
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```
 
-### `npm run build` fails to minify
+### Developing The React app - Components
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Created the `NavBar` which allows the user to navigate between **Search(Homepage)** **About Page** and **Artist Page**. Added links to my GitHub/Portfolio pages. 
+
+* Created `Search`, `Artist` `About` pages:
+
+![search-page.png ](./src//media/search-page.png "")
+![artist-page.png ](./src//media/artist-page.png "")
+![about-page.png ](./src//media/about-page.png  "")
+
+### Developing The React app - Styling
+* Added styling to all pages using a color palette for uniformity
+* As the website was first built for desktop, I implemented responsiveness to tablet and mobile.
+
+### Developing The React app - Accessibility
+* Using chrome extension, adjusted styling and functionalities to improve accessibility of the website.
+
+## Challenges
+* Understanding which API endpoint would be best to use and how to get the most information out of each one using parameters for example
+* Manipulating data to show the correct information on screen
+* Quiz functionality and conditioning 
+
+## Wins
+* The instant satisfaction to see the website come to life thanks to the data from the API
+* Adding functionalities that I hadn't thought of originally was
+really fun and enjoyable.
+
+## Key Learning/Takeaways
+* Data manipulating
+* API limits 
+
+## Bugs
+* No visible bugs as tested on Chrome, please do not hesitate to get in touch if so!
+* API data can sometimes have the wrong information, for example : wrong year given as a correct answer for the quiz
+
+## Future Improvements
+* Add more CSS transitions to make the website more appealing to the user
+
+## THANKS FOR READING!
+

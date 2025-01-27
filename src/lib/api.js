@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { AUTH } from './auth';
 
 const KEY = process.env.REACT_APP_API_KEY;
 const SECRET = process.env.REACT_APP_API_SECRET;
