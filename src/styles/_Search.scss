@@ -35,6 +35,11 @@
     font-family: "Bungee Shade", serif;
     padding: 10px;
     text-align: center;
+
+    @media screen and (max-width: 514px) {
+      font-size: 35px;
+      padding: 10px 10px 0 10px;
+    }
   }
 
   h2 {
@@ -56,6 +61,10 @@
     } 
     a:active { 
       color: rgb(0, 114, 235);
+    }
+    @media screen and (max-width: 514px) {
+      font-size: 16px;
+      padding: 0 5px 15px;;
     }
   }
 }

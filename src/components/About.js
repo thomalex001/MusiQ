@@ -1,5 +1,5 @@
 import Navbar from './common/Navbar';
-import Contact from './../components/Contact'
+import Contact from './Footer'
 
 export default function About() {
   return (

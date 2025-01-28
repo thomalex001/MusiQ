@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {debounce} from 'lodash';
 import Navbar from './common/Navbar';
 import RandomWallpaper from './common/RandomWallpaper';
-import Contact from '../components/Contact'
+import Footer from './Footer'
 
 export default function Search() {
   const [query, setQuery] = useState('');
@@ -118,7 +118,7 @@ export default function Search() {
           </div>
         </div>
       </div>
-      <Contact />
+      <Footer />
     </>
   );
 };
