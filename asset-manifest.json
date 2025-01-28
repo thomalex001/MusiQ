@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e6979a61.css",
-    "main.js": "/static/js/main.6bbd4b31.js",
+    "main.css": "/static/css/main.c1b2c252.css",
+    "main.js": "/static/js/main.5ece67ae.js",
     "static/js/453.0c22675e.chunk.js": "/static/js/453.0c22675e.chunk.js",
     "static/media/best-artists-2000s.png": "/static/media/best-artists-2000s.80ab301730d1070e7e7e.png",
     "static/media/best-artists-80s.png": "/static/media/best-artists-80s.1d6aede0eeabca6e1a42.png",
@@ -16,12 +16,12 @@
     "static/media/the-clash.jpg": "/static/media/the-clash.e69b3cbd79d655663dc6.jpg",
     "static/media/mq-logo.png": "/static/media/mq-logo.f7ed1bfe0e25fd0b8f91.png",
     "index.html": "/index.html",
-    "main.e6979a61.css.map": "/static/css/main.e6979a61.css.map",
-    "main.6bbd4b31.js.map": "/static/js/main.6bbd4b31.js.map",
+    "main.c1b2c252.css.map": "/static/css/main.c1b2c252.css.map",
+    "main.5ece67ae.js.map": "/static/js/main.5ece67ae.js.map",
     "453.0c22675e.chunk.js.map": "/static/js/453.0c22675e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e6979a61.css",
-    "static/js/main.6bbd4b31.js"
+    "static/css/main.c1b2c252.css",
+    "static/js/main.5ece67ae.js"
   ]
 }
