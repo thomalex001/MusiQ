@@ -5,9 +5,8 @@ import GitHubProfileThumb from '../../media/github-profile.png';
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const goToHomepage = () => navigate('/search');
+  const goToHomepage = () => navigate('/');
   const goToAbout = () => navigate('/about');
-  const goToPortfolio = () => navigate('/about');
 
   return (
     <>

@@ -305,7 +305,7 @@ const Artist = () => {
         {artistAlbumsData.length < 5 && artistAlbumsData.length !== 0 && (
           <div className='less-than-5-albums-container'>
             <h2>
-              Sorry, there aren't enough albums for {artist.id} to load a quiz
+              Nice find! There aren't enough albums for {artist.id} to load a quiz
               but you can still click on the covers below for more details:
             </h2>
           </div>
@@ -328,7 +328,7 @@ const Artist = () => {
                   </span>
                 )}
               </h2>
-              <button
+              <button id='start-quiz-button'
                 onClick={() => {
                   getRandomAlbum();
                   setSelectedAlbumsArray([]);
@@ -380,7 +380,7 @@ const Artist = () => {
                 <h3>What is the title of this album?</h3>
                 <div className='answers-button-box'>
                   {albumAnswersArray.map((answer, index) => (
-                    <button
+                    <button id='album-title-buttons'
                       className={
                         questionAnswered
                           ? answer.title === selectedAlbum.title
@@ -402,7 +402,7 @@ const Artist = () => {
               <h3>What year was this album first released?</h3>
               <div className='answers-button-box'>
                 {yearAnswersArray.map((answer) => (
-                  <button
+                  <button id='year-buttons'
                     className={
                       questionAnswered
                         ? parseInt(answer) === parseInt(selectedAlbum.year)
