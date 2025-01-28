@@ -1,16 +1,18 @@
 import LinkedInIcon from '../media/icons8-linkedin-48.png';
 import { forwardRef } from 'react';
+import { LuMail } from "react-icons/lu";
 
 const Contact = forwardRef(() => {
-  const linkToCopy = 'thomasalex06@gmail.com';
+  
   return (
     <footer className='contact-container'>
       <div className='contact-inner-container'>
         <div className='email-contact-box'>
-          <a href='mailto:thomasalex06@gmail.com'
-           alt='alex-thomas-email'>
+          <a
+            href='mailto:thomasalex06@gmail.com'
+            alt='alex-thomas-email'>
             {' '}
-            <span class='material-symbols-outlined'>mail</span>
+            <LuMail className='email-icon'/>
           </a>
         </div>
         <div className='linked-in-contact-box'>

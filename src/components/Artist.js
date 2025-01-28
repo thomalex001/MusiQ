@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import AlbumsList from './AlbumsList';
 import TrackSlider from './common/TrackSlider';
 import { TfiClose } from 'react-icons/tfi';
@@ -21,7 +21,7 @@ const Artist = () => {
   const [selectedAlbumsArray, setSelectedAlbumsArray] = useState([]);
   const [randomTrack, setRandomTrack] = useState(null);
   
-  const [answerIsCorrect, setAnswerIsCorrect] = useState(null);
+  // const [answerIsCorrect, setAnswerIsCorrect] = useState(null);
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false);
 
@@ -118,7 +118,7 @@ const Artist = () => {
     }
   }, [artist.id, country]);
 
-  if (loading) return <div class='loader'></div>;
+  if (loading) return <div className='loader'></div>;
 
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
@@ -268,12 +268,12 @@ const Artist = () => {
       answer.title === selectedAlbum.title ||
       parseInt(answer) === parseInt(selectedAlbum.year)
     ) {
-      setAnswerIsCorrect(true);
+      // setAnswerIsCorrect(true);
       addPoint();
       setQuestionAnswered(true);
     } else {
       setQuestionAnswered(true);
-      setAnswerIsCorrect(false);
+      // setAnswerIsCorrect(false);
     }
   };
 
@@ -305,7 +305,7 @@ const Artist = () => {
         {artistAlbumsData.length < 5 && artistAlbumsData.length !== 0 && (
           <div className='less-than-5-albums-container'>
             <h2>
-              Nice find! There aren't enough albums for {artist.id} to load a quiz
+              Nice find! The number of albums for {artist.id} is too low to load a quiz
               but you can still click on the covers below for more details:
             </h2>
           </div>

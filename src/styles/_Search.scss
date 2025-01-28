@@ -110,14 +110,6 @@
     width: 270px;
     height: 30px;
   }
-  @media screen and (max-width: 360px) {
-    width: 270px;
-    height: 30px;
-  }
-  @media screen and (max-width: 320px) {
-    width: 270px;
-    height: 30px;
-  }
 }
 
 #search-input::placeholder {
@@ -133,9 +125,15 @@
   width: 400px;
   position: relative;
 
+  @media screen and (max-width: 514px) {
+    width: 270px;
+  }
+
   p {
     padding: 5px
   }
+
+
 }
 
 .search-results-box {
@@ -147,6 +145,11 @@
   width: 400px;
   position: relative;
   cursor: pointer;
+
+  @media screen and (max-width: 514px) {
+    width: 270px;
+    // height: 30px;
+  }
 
   #result-text {
     position: absolute;

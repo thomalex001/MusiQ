@@ -141,16 +141,23 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  // justify-content: space-evenly;
   width: 60%;
   text-align: center;
   border-radius: 15px;
   transition: .4s ease-in-out;
   font-family: "Inconsolata", serif;
-  padding: 27px;
+
+  padding: 0;
 
   h2 {
-    padding: 0 0 20px;
+    padding: 25px 0;
+    
+    @media screen and (max-width: 688px) {
+      font-size: 20px;
+    }
+    @media screen and (max-width: 500px) {
+      font-size: 17px;
+    }
   }
 
   &.is-active {
@@ -158,6 +165,7 @@ button {
     height: 600px;
     margin: 45px 12.5px 20px;
     box-shadow: 2px 2px 5px rgb(96, 137, 183);
+    padding: 27px;
   
     @media screen and (max-width: 850px) {
       width: 75%;
@@ -228,6 +236,8 @@ button {
     cursor: pointer;
     height: 140px;
     width: 140px;
+    border: 3px solid transparent;
+    box-shadow: none;
 
     @media screen and (max-width: 610px) {
       width: 120px;
@@ -239,7 +249,7 @@ button {
 }
 
 .answer-image-is-correct {
-  border: 3px solid rgb(7, 177, 7);
+  border: 3px solid rgb(7, 177, 7) !important;
   animation: bounce 1s ease-in-out; 
 }
 
@@ -307,6 +317,15 @@ button {
 
 .answer-button-is-incorrect {
   opacity: 0.5;
+}
+
+#start-quiz-button {
+  @media screen and (min-width: 850px) {
+    max-width: 300px;
+    }
+  @media screen and (max-width: 500px) {
+    font-size: 14px;
+    }
 }
 
 #next-button {

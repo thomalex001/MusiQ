@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { API } from '../lib/api';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {debounce} from 'lodash';
 import Navbar from './common/Navbar';
 import RandomWallpaper from './common/RandomWallpaper';

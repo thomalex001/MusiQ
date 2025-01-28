@@ -16,18 +16,53 @@
     font-family: "Inconsolata", serif;
     border-radius: 5px;
 
+    a {
+      color: $color-navyblue;
+      transition: color 0.3s ease;
+    }
+
+    a:link { 
+      text-decoration: none; 
+      color: $color-navyblue
+    } 
+    a:visited { 
+      color: $color-navyblue;
+    } 
+    a:hover { 
+      color: rgb(0, 114, 235);
+    } 
+    a:active { 
+      color: $color-navyblue
+    }
+
     @media screen and (max-width: 572px) {
       margin-top: -10px;
       font-size: 16px;
-      padding: 0 10px;
-      }   
+      padding: 10px 10px;
+    }   
   }
-  
-  li:hover {
-    color: rgb(0, 114, 235);
-    cursor: pointer;
+
+  // a:hover {
+  //   color: rgb(0, 114, 235);
+  //   cursor: pointer;
+  // }
+
+  li .is-active {
+    position: relative;
+    &:after {
+      content: '_';
+      display: block;
+      width: 100%;
+      position: absolute;
+      // right: 0;
+      // left: 0;
+      margin-top: -9px;
+      text-align: center;
+    }
   }
+
 }
+
 
 .navbar-list {
   height: 80px;
@@ -85,13 +120,16 @@
   z-index: 999;
 }
 
-.dropdown-github:hover .dropdown-content,
-.dropdown-portfolio:hover .dropdown-content {
-  visibility: visible;  
-  opacity: 1;         
-  transition: opacity .4s, visibility 0s; 
-  z-index: 999;
-}
+@media screen and (min-width: 1024px) {
+
+  .dropdown-github:hover .dropdown-content,
+  .dropdown-portfolio:hover .dropdown-content {
+    visibility: visible;  
+    opacity: 1;         
+    transition: opacity .4s, visibility 0s; 
+    z-index: 999;
+  }
+  }   
 
 .dropdown-content a {
   display: block

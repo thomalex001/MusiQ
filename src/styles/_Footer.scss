@@ -3,18 +3,19 @@
   flex-direction: column;
   align-items: center;
   background-color: $color-greyblue;
-  padding: 40px;
+  padding: 20px;
   flex-shrink: 0;
 
 }
 
 #linked-in-icon {
-  height: 35px;
+  height: 25px;
 }
 
 .contact-inner-container {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   width: 100vw;
 
   @media screen and (max-width: 1099px) {
@@ -26,17 +27,17 @@
 .email-contact-box {
   transition: 0.1s ease-in;
   
-  span {
-    font-size: 34px;
+ .email-icon {
+    font-size: 24px;
     color: rgb(42, 78, 136)
+
+  }
+
+  @media screen and (min-width: 1099px) {
+  span:hover {
+    color: rgb(234, 234, 234);
   }
 }
-
-.email-contact-box:hover {
-  transform: scale(1.04);
-  @media screen and (max-width: 1099px) {
-    transform: none
-  }
 }
 
 .linked-in-contact-box{
@@ -45,6 +46,7 @@
 
 .linked-in-contact-box img:hover {
 transform: scale(1.04);
+
 @media screen and (max-width: 1099px) {
   transform: none
 }

@@ -7,7 +7,7 @@ export default function About() {
       <Navbar />
       <div className='main'>
         <div className='search-page'>
-          <h1>MusiQ App</h1>
+          <h1>MusiQ-All</h1>
           <h2>
             Data provided by{' '}
             <a
@@ -21,7 +21,7 @@ export default function About() {
           <div className='about-text'>
             <h1>Overview</h1>
             <p>
-              MusiQ App is a website that allows you to search for your favorite
+              MusiQ-All is a website that allows you to search for your favorite
               music Artists or Bands and test your knowledge with a tailored
               Quiz.
             </p>
