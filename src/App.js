@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Search from './components/Search';
 import Artist from './components/Artist';
 import About from './components/About';
@@ -9,6 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+      <Route path="/" element={<Navigate to="/search" />} />
         <Route
           path='/search'
           element={<Search />}
