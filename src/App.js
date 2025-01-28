@@ -7,7 +7,7 @@ import TheClash from './media/the-clash.jpg'
 
 function App() {
   return (
-    <BrowserRouter basename="/musiq" />>
+    <BrowserRouter basename="/musiq">
       <Routes>
         <Route
           path='/'
