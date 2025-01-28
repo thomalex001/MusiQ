@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.a24389ff.css",
-    "main.js": "/static/js/main.f41a1559.js",
+    "main.js": "/static/js/main.e9fa9896.js",
     "static/js/453.0c22675e.chunk.js": "/static/js/453.0c22675e.chunk.js",
     "static/media/best-artists-2000s.png": "/static/media/best-artists-2000s.80ab301730d1070e7e7e.png",
     "static/media/best-artists-80s.png": "/static/media/best-artists-80s.1d6aede0eeabca6e1a42.png",
@@ -17,11 +17,11 @@
     "static/media/mq-logo.png": "/static/media/mq-logo.f7ed1bfe0e25fd0b8f91.png",
     "index.html": "/index.html",
     "main.a24389ff.css.map": "/static/css/main.a24389ff.css.map",
-    "main.f41a1559.js.map": "/static/js/main.f41a1559.js.map",
+    "main.e9fa9896.js.map": "/static/js/main.e9fa9896.js.map",
     "453.0c22675e.chunk.js.map": "/static/js/453.0c22675e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a24389ff.css",
-    "static/js/main.f41a1559.js"
+    "static/js/main.e9fa9896.js"
   ]
 }
