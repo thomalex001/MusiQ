@@ -6,11 +6,11 @@ import TrackSlider from './common/TrackSlider';
 import { TfiClose } from 'react-icons/tfi';
 import Navbar from './common/Navbar';
 import noDataImage from './../media/no-data-image.png';
-import Footer from './Footer'
-
+import Footer from './Footer';
+import { Audio } from 'react-loader-spinner';
 
 const Artist = () => {
-  const albumsListRef = useRef(null)
+  const albumsListRef = useRef(null);
 
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
   const artist = useParams();
@@ -23,19 +23,19 @@ const Artist = () => {
   const [selectedAlbum, setSelectedAlbum] = useState({});
   const [selectedAlbumsArray, setSelectedAlbumsArray] = useState([]);
   const [randomTrack, setRandomTrack] = useState(null);
-  
+
   // const [answerIsCorrect, setAnswerIsCorrect] = useState(null);
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false);
 
   const [country, setCountry] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [isPageLoading, setIsPageLoading] = useState(true);
+  const [isAlbumLoading, setIsAlbumLoading] = useState(true);
 
   const [score, setScore] = useState(0);
   const [quizIsFinished, setQuizIsFinished] = useState(false);
   const [albumIsClicked, setAlbumIsClicked] = useState(false);
   const [clickedAlbum, setClickedAlbum] = useState(false);
-
 
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
@@ -71,7 +71,7 @@ const Artist = () => {
           }
         });
 
-  //********FILTER OUT ALBUMS WITH SPACER.GIF AS A COVER_IMAGE AS IT SHOWS A SINGLE PIXEL********//
+        //********FILTER OUT ALBUMS WITH SPACER.GIF AS A COVER_IMAGE AS IT SHOWS A SINGLE PIXEL********//
         return uniqueAlbums.filter(
           (album) => album.cover_image?.slice(-10) !== 'spacer.gif'
         );
@@ -84,7 +84,7 @@ const Artist = () => {
 
   //********FETCH ALBUMS WHEN ARTIST ID CHANGES********//
   useEffect(() => {
-  //********FETCH ALBUMS FROM DIFFERENT COUNTRIES********//
+    //********FETCH ALBUMS FROM DIFFERENT COUNTRIES********//
     const fetchAlbumsForAllCountries = async (artistId) => {
       const countries = ['US', 'USA', 'France'];
       let albumsFromAllCountries = [];
@@ -102,27 +102,25 @@ const Artist = () => {
         });
         albumsFromAllCountries = [...albumsFromAllCountries, ...countryAlbums]; // Collect albums from all countries
       }
-  //********FIND THE COUNTRY WITH THE MOST ALBUMS********//
+      //********FIND THE COUNTRY WITH THE MOST ALBUMS********//
       const topCountry = countFromAllCountries.reduce(
         (max, current) => {
           return current.count > max.count ? current : max;
         },
         { country, count: 0 }
       );
-  //********FILTER TO RETURN ALBUMS FROM TOP COUNTRY ONLY********//
+      //********FILTER TO RETURN ALBUMS FROM TOP COUNTRY ONLY********//
       albumsFromTopCountry = albumsFromAllCountries.filter(
         (album) => album.country === topCountry.country
       );
       setArtistAlbumsData(albumsFromTopCountry);
       setCountry(topCountry.country);
-      setLoading(false);
+      setIsPageLoading(false);
     };
     if (artist.id && !country) {
       fetchAlbumsForAllCountries(artist.id);
     }
   }, [artist.id, country]);
-
-  if (loading) return <div className='loader'></div>;
 
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
@@ -137,8 +135,8 @@ const Artist = () => {
         return;
       }
 
-  //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
-  //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
+      //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
+      //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
       const isDuplicate = selectedAlbumsArray.some(
         (album) => album.title === selectedAlbum.title
       );
@@ -173,11 +171,13 @@ const Artist = () => {
   //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?******************//
   //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API******************//
   const getSelectedAlbumDetails = async (selectedAlbum) => {
+    setIsAlbumLoading(true);
+
     try {
       const { data } = await API.GET(API.ENDPOINTS.getAlbum(selectedAlbum.id));
-  //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
+      //********EXTRACT ONE TRACK FROM SELECTED ALBUM********//
       const tracklist = data.tracklist || [];
-  //********STORE ALBUM_ID DETAILS IN SET_CLICKED_ALBUM WHEN ALBUM IS CLICKED BY USER*******//
+      //********STORE ALBUM_ID DETAILS IN SET_CLICKED_ALBUM WHEN ALBUM IS CLICKED BY USER*******//
       setClickedAlbum(data);
 
       if (tracklist.length > 0) {
@@ -190,6 +190,7 @@ const Artist = () => {
     } catch (error) {
       console.error('Error fetching album details:', error);
     }
+    setIsAlbumLoading(false);
   };
 
   //********QUESTION 1 & 2 :******************************************//
@@ -201,7 +202,7 @@ const Artist = () => {
       (album) => album.title.slice(-3) !== selectedAlbum.title.slice(-3)
     );
 
-  //********RANDOMLY SELECT TWO INCORRECT ANSWERS*********************//
+    //********RANDOMLY SELECT TWO INCORRECT ANSWERS*********************//
     const randomIncorrectAnswers = [];
     while (randomIncorrectAnswers.length < 2) {
       const index = Math.floor(Math.random() * remainingAlbums.length);
@@ -209,7 +210,7 @@ const Artist = () => {
         randomIncorrectAnswers.push(index);
       }
     }
-  //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE****//
+    //********ENSURE THE 2 INCORRECT ANSWERS DO NOT HAVE THE SAME TITLE****//
     const incorrectAnswers = randomIncorrectAnswers.map(
       (index) => remainingAlbums[index]
     );
@@ -227,7 +228,7 @@ const Artist = () => {
     const shuffledAlbumTrackAnswers = shuffleAnswers(albumTrackAnswersArray);
     const shuffledAlbumAnswers = shuffleAnswers(albumAnswersArray);
 
-  //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
+    //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
     for (let i = 0; i < 1; i++) {
       const randomChoice = Math.floor(Math.random() * 2);
       if (randomChoice === 0) {
@@ -275,26 +276,25 @@ const Artist = () => {
       answer.title === selectedAlbum.title ||
       parseInt(answer) === parseInt(selectedAlbum.year)
     ) {
-      // setAnswerIsCorrect(true);
       addPoint();
       setQuestionAnswered(true);
     } else {
       setQuestionAnswered(true);
-      // setAnswerIsCorrect(false);
     }
   };
-      
 
-  //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP ********//
-  const handleAlbumClick = (album, ref) => {
+  //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP, ALSO SCROLL TO ALBUM SHOW ELEMENT ********//
+  const handleAlbumClick = (album) => {
+    setClickedAlbum([])
     setAlbumIsClicked(true);
     getSelectedAlbumDetails(album);
-      if (albumsListRef.current) {
-        albumsListRef.current.scrollIntoView({ behaviour: 'smooth' });
-      }
-
+    if (albumsListRef.current) {
+      albumsListRef.current.scrollIntoView({ behaviour: 'smooth' });
+    }
     return;
   };
+
+  if (isPageLoading) return <div className='loader'></div>;
 
   return (
     <>
@@ -317,8 +317,9 @@ const Artist = () => {
         {artistAlbumsData.length < 5 && artistAlbumsData.length !== 0 && (
           <div className='less-than-5-albums-container'>
             <h2>
-              Nice find! The number of albums for {artist.id} is too low to load a quiz
-              but you can still click on the covers below for more details:
+              Nice find! The number of albums for {artist.id} is too low to load
+              a quiz but you can still click on the covers below for more
+              details:
             </h2>
           </div>
         )}
@@ -340,7 +341,8 @@ const Artist = () => {
                   </span>
                 )}
               </h2>
-              <button id='start-quiz-button'
+              <button
+                id='start-quiz-button'
                 onClick={() => {
                   getRandomAlbum();
                   setSelectedAlbumsArray([]);
@@ -372,9 +374,9 @@ const Artist = () => {
                     className={
                       questionAnswered
                         ? album.title === selectedAlbum.title
-                          ? 'answer-image-is-correct' 
-                          : 'answer-image-is-incorrect' 
-                        : '' 
+                          ? 'answer-image-is-correct'
+                          : 'answer-image-is-incorrect'
+                        : ''
                     }
                     key={album?.id}
                     onClick={() => handleAnswerClick(album)}
@@ -392,7 +394,8 @@ const Artist = () => {
                 <h3>What is the title of this album?</h3>
                 <div className='answers-button-box'>
                   {albumAnswersArray.map((answer, index) => (
-                    <button id='album-title-buttons'
+                    <button
+                      id='album-title-buttons'
                       className={
                         questionAnswered
                           ? answer.title === selectedAlbum.title
@@ -414,7 +417,8 @@ const Artist = () => {
               <h3>What year was this album first released?</h3>
               <div className='answers-button-box'>
                 {yearAnswersArray.map((answer) => (
-                  <button id='year-buttons'
+                  <button
+                    id='year-buttons'
                     className={
                       questionAnswered
                         ? parseInt(answer) === parseInt(selectedAlbum.year)
@@ -467,43 +471,55 @@ const Artist = () => {
               onClick={() => setAlbumIsClicked(false)}
               style={{ cursor: 'pointer' }}
             />
-
             <div className='album-show-primary-image-and-text-box'>
               <div className='album-show-primary-image'>
-                {clickedAlbum?.images?.[0]?.resource_url && (
-                  <img
-                    key={clickedAlbum.images[0]?.uri}
-                    src={clickedAlbum.images[0]?.resource_url}
-                    alt={clickedAlbum?.title || 'Image'}
+                {!isAlbumLoading ? (
+                  <Audio
+                    height='80'
+                    width='80'
+                    radius='9'
+                    color='lightblue'
+                    ariaLabel='loading'
+                    wrapperStyle={{}} // You can define your own styles here if needed
+                    wrapperClass='audio-loader' // Same as above for class
                   />
+                ) : (
+                  <>
+                    {clickedAlbum?.images?.[0]?.resource_url && (
+                      <img
+                        key={clickedAlbum.images[0]?.uri}
+                        src={clickedAlbum.images[0]?.resource_url}
+                        alt={clickedAlbum?.title || 'Image'}
+                      />
+                    )}
+                  </>
                 )}
               </div>
               <div className='album-show-text-box'>
                 <h1>{clickedAlbum?.title}</h1>
-                <h1>{clickedAlbum?.artists_sort}</h1>
+                <h2>{clickedAlbum?.artists_sort}</h2>
                 <div className='music-styles'>
-                  <h2>
+                  <h3>
                     {clickedAlbum?.styles?.[0]} {clickedAlbum?.styles?.[1]}
-                  </h2>
+                  </h3>
                 </div>
-                <h2>{clickedAlbum?.year !== 0 ? clickedAlbum.year : ''}</h2>
+                <h3>{clickedAlbum?.year !== 0 ? clickedAlbum.year : ''}</h3>
                 <div>
                   <TrackSlider albumTracks={clickedAlbum.tracklist} />
                 </div>
               </div>
-
-              {/*SLIDER FOR TRACK NAME AND POSITION */}
             </div>
+
+            {/* Secondary Images */}
             <div className='album-show-secondary-images'>
-              {clickedAlbum?.images?.map(
-                (image) =>
-                  image.type !== 'primary' && (
-                    <img
-                      key={image?.uri}
-                      src={image?.resource_url}
-                      alt={clickedAlbum.title}
-                    />
-                  )
+              {clickedAlbum?.images?.map((image) =>
+                image.type !== 'primary' && image?.resource_url ? (
+                  <img
+                    key={image?.uri}
+                    src={image?.resource_url}
+                    alt={clickedAlbum.title}
+                  />
+                ) : null
               )}
             </div>
           </div>
