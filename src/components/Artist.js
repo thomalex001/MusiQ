@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { API } from '../lib/api';
 import { useParams } from 'react-router-dom';
 import AlbumsList from './AlbumsList';
@@ -8,7 +8,10 @@ import Navbar from './common/Navbar';
 import noDataImage from './../media/no-data-image.png';
 import Footer from './Footer'
 
+
 const Artist = () => {
+  const albumsListRef = useRef(null)
+
   const [artistAlbumsData, setArtistAlbumsData] = useState([]);
   const artist = useParams();
   const [quizStarted, setQuizStarted] = useState(false);
@@ -283,10 +286,13 @@ const Artist = () => {
       
 
   //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP ********//
-  const handleAlbumClick = (album) => {
+  const handleAlbumClick = (album, ref) => {
     setAlbumIsClicked(true);
     getSelectedAlbumDetails(album);
-    window.scrollTo({ top: 265, behavior: 'smooth' }); 
+      if (albumsListRef.current) {
+        albumsListRef.current.scrollIntoView({ behaviour: 'smooth' });
+      }
+
     return;
   };
 
@@ -450,6 +456,7 @@ const Artist = () => {
         {/*USER CLICKS ON ALBUM, SHOW DETAILS SECTION */}
         {albumIsClicked && (
           <div
+            ref={albumsListRef}
             className={
               albumIsClicked
                 ? 'album-show-container is-active'
