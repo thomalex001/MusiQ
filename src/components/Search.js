@@ -1,58 +1,59 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { API } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
-import {debounce} from 'lodash';
+import { debounce } from 'lodash';
 import Navbar from './common/Navbar';
 import RandomWallpaper from './common/RandomWallpaper';
-import Footer from './Footer'
+import Footer from './Footer';
 
 export default function Search() {
   const [query, setQuery] = useState('');
-  const [searchedResults, setSearchedResults] = useState([]);
   const [debouncedQuery, setDebouncedQuery] = useState('');
-  const navigate = useNavigate()
+  const [searchedResults, setSearchedResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSearch = debounce((searchQuery) => {
-    if (searchQuery.length < 2) {
-      setSearchedResults([]); 
-      setLoading(false); 
-      return; 
-    }
+  // Using lodash's debounce function
+  const handleSearch = useCallback(
+    debounce((searchQuery) => {
+      if (searchQuery.length < 2) {
+        setSearchedResults([]);
+        setLoading(false);
+        return;
+      }
 
-    setLoading(true); 
+      setLoading(true);
 
-  
-    if (searchQuery.length >= 2) {
       API.GET(API.ENDPOINTS.search(searchQuery))
         .then(({ data }) => {
-
-          setSearchedResults(data.results.slice(0, 5)); 
+          setSearchedResults(data.results.slice(0, 5)); // Limit results to 5
         })
-        .catch((e) => console.error(e))
-        .finally(() => setLoading(false)); 
-    }
-  }, 500); 
+        .catch((e) => {
+          console.error('Error fetching search results:', e);
+          setSearchedResults([]); // Clear search results on error
+        })
+        .finally(() => setLoading(false));
+    }, 500),
+    [] // Dependency array is empty so debounce function is stable
+  );
 
+  // Handle user input and update query
   const handleChange = (e) => {
     const value = e.target.value;
-    setQuery(value); 
+    setQuery(value);
   };
 
- 
+  // Use effect to trigger search once query changes (debounced)
   useEffect(() => {
-    setDebouncedQuery(query);
-  }, [query]);
-
-
-  useEffect(() => {
-    if (debouncedQuery !== '') {
-      handleSearch(debouncedQuery); 
+    setDebouncedQuery(query)
+    if (query.length >= 2) {
+      handleSearch(query);
+    } else {
+      setSearchedResults([]); // Clear results if query length is less than 2
     }
-  }, [debouncedQuery]); 
+  }, [query, handleSearch]); // Depend on query and handleSearch
 
   const goToArtist = (artistId) => navigate(`/artist/${artistId}`);
-
 
   return (
     <>
@@ -87,11 +88,11 @@ export default function Search() {
                 </div>
               )}
 
-              {debouncedQuery && !loading && (
+              {query && !loading && (
                 <div className='search-results-container'>
                   {searchedResults.length === 0 && (
                     <div className='no-result-or-loading-message-box'>
-                      <p>Sorry, no results found for "{debouncedQuery}"</p>
+                      <p>Sorry, no results found for "{query}"</p>
                     </div>
                   )}
                   {searchedResults.map((result) => (
@@ -121,4 +122,4 @@ export default function Search() {
       <Footer />
     </>
   );
-};
+}

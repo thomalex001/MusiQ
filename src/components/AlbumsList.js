@@ -1,4 +1,5 @@
 export default function AlbumsList({ albums, handleAlbumClick, disabled }) {
+
   return (
     <div className='albums-list'>
       {albums.map((album) =>

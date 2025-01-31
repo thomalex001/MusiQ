@@ -33,6 +33,7 @@ const Artist = () => {
   const [albumIsClicked, setAlbumIsClicked] = useState(false);
   const [clickedAlbum, setClickedAlbum] = useState(false);
 
+
   //********GET CURRENT YEAR TO AVOID SHOWING A YEAR IN THE FUTURE IN HANDLE_ANSWER_CLICK********//
   const today = new Date();
   const currentYearStr = `${today.getFullYear()}`;
@@ -149,9 +150,12 @@ const Artist = () => {
       }
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
-      const randomQuestion = [nameTheAlbumQuestion, nameTheYearQuestion];
-      const randomQuestionIndex = Math.floor(Math.random() * 2);
-      randomQuestion[randomQuestionIndex](selectedAlbum);
+      const randomChoice = Math.random();
+      if (randomChoice < 0.33) {
+        nameTheYearQuestion(selectedAlbum);
+      } else {
+        nameTheAlbumQuestion(selectedAlbum);
+      }
 
       getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
@@ -276,11 +280,13 @@ const Artist = () => {
       // setAnswerIsCorrect(false);
     }
   };
+      
 
   //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP ********//
   const handleAlbumClick = (album) => {
     setAlbumIsClicked(true);
     getSelectedAlbumDetails(album);
+    window.scrollTo({ top: 265, behavior: 'smooth' }); 
     return;
   };
 
