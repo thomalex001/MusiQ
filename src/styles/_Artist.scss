@@ -423,7 +423,6 @@ margin-bottom: 10px;
     opacity: 1;
     padding-bottom: 15px;
     margin: 10px 20px;
-    min-width: 250px;
 
     img {
       height: 350px;
@@ -444,6 +443,16 @@ margin-bottom: 10px;
 }
 
 .audio-loader {
+
+  @media screen and (min-width: 940px) {
+    position: absolute;
+    left: 45%;
+    top: 25%;
+  }
+  @media screen and (max-width: 940px) {
+    padding-top: 50%;
+    position: relative;
+  }
 
 }
 
