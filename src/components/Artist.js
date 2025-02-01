@@ -473,15 +473,14 @@ const Artist = () => {
             />
             <div className='album-show-primary-image-and-text-box'>
               <div className='album-show-primary-image'>
-                {!isAlbumLoading ? (
+                {isAlbumLoading ? (
                   <Audio
                     height='80'
                     width='80'
                     radius='9'
                     color='lightblue'
                     ariaLabel='loading'
-                    wrapperStyle={{}} // You can define your own styles here if needed
-                    wrapperClass='audio-loader' // Same as above for class
+                    wrapperClass='audio-loader'
                   />
                 ) : (
                   <>
