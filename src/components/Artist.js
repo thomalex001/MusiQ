@@ -472,7 +472,6 @@ const Artist = () => {
               style={{ cursor: 'pointer' }}
             />
             <div className='album-show-primary-image-and-text-box'>
-              <div className='album-show-primary-image'>
                 {isAlbumLoading ? (
                   <Audio
                     height='80'
@@ -484,6 +483,7 @@ const Artist = () => {
                   />
                 ) : (
                   <>
+                  <div className='album-show-primary-image-box'>
                     {clickedAlbum?.images?.[0]?.resource_url && (
                       <img
                         key={clickedAlbum.images[0]?.uri}
@@ -491,9 +491,8 @@ const Artist = () => {
                         alt={clickedAlbum?.title || 'Image'}
                       />
                     )}
-                  </>
-                )}
-              </div>
+                  </div>
+                
               <div className='album-show-text-box'>
                 <h1>{clickedAlbum?.title}</h1>
                 <h2>{clickedAlbum?.artists_sort}</h2>
@@ -503,12 +502,11 @@ const Artist = () => {
                   </h3>
                 </div>
                 <h3>{clickedAlbum?.year !== 0 ? clickedAlbum.year : ''}</h3>
-                <div>
                   <TrackSlider albumTracks={clickedAlbum.tracklist} />
-                </div>
               </div>
-            </div>
-
+              </>
+          )}
+          </div>
             {/* Secondary Images */}
             <div className='album-show-secondary-images'>
               {clickedAlbum?.images?.map((image) =>

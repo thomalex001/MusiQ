@@ -8,47 +8,52 @@ import Footer from './Footer';
 
 export default function Search() {
   const [query, setQuery] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [searchedResults, setSearchedResults] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Using lodash's debounce function
   const handleSearch = useCallback(
     debounce((searchQuery) => {
       if (searchQuery.length < 2) {
         setSearchedResults([]);
-        setLoading(false);
+        setIsLoading(false);
         return;
       }
 
-      setLoading(true);
+      setIsLoading(true);
 
       API.GET(API.ENDPOINTS.search(searchQuery))
         .then(({ data }) => {
-          setSearchedResults(data.results.slice(0, 5)); // Limit results to 5
-        })
+          console.log(data)
+
+    const filteredResults = data.results
+      .filter((result) => result.type === 'artist' && 
+      !result.title.includes('('))
+      .slice(0, 5);
+
+
+    setSearchedResults(filteredResults);
+  })
         .catch((e) => {
           console.error('Error fetching search results:', e);
-          setSearchedResults([]); // Clear search results on error
+          setSearchedResults([]); 
         })
-        .finally(() => setLoading(false));
+        .finally(() => setIsLoading(false));
     }, 500),
-    [] // Dependency array is empty so debounce function is stable
+    [] 
   );
 
-  // Handle user input and update query
   const handleChange = (e) => {
     const value = e.target.value;
+    setIsLoading(true)
     setQuery(value);
   };
 
-  // Use effect to trigger search once query changes (debounced)
   useEffect(() => {
-    setDebouncedQuery(query)
     if (query.length >= 2) {
       handleSearch(query);
     } else {
+      setIsLoading(false)
       setSearchedResults([]); // Clear results if query length is less than 2
     }
   }, [query, handleSearch]); // Depend on query and handleSearch
@@ -82,13 +87,13 @@ export default function Search() {
                 value={query}
                 onChange={handleChange}
               />
-              {loading && (
+              {isLoading && (
                 <div className='no-result-or-loading-message-box'>
                   <p>Loading...</p>
                 </div>
               )}
 
-              {query && !loading && (
+              {query && !isLoading && (
                 <div className='search-results-container'>
                   {searchedResults.length === 0 && (
                     <div className='no-result-or-loading-message-box'>
