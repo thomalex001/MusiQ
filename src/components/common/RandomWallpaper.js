@@ -16,7 +16,7 @@ const RandomWallpaper = React.memo(() => {
     ArtistsImage4,
     ArtistsImage5,
     ArtistsImage6,
-    ArtistsImage7
+    ArtistsImage7,
   ];
   const randomIndex = Math.floor(Math.random() * randomImages.length);
   const selectedImage = randomImages[randomIndex]
