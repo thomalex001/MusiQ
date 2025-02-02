@@ -1,5 +1,5 @@
 .no-data-container {
-  margin-top: 10%;
+  margin-top: 7%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,7 +28,12 @@
 }
 
 .less-than-5-albums-container {
-  padding: 30px;
+  margin-bottom: 30px;
+  margin-top: 45px;
+  padding: 20px;
+  border-radius: 10px;
+  border: 2px solid $color-navyblue;
+  background-color: $color-greyblue;
 
   h2 {
     max-width: 300px;
@@ -100,7 +105,7 @@ button {
   text-overflow: ellipsis;
   background-color: $color-skyblue;
   border-radius: 10px;
-  border-width: 2px;
+  border-width: 1px;
   border-color: $color-navyblue;
   color: #130b51;
   border-style: solid;
@@ -122,7 +127,7 @@ button {
   margin-top: 30px;
   padding: 20px 20px 45px 20px;
   border-radius: 10px;
-  border: 2px solid $color-greyblue;
+  border: 2px solid $color-navyblue;;
   background-color: $color-greyblue;
   
 }
@@ -180,7 +185,6 @@ button {
         font-size: 17px;
       }
     }
-   
     h3 {
       padding: 20px 0;
       font-size: 20px;
@@ -404,7 +408,7 @@ margin-bottom: 10px;
 
 .album-show-container {
   background-color: rgb(89, 107, 139);
-  border: 2px solid rgba(255, 255, 255, 0.891);
+  box-shadow: 2px 2px 5px rgb(32, 34, 37);
   color: rgb(255, 255, 255);
   max-width: 800px;
   display: flex;

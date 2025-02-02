@@ -112,7 +112,7 @@ export default function Search() {
                             alt={result.title}
                           />
                           <div className='result-text-div'>
-                            <p id='result-text'>{result.title}</p>
+                            <p id='result-text-p'>{result.title}</p>
                           </div>
                         </>
                       )}

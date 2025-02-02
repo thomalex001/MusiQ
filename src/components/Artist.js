@@ -319,7 +319,7 @@ const Artist = () => {
             <h2>
               Nice find! The number of albums for {artist.id} is too low to load
               a quiz but you can still click on the covers below for more
-              details:
+              details.
             </h2>
           </div>
         )}

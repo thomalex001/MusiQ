@@ -83,10 +83,18 @@
   position: absolute;
   padding-top: 117px;
 
+  @media screen and (max-width: 718px) {
+    padding-top: 96px
+  }
+  @media screen and (max-width: 608px) {
+    padding-top: 76px
+  }
+
   @media screen and (max-width: 514px) {
-    padding-top: 70px;
+    padding-top: 50px;
   }
   @media screen and (max-width: 320px) {
+    padding-top: 40px;
   }
 
   p {
@@ -107,7 +115,11 @@
   font-family: poppins;
 
   @media screen and (max-width: 514px) {
-    width: 270px;
+    width: 325px;
+    height: 30px;
+  }
+  @media screen and (max-width: 514px) {
+    width: 260px;
     height: 30px;
   }
 }
@@ -126,11 +138,15 @@
   position: relative;
 
   @media screen and (max-width: 514px) {
-    width: 270px;
+    width: 260px;
+  }
+  @media screen and (max-width: 320px) {
+    width: 260px;
   }
 
   p {
-    padding: 5px
+    padding: 5px;
+
   }
 
 
@@ -145,18 +161,28 @@
   width: 400px;
   position: relative;
   cursor: pointer;
+  overflow: hidden;
+  
 
   @media screen and (max-width: 514px) {
-    width: 270px;
-    // height: 30px;
+    width: 260px;
   }
 
-  #result-text {
+  #result-text-p {
     position: absolute;
     left: 60px;
     padding: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 340px;
+  
+  @media screen and (max-width: 514px) {
+    width: 195px;
   }
 
+  }
+  
   img {
     height: 50px;
     width: 50px;
@@ -171,8 +197,7 @@
 
 .result-text-div {
   display: flex;
-  align-items: center;  /* Vertically center text */
-  justify-content: center;  /* Horizontally center text */
-  text-align: center;  /* Optional: to make sure the text itself is centered */
-  flex: 1;  /* Take up the remaining space inside .search-results-box */
+  align-items: center; 
+  justify-content: center;  
+  flex: 1; 
 }
