@@ -60,7 +60,7 @@
   margin: 40px;
   border-radius: 20px;
   position: relative;
-  justify-content: center;
+  justify-content: flex-start;
 
   @media screen and (max-width: 572px) {
     margin: 10px;
@@ -68,29 +68,25 @@
 
 
   #artist-name-h1 {
+    font-size: 30px;
     top: 0;
     background-color: $color-skyblue;
-    margin: -40px;
+    margin: -25px;
     padding: 0 15px;
     z-index: 0;
     position: absolute;
+    white-space: wrap;
+    overflow: hidden;
+    text-align: center;
+    max-width: 400px;
 
-    @media screen and (max-width: 688px) {
-      font-size: 35px;
-      margin: -27px;
-    }
-    @media screen and (max-width: 572px) {
-      font-size: 30px;
-      margin: -24px;
-    }
+
     @media screen and (max-width: 450px) {
-      font-size: 25px;
-      margin: -20px;
+      font-size: 18px;
+      margin: -16px;
+      
     }
-    @media screen and (max-width: 320px) {
-      font-size: 25px;
-      margin: -19px;
-    }
+
   }
 
 
@@ -124,7 +120,8 @@ button {
 }
 
 .quiz-inner-container {
-  margin-top: 30px;
+  margin-top: 40px;
+  margin-bottom: 30px;
   padding: 20px 20px 45px 20px;
   border-radius: 10px;
   border: 2px solid $color-navyblue;;
@@ -153,14 +150,11 @@ button {
 
   h2 {
     padding: 25px 0;
-    font-size: 21px;
+    font-size: 20px;
     max-width: 500px;
     
-    @media screen and (max-width: 688px) {
-      font-size: 19px;
-    }
-    @media screen and (max-width: 500px) {
-      font-size: 17px;
+    @media screen and (max-width: 450px) {
+      font-size: 14px;
     }
   }
 

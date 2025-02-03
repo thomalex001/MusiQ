@@ -314,7 +314,7 @@ const Artist = () => {
             />
           </div>
         )}
-        {artistAlbumsData.length < 5 && artistAlbumsData.length !== 0 && (
+        {artistAlbumsData.length <= 4 && artistAlbumsData.length !== 0 && (
           <div className='less-than-5-albums-container'>
             <h2>
               Nice find! The number of albums for {artist.id} is too low to load
@@ -328,7 +328,7 @@ const Artist = () => {
           className={
             quizStarted ? 'quiz-container is-active' : 'quiz-container'
           }>
-          {!quizStarted && artistAlbumsData.length > 5 && (
+          {!quizStarted && artistAlbumsData.length >= 5 && (
             <div className='quiz-inner-container'>
               <h2>
                 {quizIsFinished ? (

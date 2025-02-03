@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.06735971.css",
-    "main.js": "/static/js/main.5c7f1337.js",
+    "main.css": "/static/css/main.cc82a48d.css",
+    "main.js": "/static/js/main.a69dc3bc.js",
     "static/js/453.0c22675e.chunk.js": "/static/js/453.0c22675e.chunk.js",
     "static/media/best-artists-2000s.png": "/static/media/best-artists-2000s.80ab301730d1070e7e7e.png",
     "static/media/best-artists-80s.png": "/static/media/best-artists-80s.1d6aede0eeabca6e1a42.png",
@@ -11,17 +11,17 @@
     "static/media/bts.png": "/static/media/bts.f21e6d76393612ddef69.png",
     "static/media/black-pink.png": "/static/media/black-pink.c8c87e796714b1b50280.png",
     "static/media/no-data-image.png": "/static/media/no-data-image.406e74405429c24952f5.png",
-    "static/media/portfolio-thumb.png": "/static/media/portfolio-thumb.dd195dd0e7a18e307f3c.png",
+    "static/media/portfolio-thumb.png": "/static/media/portfolio-thumb.35d75a42df905b66f792.png",
     "static/media/github-profile.png": "/static/media/github-profile.8a8c070386c0a6ae4a00.png",
     "static/media/the-clash.jpg": "/static/media/the-clash.e69b3cbd79d655663dc6.jpg",
     "static/media/mq-logo.png": "/static/media/mq-logo.f7ed1bfe0e25fd0b8f91.png",
     "index.html": "/index.html",
-    "main.06735971.css.map": "/static/css/main.06735971.css.map",
-    "main.5c7f1337.js.map": "/static/js/main.5c7f1337.js.map",
+    "main.cc82a48d.css.map": "/static/css/main.cc82a48d.css.map",
+    "main.a69dc3bc.js.map": "/static/js/main.a69dc3bc.js.map",
     "453.0c22675e.chunk.js.map": "/static/js/453.0c22675e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.06735971.css",
-    "static/js/main.5c7f1337.js"
+    "static/css/main.cc82a48d.css",
+    "static/js/main.a69dc3bc.js"
   ]
 }
