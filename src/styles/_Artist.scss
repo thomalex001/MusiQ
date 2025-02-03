@@ -1,8 +1,12 @@
 .no-data-container {
-  margin-top: 7%;
+  margin-top: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 400px) {
+    margin-top: 0px;
+  }
 
   p {
     width: 300px;
@@ -30,7 +34,7 @@
 .less-than-5-albums-container {
   margin-bottom: 30px;
   margin-top: 45px;
-  margin: 40px 10px 30px;
+  margin: 65px 10px 40px;
   padding: 20px;
   border-radius: 10px;
   border: 2px solid $color-navyblue;
