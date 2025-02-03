@@ -299,7 +299,7 @@ const Artist = () => {
   return (
     <>
       <Navbar />
-      <div className='main artist-container'>
+      <main className='main artist-container'>
         {/*QUIZ SECTION */}
         <h1 id='artist-name-h1'>{artist.id}</h1>
         {artistAlbumsData.length === 0 && (
@@ -527,7 +527,7 @@ const Artist = () => {
           handleAlbumClick={(album) => handleAlbumClick(album)}
           disabled={quizStarted}
         />
-      </div>
+      </main>
       <Footer />
     </>
   );

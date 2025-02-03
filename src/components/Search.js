@@ -63,7 +63,7 @@ export default function Search() {
   return (
     <>
       <Navbar />
-      <div className='main'>
+      <main className='main'>
         <div className='search-page'>
           <h1>MusiQ-All</h1>
           <h2>
@@ -123,7 +123,7 @@ export default function Search() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
       <Footer />
     </>
   );

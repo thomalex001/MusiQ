@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.806a9370.css",
+    "main.css": "/static/css/main.7a163a3e.css",
     "main.js": "/static/js/main.6cdd2068.js",
     "static/js/453.0c22675e.chunk.js": "/static/js/453.0c22675e.chunk.js",
     "static/media/best-artists-2000s.png": "/static/media/best-artists-2000s.80ab301730d1070e7e7e.png",
@@ -16,12 +16,12 @@
     "static/media/the-clash.jpg": "/static/media/the-clash.e69b3cbd79d655663dc6.jpg",
     "static/media/mq-logo.png": "/static/media/mq-logo.f7ed1bfe0e25fd0b8f91.png",
     "index.html": "/index.html",
-    "main.806a9370.css.map": "/static/css/main.806a9370.css.map",
+    "main.7a163a3e.css.map": "/static/css/main.7a163a3e.css.map",
     "main.6cdd2068.js.map": "/static/js/main.6cdd2068.js.map",
     "453.0c22675e.chunk.js.map": "/static/js/453.0c22675e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.806a9370.css",
+    "static/css/main.7a163a3e.css",
     "static/js/main.6cdd2068.js"
   ]
 }

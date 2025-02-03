@@ -9,31 +9,29 @@ export default function Navbar() {
   const location = useLocation();
 
   return (
-    <>
-      <div className='navbar'>
-        <img
-          onClick={goToHomepage}
-          id='logo'
-          src={logo}
-          alt={'logo'}
-        />
-        <ul className='navbar-list'>
-          <li>
-            {location.pathname === '/about' ? (
-              <span className='is-active'>About</span>
-            ) : (
-              <Link to='/about'>About</Link>
-            )}
-          </li>
+    <nav className='navbar'>
+      <img
+        onClick={goToHomepage}
+        id='logo'
+        src={logo}
+        alt={'logo'}
+      />
+      <ul className='navbar-list'>
+        <li>
+          {location.pathname === '/about' ? (
+            <span className='is-active'>About</span>
+          ) : (
+            <Link to='/about'>About</Link>
+          )}
+        </li>
+        <li>
           <div className='dropdown-portfolio'>
-            <li>
-              <a
-                href='https://alex-thomas.dev/'
-                target='_blank'
-                rel='noreferrer'>
-                Portfolio
-              </a>
-            </li>
+            <a
+              href='https://alex-thomas.dev/'
+              target='_blank'
+              rel='noreferrer'>
+              Portfolio
+            </a>
             <div className='dropdown-content'>
               <a
                 href='https://alex-thomas.dev/'
@@ -48,15 +46,15 @@ export default function Navbar() {
               </a>
             </div>
           </div>
+        </li>
+        <li>
           <div className='dropdown-github'>
-            <li>
-              <a
-                href='https://github.com/thomalex001'
-                target='_blank'
-                rel='noreferrer'>
-                GitHub
-              </a>
-            </li>
+            <a
+              href='https://github.com/thomalex001'
+              target='_blank'
+              rel='noreferrer'>
+              GitHub
+            </a>
             <div className='dropdown-content'>
               <a
                 href='https://github.com/thomalex001'
@@ -70,8 +68,8 @@ export default function Navbar() {
               </a>
             </div>
           </div>
-        </ul>
-      </div>
-    </>
+        </li>
+      </ul>
+    </nav>
   );
 }

@@ -10,7 +10,7 @@ const Contact = forwardRef(() => {
         <div className='email-contact-box'>
           <a
             href='mailto:thomasalex06@gmail.com'
-            alt='alex-thomas-email'>
+            aria-label='alex thomas email'>
             {' '}
             <LuMail className='email-icon'/>
           </a>
@@ -18,13 +18,13 @@ const Contact = forwardRef(() => {
         <div className='linked-in-contact-box'>
           <a
             href='https://www.linkedin.com/in/alex-thomas-london/'
-            alt='alex-thomas-linked-in'
+            aria-label='alex thomas linkedin'
             target='blank'
             rel='noreferrer'>
             <img
               id='linked-in-icon'
               src={LinkedInIcon}
-              alt='linked-in-icon'
+              alt='linkedin icon'
             />
           </a>
         </div>

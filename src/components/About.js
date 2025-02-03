@@ -5,9 +5,9 @@ export default function About() {
   return (
     <>
       <Navbar />
-      <div className='main'>
+      <main className='main'>
         <div className='search-page'>
-          <h1>MusiQ-All</h1>
+          <h1>Musiq-All</h1>
           <h2>
             Data provided by{' '}
             <a
@@ -21,9 +21,9 @@ export default function About() {
           <div className='about-text'>
             <h1>Overview</h1>
             <p>
-              MusiQ-All is a website that allows you to search for your favorite
-              music Artists or Bands and test your knowledge with a tailored
-              Quiz.
+              Musiq-All is a website that allows you to search for your favorite
+              music artists or bands and test your knowledge with a tailored
+              quiz.
             </p>
             <h1>Quiz Data</h1>
             <p>
@@ -69,7 +69,7 @@ export default function About() {
             </p>
           </div>
         </div>
-      </div>
+      </main>
       <Contact />
     </>
   );
