@@ -8,6 +8,7 @@ import Navbar from './common/Navbar';
 import noDataImage from './../media/no-data-image.png';
 import Footer from './Footer';
 import { Audio } from 'react-loader-spinner';
+import { MdScore } from 'react-icons/md';
 
 const Artist = () => {
   const albumsListRef = useRef(null);
@@ -70,7 +71,7 @@ const Artist = () => {
             uniqueAlbums.push(album);
           }
         });
-
+        console.log(uniqueAlbums)
         //********FILTER OUT ALBUMS WITH SPACER.GIF AS A COVER_IMAGE AS IT SHOWS A SINGLE PIXEL********//
         return uniqueAlbums.filter(
           (album) => album.cover_image?.slice(-10) !== 'spacer.gif'
@@ -124,6 +125,7 @@ const Artist = () => {
 
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
+    setRandomTrack([])
     if (artistAlbumsData.length > 0) {
       const randomAlbumIndex = Math.floor(
         Math.random() * artistAlbumsData.length
@@ -157,7 +159,6 @@ const Artist = () => {
       } else {
         nameTheAlbumQuestion(selectedAlbum);
       }
-
       getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
       setQuizIsFinished(false);
@@ -168,7 +169,7 @@ const Artist = () => {
   };
 
   //********QUESTION 3: FETCHING******************************************//
-  //********WHICH OF THEESE TRACKS APPEAR ON THIS ALBUM?******************//
+  //********NAME THE ALBUM FROM THE TRACK******************//
   //********FETCH SELECTED ALBUM DATA FROM GET_ALBUM API******************//
   const getSelectedAlbumDetails = async (selectedAlbum) => {
     setIsAlbumLoading(true);
@@ -184,6 +185,7 @@ const Artist = () => {
         const randomIndex = Math.floor(Math.random() * tracklist.length);
         const randomTrack = tracklist[randomIndex].title;
         setRandomTrack(randomTrack);
+        console.log(randomTrack)
       } else {
         console.log('No tracks available for this album.');
       }
@@ -277,15 +279,13 @@ const Artist = () => {
       parseInt(answer) === parseInt(selectedAlbum.year)
     ) {
       addPoint();
-      setQuestionAnswered(true);
-    } else {
-      setQuestionAnswered(true);
     }
+    setQuestionAnswered(true);
   };
 
   //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP, ALSO SCROLL TO ALBUM SHOW ELEMENT ********//
   const handleAlbumClick = (album) => {
-    setClickedAlbum([])
+    setClickedAlbum([]);
     setAlbumIsClicked(true);
     getSelectedAlbumDetails(album);
     if (albumsListRef.current) {
@@ -393,25 +393,28 @@ const Artist = () => {
               <div className='question-box'>
                 <h3>What is the title of this album?</h3>
                 <div className='answers-button-box'>
-                  {albumAnswersArray.map((answer, index) => (
-                    <button
-                      id='album-title-buttons'
-                      className={
-                        questionAnswered
-                          ? answer.title === selectedAlbum.title
-                            ? 'answer-button-is-correct'
-                            : 'answer-button-is-incorrect'
-                          : ''
-                      }
-                      key={index}
-                      onClick={(answer) => handleAnswerClick(answer)}
-                      disabled={questionAnswered}>
-                      {answer.title.replace(/^.*? - /, '').trim()}
-                    </button>
-                  ))}
+                  {albumAnswersArray.map((answer, index) => {
+                    return (
+                      <button
+                        id='album-title-buttons'
+                        className={
+                          questionAnswered
+                            ? answer.title === selectedAlbum.title
+                              ? 'answer-button-is-correct'
+                              : 'answer-button-is-incorrect'
+                            : ''
+                        }
+                        key={index}
+                        onClick={() => handleAnswerClick(answer)}
+                        disabled={questionAnswered}>
+                        {answer.title.replace(/^.*? - /, '').trim()}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
+            {/* 3 ANSWERS ALBUM_YEAR RENDERING*/}
           {quizStarted && yearAnswersArray.length > 0 && (
             <div className='question-box'>
               <h3>What year was this album first released?</h3>
@@ -472,17 +475,17 @@ const Artist = () => {
               style={{ cursor: 'pointer' }}
             />
             <div className='album-show-primary-image-and-text-box'>
-                {isAlbumLoading ? (
-                  <Audio
-                    height='80'
-                    width='80'
-                    radius='9'
-                    color='lightblue'
-                    ariaLabel='loading'
-                    wrapperClass='audio-loader'
-                  />
-                ) : (
-                  <>
+              {isAlbumLoading ? (
+                <Audio
+                  height='80'
+                  width='80'
+                  radius='9'
+                  color='lightblue'
+                  ariaLabel='loading'
+                  wrapperClass='audio-loader'
+                />
+              ) : (
+                <>
                   <div className='album-show-primary-image-box'>
                     {clickedAlbum?.images?.[0]?.resource_url && (
                       <img
@@ -492,21 +495,21 @@ const Artist = () => {
                       />
                     )}
                   </div>
-                
-              <div className='album-show-text-box'>
-                <h1>{clickedAlbum?.title}</h1>
-                <h2>{clickedAlbum?.artists_sort}</h2>
-                <div className='music-styles'>
-                  <h3>
-                    {clickedAlbum?.styles?.[0]} {clickedAlbum?.styles?.[1]}
-                  </h3>
-                </div>
-                <h3>{clickedAlbum?.year !== 0 ? clickedAlbum.year : ''}</h3>
-                  <TrackSlider albumTracks={clickedAlbum.tracklist} />
-              </div>
-              </>
-          )}
-          </div>
+
+                  <div className='album-show-text-box'>
+                    <h1>{clickedAlbum?.title}</h1>
+                    <h2>{clickedAlbum?.artists_sort}</h2>
+                    <div className='music-styles'>
+                      <h3>
+                        {clickedAlbum?.styles?.[0]} {clickedAlbum?.styles?.[1]}
+                      </h3>
+                    </div>
+                    <h3>{clickedAlbum?.year !== 0 ? clickedAlbum.year : ''}</h3>
+                    <TrackSlider albumTracks={clickedAlbum.tracklist} />
+                  </div>
+                </>
+              )}
+            </div>
             {/* Secondary Images */}
             <div className='album-show-secondary-images'>
               {clickedAlbum?.images?.map((image) =>
