@@ -173,7 +173,7 @@ button {
     @media screen and (max-width: 850px) {
       width: 75%;
     }
-    @media screen and (max-width: 590px) {
+    @media screen and (max-width: 610px) {
       height: 650px;
     }
   
@@ -267,11 +267,19 @@ button {
 
   h3 {
   text-align: center;
-  margin: 12px
+  margin: 12px;
+
+    @media screen and (max-width: 610px) {
+      margin-top: 0px;
+  }
 
   }
   p {
   margin: 5px;
+
+    @media screen and (max-width: 610px) {
+      margin-top: 20px;
+    }
   }
 }
 
