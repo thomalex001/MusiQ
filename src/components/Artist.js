@@ -161,7 +161,6 @@ const Artist = () => {
       } else {
         nameTheAlbumQuestion(selectedAlbum);
       }
-      getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
       setQuizIsFinished(false);
       setNextButtonIsClicked(true);
@@ -234,8 +233,7 @@ const Artist = () => {
 
     //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
     for (let i = 0; i < 1; i++) {
-      // const randomChoice = Math.floor(Math.random() * 2);
-      const randomChoice = 0;
+      const randomChoice = Math.floor(Math.random() * 2);
       if (randomChoice === 0) {
         setAlbumAnswersArray([]);
         setAlbumTrackAnswersArray(shuffledAlbumTrackAnswers);
