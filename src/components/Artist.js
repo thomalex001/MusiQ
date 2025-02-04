@@ -25,7 +25,7 @@ const Artist = () => {
   const [selectedAlbumsArray, setSelectedAlbumsArray] = useState([]);
   const [randomTrack, setRandomTrack] = useState(null);
 
-  // const [answerIsCorrect, setAnswerIsCorrect] = useState(null);
+  const [isNotDuplicate, setIsNotDuplicate] = useState(false);
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false);
 
@@ -125,7 +125,6 @@ const Artist = () => {
 
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
-    setRandomTrack([])
     if (artistAlbumsData.length > 0) {
       const randomAlbumIndex = Math.floor(
         Math.random() * artistAlbumsData.length
@@ -146,20 +145,24 @@ const Artist = () => {
         console.log('Duplicate found. Trying again...');
         getRandomAlbum();
       } else {
+        getSelectedAlbumDetails(selectedAlbum);
+        console.log("NOT A DUPLICATE")
+        setRandomTrack([])
         setSelectedAlbumsArray((prevSelectedAlbums) => [
           ...prevSelectedAlbums,
           selectedAlbum
         ]);
+       
       }
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
       const randomChoice = Math.random();
-      if (randomChoice < 0.33) {
-        nameTheYearQuestion(selectedAlbum);
-      } else {
+      // if (randomChoice < 0.33) {
+        // nameTheYearQuestion(selectedAlbum);
+      // } else {
         nameTheAlbumQuestion(selectedAlbum);
-      }
-      getSelectedAlbumDetails(selectedAlbum);
+      // }
+      // getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
       setQuizIsFinished(false);
       setNextButtonIsClicked(true);
@@ -232,7 +235,8 @@ const Artist = () => {
 
     //********RANDOMLY PICK BETWEEN (Q1)ALBUM_ANSWERS OR (Q2)ALBUM_TRACK_ANSWERS********//
     for (let i = 0; i < 1; i++) {
-      const randomChoice = Math.floor(Math.random() * 2);
+      // const randomChoice = Math.floor(Math.random() * 2);
+      const randomChoice = 0;
       if (randomChoice === 0) {
         setAlbumAnswersArray([]);
         setAlbumTrackAnswersArray(shuffledAlbumTrackAnswers);
@@ -367,7 +371,7 @@ const Artist = () => {
           {/* 3 ANSWERS ALBUM COVERS RENDERING */}
           {quizStarted &&
             albumTrackAnswersArray.length > 0 &&
-            !albumAnswersArray.length > 0 && (
+            !albumAnswersArray.length > 0 && randomTrack.length > 0 && (
               <div className='answer-images-box'>
                 {albumTrackAnswersArray.map((album) => (
                   <img
@@ -440,10 +444,14 @@ const Artist = () => {
           )}
           {quizStarted && albumTrackAnswersArray.length > 0 && (
             <div className='question-box'>
-              <p>"{randomTrack}"</p>
+              {randomTrack.length > 0 && (
+                <>
+                <p>"{randomTrack}"</p>
               <h3 id='track-question-h3'>
                 This track was released on which of these albums?
               </h3>
+                </>
+              )}
             </div>
           )}
 
