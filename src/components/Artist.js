@@ -71,7 +71,6 @@ const Artist = () => {
             uniqueAlbums.push(album);
           }
         });
-        console.log(uniqueAlbums)
         //********FILTER OUT ALBUMS WITH SPACER.GIF AS A COVER_IMAGE AS IT SHOWS A SINGLE PIXEL********//
         return uniqueAlbums.filter(
           (album) => album.cover_image?.slice(-10) !== 'spacer.gif'
@@ -142,11 +141,9 @@ const Artist = () => {
         (album) => album.title === selectedAlbum.title
       );
       if (isDuplicate) {
-        console.log('Duplicate found. Trying again...');
         getRandomAlbum();
       } else {
         getSelectedAlbumDetails(selectedAlbum);
-        console.log("NOT A DUPLICATE")
         setRandomTrack([])
         setSelectedAlbumsArray((prevSelectedAlbums) => [
           ...prevSelectedAlbums,
@@ -186,12 +183,9 @@ const Artist = () => {
         const randomIndex = Math.floor(Math.random() * tracklist.length);
         const randomTrack = tracklist[randomIndex].title;
         setRandomTrack(randomTrack);
-        console.log(randomTrack)
       } else {
-        console.log('No tracks available for this album.');
       }
     } catch (error) {
-      console.error('Error fetching album details:', error);
     }
     setIsAlbumLoading(false);
   };
