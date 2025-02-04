@@ -152,17 +152,16 @@ const Artist = () => {
           ...prevSelectedAlbums,
           selectedAlbum
         ]);
-       
       }
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
       const randomChoice = Math.random();
-      // if (randomChoice < 0.33) {
-        // nameTheYearQuestion(selectedAlbum);
-      // } else {
+      if (randomChoice < 0.33) {
+        nameTheYearQuestion(selectedAlbum);
+      } else {
         nameTheAlbumQuestion(selectedAlbum);
-      // }
-      // getSelectedAlbumDetails(selectedAlbum);
+      }
+      getSelectedAlbumDetails(selectedAlbum);
       setQuizStarted(true);
       setQuizIsFinished(false);
       setNextButtonIsClicked(true);
