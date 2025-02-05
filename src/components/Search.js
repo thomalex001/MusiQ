@@ -24,8 +24,6 @@ export default function Search() {
 
       API.GET(API.ENDPOINTS.search(searchQuery))
         .then(({ data }) => {
-          console.log(data)
-
     const filteredResults = data.results
       .filter((result) => result.type === 'artist' && 
       !result.title.includes('('))
@@ -94,15 +92,15 @@ export default function Search() {
               )}
 
               {query && !isLoading && (
-                <div className='search-results-container'>
+                <div className='search-results-container' tabIndex={0}>
                   {searchedResults.length === 0 && (
                     <div className='no-result-or-loading-message-box'>
                       <p>Sorry, no results found for "{query}"</p>
                     </div>
                   )}
                   {searchedResults.map((result) => (
-                    <div
-                      className='search-results-box'
+                    <button
+                      className='search-results-button'
                       key={result.id}
                       onClick={() => goToArtist(result.title)}>
                       {result.type === 'artist' && (
@@ -111,12 +109,12 @@ export default function Search() {
                             src={result.cover_image}
                             alt={result.title}
                           />
-                          <div className='result-text-div'>
+                          {/* <div className='result-text-div'> */}
                             <p id='result-text-p'>{result.title}</p>
-                          </div>
+                          {/* </div> */}
                         </>
                       )}
-                    </div>
+                    </button>
                   ))}
                 </div>
               )}

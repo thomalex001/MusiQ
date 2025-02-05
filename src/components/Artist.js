@@ -8,7 +8,18 @@ import Navbar from './common/Navbar';
 import noDataImage from './../media/no-data-image.png';
 import Footer from './Footer';
 import { Audio } from 'react-loader-spinner';
-import { MdScore } from 'react-icons/md';
+
+
+ //********AVPOID SELECTING THE SAME ALBUM TWICE IN GET_RANDOM_ALBUM********//
+function getRemainingAlbums(originalData, selectedData) {
+  const newArray = [];
+  originalData.forEach((album) => {
+    if (!selectedData.find((selected) => album.id === selected.id)) {
+      newArray.push(album);
+    }
+  });
+  return newArray;
+}
 
 const Artist = () => {
   const albumsListRef = useRef(null);
@@ -25,7 +36,6 @@ const Artist = () => {
   const [selectedAlbumsArray, setSelectedAlbumsArray] = useState([]);
   const [randomTrack, setRandomTrack] = useState(null);
 
-  const [isNotDuplicate, setIsNotDuplicate] = useState(false);
   const [questionAnswered, setQuestionAnswered] = useState(false);
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false);
 
@@ -49,7 +59,9 @@ const Artist = () => {
   const countToFive = () => {
     if (count < 5) {
       setCount(count + 1);
+      getRandomAlbum();
     } else {
+      setSelectedAlbumsArray([]);
       setQuizStarted(false);
       setQuizIsFinished(true);
     }
@@ -125,10 +137,29 @@ const Artist = () => {
   //********FUNCTION TO GET ONE RANDOM ALBUM FOR THE QUIZ********//
   const getRandomAlbum = () => {
     if (artistAlbumsData.length > 0) {
-      const randomAlbumIndex = Math.floor(
-        Math.random() * artistAlbumsData.length
-      );
-      const selectedAlbum = artistAlbumsData[randomAlbumIndex];
+      let selectedAlbum;
+      if (selectedAlbumsArray.length === 0) {
+        // for first question
+        const randomAlbumIndex = Math.floor(
+          Math.random() * artistAlbumsData.length
+        );
+        selectedAlbum = artistAlbumsData[randomAlbumIndex];
+        setSelectedAlbumsArray([selectedAlbum]);
+      } else {
+        const leftoverAlbums = getRemainingAlbums(
+          artistAlbumsData,
+          selectedAlbumsArray
+        );
+
+        const randomAlbumIndex = Math.floor(
+          Math.random() * leftoverAlbums.length
+        );
+        selectedAlbum = leftoverAlbums[randomAlbumIndex];
+        setSelectedAlbumsArray((prevSelectedAlbums) => [
+          ...prevSelectedAlbums,
+          selectedAlbum
+        ]);
+      }
 
       if (!selectedAlbum.year) {
         getRandomAlbum();
@@ -137,19 +168,9 @@ const Artist = () => {
 
       //********STORE SELECTED ALBUMS IN AN ARRAY EACH TIME A QUESTION...********//
       //********...IS ANSWERED AND CHECK FOR DUPLICATES********//
-      const isDuplicate = selectedAlbumsArray.some(
-        (album) => album.title === selectedAlbum.title
-      );
-      if (isDuplicate) {
-        getRandomAlbum();
-      } else {
-        getSelectedAlbumDetails(selectedAlbum);
-        setRandomTrack([])
-        setSelectedAlbumsArray((prevSelectedAlbums) => [
-          ...prevSelectedAlbums,
-          selectedAlbum
-        ]);
-      }
+
+      getSelectedAlbumDetails(selectedAlbum);
+      setRandomTrack([]);
 
       //********CALL EITHER QUESTION 1, 2 or 3.********//
       const randomChoice = Math.random();
@@ -185,8 +206,7 @@ const Artist = () => {
         setRandomTrack(randomTrack);
       } else {
       }
-    } catch (error) {
-    }
+    } catch (error) {}
     setIsAlbumLoading(false);
   };
 
@@ -340,7 +360,6 @@ const Artist = () => {
                 id='start-quiz-button'
                 onClick={() => {
                   getRandomAlbum();
-                  setSelectedAlbumsArray([]);
                   setScore(0);
                   setCount(1);
                   setAlbumIsClicked(false);
@@ -362,7 +381,8 @@ const Artist = () => {
           {/* 3 ANSWERS ALBUM COVERS RENDERING */}
           {quizStarted &&
             albumTrackAnswersArray.length > 0 &&
-            !albumAnswersArray.length > 0 && randomTrack.length > 0 && (
+            !albumAnswersArray.length > 0 &&
+            randomTrack.length > 0 && (
               <div className='answer-images-box'>
                 {albumTrackAnswersArray.map((album) => (
                   <img
@@ -409,7 +429,7 @@ const Artist = () => {
                 </div>
               </div>
             )}
-            {/* 3 ANSWERS ALBUM_YEAR RENDERING*/}
+          {/* 3 ANSWERS ALBUM_YEAR RENDERING*/}
           {quizStarted && yearAnswersArray.length > 0 && (
             <div className='question-box'>
               <h3>What year was this album first released?</h3>
@@ -437,10 +457,10 @@ const Artist = () => {
             <div className='question-box'>
               {randomTrack.length > 0 && (
                 <>
-                <p>"{randomTrack}"</p>
-              <h3 id='track-question-h3'>
-                This track was released on which of these albums?
-              </h3>
+                  <p>"{randomTrack}"</p>
+                  <h3 id='track-question-h3'>
+                    This track was released on which of these albums?
+                  </h3>
                 </>
               )}
             </div>
@@ -450,7 +470,6 @@ const Artist = () => {
             <button
               id='next-button'
               onClick={() => {
-                getRandomAlbum();
                 countToFive();
               }}>
               {count !== 5 ? 'Next Question' : 'Check your score'}

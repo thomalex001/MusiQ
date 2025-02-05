@@ -1,21 +1,20 @@
 import logo from '../../media/mq-logo.png';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import PortfolioThumb from '../../media/portfolio-thumb.png';
 import GitHubProfileThumb from '../../media/github-profile.png';
 
 export default function Navbar() {
-  const navigate = useNavigate();
-  const goToHomepage = () => navigate('/');
   const location = useLocation();
 
   return (
     <nav className='navbar'>
+      <a href='/'>
       <img
-        onClick={goToHomepage}
         id='logo'
         src={logo}
         alt={'logo'}
       />
+      </a>
       <ul className='navbar-list'>
         <li>
           {location.pathname === '/about' ? (
