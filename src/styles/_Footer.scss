@@ -26,28 +26,28 @@
 
 .email-contact-box {
   transition: 0.1s ease-in;
-  
- .email-icon {
-    font-size: 24px;
-    color: rgb(42, 78, 136)
-
-  }
+  padding: 5px;
 
   @media screen and (min-width: 1099px) {
-  span:hover {
-    color: rgb(234, 234, 234);
+    a:hover .email-icon {
+      transform: scale(1.04);
+    }
+  }
+
+  .email-icon {
+    font-size: 24px;
+    color: rgb(42, 78, 136);
   }
 }
-}
+
 
 .linked-in-contact-box{
   transition: 0.1s ease-in;
 }
 
 .linked-in-contact-box img:hover {
-transform: scale(1.04);
 
-@media screen and (max-width: 1099px) {
-  transform: none
-}
+  @media screen and (min-width: 1099px) {
+    transform: scale(1.04);
+  }
 }

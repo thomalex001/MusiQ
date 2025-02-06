@@ -302,7 +302,7 @@ const Artist = () => {
 
     setTimeout(() => {
       setTimeOut(true);
-    }, 2000);
+    }, 1500);
   };
 
   //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP, ALSO SCROLL TO ALBUM SHOW ELEMENT ********//
@@ -321,9 +321,9 @@ const Artist = () => {
   return (
     <>
       <Navbar />
-      <main className='main artist-container'>
+      <fieldset className='main artist-container'>
         {/*QUIZ SECTION */}
-        <h1 id='artist-name-h1'>{artist.id}</h1>
+        <legend id='artist-legend'>{artist.id}</legend>
         {artistAlbumsData.length === 0 && (
           <div className='no-data-container'>
             <p>
@@ -352,10 +352,12 @@ const Artist = () => {
           }>
           {!quizStarted && artistAlbumsData.length >= 5 && (
             <div className='quiz-inner-container'>
-              <RxInfoCircled id='info-icon' />
+              {!quizIsFinished && (
+                <RxInfoCircled id='info-icon' />
+              )}
               <div className='show-info'>
                 <p>
-                  Discogs album data is added by its users, it is mostly accurate
+                  Discogs albums data is added by its users, it is mostly accurate
                   but not 100% which means that you may find some answers to be incorrect.
                 </p>
               </div>
@@ -573,7 +575,7 @@ const Artist = () => {
           handleAlbumClick={(album) => handleAlbumClick(album)}
           disabled={quizStarted}
         />
-      </main>
+      </fieldset>
       <Footer />
     </>
   );

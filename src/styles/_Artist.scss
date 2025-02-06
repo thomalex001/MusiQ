@@ -72,14 +72,12 @@
   }
 
 
-  #artist-name-h1 {
-    font-size: 30px;
-    top: 0;
-    background-color: $color-skyblue;
-    margin: -25px;
+  #artist-legend {
+    font-family: "expletus Sans", serif;
+    font-weight: bold;
+    font-size: 35px;
     padding: 0 15px;
     z-index: 0;
-    position: absolute;
     white-space: wrap;
     overflow: hidden;
     text-align: center;
@@ -87,8 +85,7 @@
 
 
     @media screen and (max-width: 450px) {
-      font-size: 18px;
-      margin: -16px;
+      font-size: 23px;
       
     }
 
@@ -130,7 +127,7 @@ button {
   flex-direction: column;
   margin-top: 40px;
   margin-bottom: 30px;
-  padding: 20px 20px 45px 20px;
+  padding: 10px 20px 45px 20px;
   border-radius: 10px;
   border: 2px solid $color-navyblue;;
   background-color: $color-greyblue;
@@ -148,7 +145,7 @@ button {
   width: 200px;
   top: -45px;
   font-size: 15px;
-  background-color: rgba(214, 227, 241, 0.874);
+  background-color: rgba(214, 227, 241, 0.95);
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
   padding: 5px;
@@ -188,9 +185,9 @@ button {
   padding: 0;
 
   h2 {
-    padding: 0px 0 25px ;;
+    padding: 0px 0 25px;
     font-size: 20px;
-    max-width: 500px;
+    max-width: 350px;
     
     @media screen and (max-width: 450px) {
       font-size: 14px;
@@ -470,10 +467,11 @@ margin-bottom: 10px;
     margin: 10px 20px;
 
     img {
+      object-fit: cover;
       height: 350px;
       width: 350px;
       box-shadow: 2px 2px 5px rgb(32, 34, 37);
-      margin: 10px;
+      margin: 10px; 
 
       @media screen and (max-width: 828px) {
         width: 300px;
@@ -573,7 +571,7 @@ margin-bottom: 10px;
   color: rgb(251, 251, 251);
   font-size: 20px;
   padding: 0 5px 2px 0;
-  font-family: "Expletus Sans", serif;
+  font-family: "us Sans", serif;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -625,7 +623,7 @@ margin-bottom: 10px;
   margin-top: 10px;
 }
   p {
-    font-size: 14px;
+    font-size: 15px;
     padding: 5px 0;
     white-space: nowrap;
     overflow: hidden;

@@ -33,7 +33,7 @@ export default function Search() {
       API.GET(API.ENDPOINTS.search(searchQuery))
         .then(({ data }) => {
     const filteredResults = data.results
-      .filter((result) => result.type === 'artist' && 
+      .filter((result) => result.cover_image.slice(-10) !== 'spacer.gif' &&  result.type === 'artist' && 
       !result.title.includes('('))
       .slice(0, 5);
 
@@ -149,7 +149,6 @@ export default function Search() {
                     }`} 
                       key={result.id}
                       onClick={() => goToArtist(result.title)}>
-                      {result.type === 'artist' && (
                         <>
                           <img
                             src={result.cover_image}
@@ -157,9 +156,8 @@ export default function Search() {
                           />
                           {/* <div className='result-text-div'> */}
                             <p id='result-text-p'>{result.title}</p>
-                          {/* </div> */}
                         </>
-                      )}
+                      {/* )} */}
                     </button>
                   ))}
                 </div>
