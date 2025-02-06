@@ -362,7 +362,7 @@ const Artist = () => {
                 </p>
               </div>
               <div>
-                <h2>
+                <h2 className='score-h2'>
                   {quizIsFinished ? (
                     `You scored ${score}/5 this time.`
                   ) : (
