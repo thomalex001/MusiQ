@@ -7,10 +7,10 @@ import { TfiClose } from 'react-icons/tfi';
 import Navbar from './common/Navbar';
 import noDataImage from './../media/no-data-image.png';
 import Footer from './Footer';
+import { RxInfoCircled } from 'react-icons/rx';
 import { Audio } from 'react-loader-spinner';
 
-
- //********AVPOID SELECTING THE SAME ALBUM TWICE IN GET_RANDOM_ALBUM********//
+//********AVPOID SELECTING THE SAME ALBUM TWICE IN GET_RANDOM_ALBUM********//
 function getRemainingAlbums(originalData, selectedData) {
   const newArray = [];
   originalData.forEach((album) => {
@@ -37,6 +37,7 @@ const Artist = () => {
   const [randomTrack, setRandomTrack] = useState(null);
 
   const [questionAnswered, setQuestionAnswered] = useState(false);
+  const [timeOut, setTimeOut] = useState(false);
   const [nextButtonIsClicked, setNextButtonIsClicked] = useState(false);
 
   const [country, setCountry] = useState('');
@@ -66,6 +67,7 @@ const Artist = () => {
       setQuizIsFinished(true);
     }
   };
+
   //********ADD POINTS********//
   const addPoint = () => {
     setScore(score + 1);
@@ -289,6 +291,7 @@ const Artist = () => {
 
   //********CHECK IF ANSWER IS CORRECT********//
   const handleAnswerClick = (answer) => {
+    setTimeOut(false);
     if (
       answer.title === selectedAlbum.title ||
       parseInt(answer) === parseInt(selectedAlbum.year)
@@ -296,6 +299,10 @@ const Artist = () => {
       addPoint();
     }
     setQuestionAnswered(true);
+
+    setTimeout(() => {
+      setTimeOut(true);
+    }, 2000);
   };
 
   //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP, ALSO SCROLL TO ALBUM SHOW ELEMENT ********//
@@ -345,31 +352,46 @@ const Artist = () => {
           }>
           {!quizStarted && artistAlbumsData.length >= 5 && (
             <div className='quiz-inner-container'>
-              <h2>
-                {quizIsFinished ? (
-                  `You scored ${score}/5 this time.`
-                ) : (
-                  <span>
-                    Fantastic!
-                    <br /> There is a quiz available to test your knowledge on{' '}
-                    {artist.id}:
-                  </span>
-                )}
-              </h2>
-              <button
-                id='start-quiz-button'
-                onClick={() => {
-                  getRandomAlbum();
-                  setScore(0);
-                  setCount(1);
-                  setAlbumIsClicked(false);
-                }}>
-                {quizIsFinished ? 'Take Another Quiz' : 'Start Quiz'}
-              </button>
+              <RxInfoCircled id='info-icon' />
+              <div className='show-info'>
+                <p>
+                  Discogs album data is added by it's users, it is mostly accurate
+                  but not 100% which means that you may find some answers to be incorrect.
+                </p>
+              </div>
+              <div>
+                <h2>
+                  {quizIsFinished ? (
+                    `You scored ${score}/5 this time.`
+                  ) : (
+                    <span>
+                      Fantastic!
+                      <br /> There is a quiz available to test your knowledge on{' '}
+                      {artist.id}:
+                    </span>
+                  )}
+                </h2>
+                <button
+                  id='start-quiz-button'
+                  onClick={() => {
+                    getRandomAlbum();
+                    setScore(0);
+                    setCount(1);
+                    setAlbumIsClicked(false);
+                  }}>
+                  {quizIsFinished ? 'Take Another Quiz' : 'Start Quiz'}
+                </button>
+              </div>
             </div>
           )}
-          {quizStarted && <h2>Question {count}/5</h2>}
+
+          {quizStarted && (
+            <>
+              <h2>Question {count}/5</h2>
+            </>
+          )}
           {/*SELECTED ALBUM COVER_IMAGE RENDERING */}
+
           {quizStarted && !albumTrackAnswersArray.length > 0 && (
             <div className='selected-album-image-box'>
               <img
@@ -466,15 +488,18 @@ const Artist = () => {
             </div>
           )}
 
-          {quizStarted && questionAnswered && nextButtonIsClicked && (
-            <button
-              id='next-button'
-              onClick={() => {
-                countToFive();
-              }}>
-              {count !== 5 ? 'Next Question' : 'Check your score'}
-            </button>
-          )}
+          {quizStarted &&
+            questionAnswered &&
+            nextButtonIsClicked &&
+            timeOut && (
+              <button
+                id='next-button'
+                onClick={() => {
+                  countToFive();
+                }}>
+                {count !== 5 ? 'Next Question' : 'Check your score'}
+              </button>
+            )}
         </div>
         {/*END QUIZ SECTION */}
         {/*START OF ALBUM DETAILS*/}

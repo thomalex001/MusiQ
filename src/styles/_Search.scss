@@ -175,11 +175,14 @@
   overflow: hidden;
   border: none;
 
+  &.is-selected {
+    background-color: rgb(228, 239, 253)
+  }
+
   &:hover {
     background-color: rgb(228, 239, 253);
   }
   
-
   @media screen and (max-width: 514px) {
     width: 260px;
   }

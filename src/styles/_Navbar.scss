@@ -6,7 +6,6 @@
   display: flex;
   justify-content: space-between;
   flex-shrink: 0;
-
   
   li {
     list-style: none;
@@ -72,16 +71,21 @@
 }
 
 #logo {
-  width: 45px;
-  height: 45px;
+  display: block;
   margin-left: 30px;
   margin-top: 15px;
-  border-radius: 10px;
-  cursor: pointer;
+
 
   @media screen and (max-width: 572px) {
     margin-left: 10px;
     margin-top: 13px;
+  }
+
+  img {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    cursor: pointer;
   }
 }
 

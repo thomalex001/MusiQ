@@ -8,12 +8,13 @@ export default function Navbar() {
 
   return (
     <nav className='navbar'>
-      <a href='/'>
-      <img
+      <a
         id='logo'
-        src={logo}
-        alt={'logo'}
-      />
+        href='/'>
+        <img
+          src={logo}
+          alt={'logo'}
+        />
       </a>
       <ul className='navbar-list'>
         <li>

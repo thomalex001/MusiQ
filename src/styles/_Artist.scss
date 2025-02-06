@@ -125,14 +125,48 @@ button {
 }
 
 .quiz-inner-container {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
   margin-top: 40px;
   margin-bottom: 30px;
   padding: 20px 20px 45px 20px;
   border-radius: 10px;
   border: 2px solid $color-navyblue;;
   background-color: $color-greyblue;
+
   
 }
+
+//INFO ON HOVER & ON CLICK IN QUIZ CONTAINER INACTIVE
+.show-info {
+  z-index: 0;
+  opacity: 0;
+  visibility: hidden; /* Initially hidden */
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+  position: absolute; /* Delay visibility change */
+  width: 200px;
+  top: -45px;
+  font-size: 15px;
+  background-color: rgba(214, 227, 241, 0.874);
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgb(96, 137, 183);
+  padding: 5px;
+
+}
+
+#info-icon {
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1;
+}
+
+#info-icon:hover + .show-info {
+  opacity: 1;
+  visibility: visible; /* Make the info visible when hovering over the icon */
+  transition: opacity 0.3s ease, visibility 0s 0s; /* Reset transition for visibility */
+}
+
 
 .quiz-container {
   display: flex;
@@ -154,7 +188,7 @@ button {
   padding: 0;
 
   h2 {
-    padding: 25px 0;
+    padding: 0px 0 25px ;;
     font-size: 20px;
     max-width: 500px;
     

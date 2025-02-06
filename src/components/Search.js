@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { API } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
@@ -6,11 +6,19 @@ import Navbar from './common/Navbar';
 import RandomWallpaper from './common/RandomWallpaper';
 import Footer from './Footer';
 
+
+
+
 export default function Search() {
   const [query, setQuery] = useState('');
   const [searchedResults, setSearchedResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null); // Track the selected index
+
   const navigate = useNavigate();
+  const goToArtist = (artistId) => navigate(`/artist/${artistId}`);
+
+  
 
   const handleSearch = useCallback(
     debounce((searchQuery) => {
@@ -37,7 +45,7 @@ export default function Search() {
           setSearchedResults([]); 
         })
         .finally(() => setIsLoading(false));
-    }, 500),
+    }, 1000),
     [] 
   );
 
@@ -48,6 +56,7 @@ export default function Search() {
   };
 
   useEffect(() => {
+    setSelectedIndex(null)
     if (query.length >= 2) {
       handleSearch(query);
     } else {
@@ -56,7 +65,41 @@ export default function Search() {
     }
   }, [query, handleSearch]); // Depend on query and handleSearch
 
-  const goToArtist = (artistId) => navigate(`/artist/${artistId}`);
+  
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (searchedResults.length === 0) return;
+  
+      if (e.key === 'ArrowDown') {
+        setSelectedIndex((prevIndex) =>
+          prevIndex === null || prevIndex === searchedResults.length - 1
+            ? 0
+            : prevIndex + 1
+        );
+      }
+  
+      if (e.key === 'ArrowUp') {
+        setSelectedIndex((prevIndex) =>
+          prevIndex === null || prevIndex === 0
+            ? searchedResults.length - 1
+            : prevIndex - 1
+        );
+      }
+  
+      if (e.key === 'Enter' && selectedIndex !== null) {
+        const selectedResult = searchedResults[selectedIndex];
+        goToArtist(selectedResult.title);
+      }
+  
+      if (e.key === 'Escape') {
+        setSelectedIndex(null); 
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+
+ 
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [searchedResults, selectedIndex]); 
 
   return (
     <>
@@ -79,6 +122,7 @@ export default function Search() {
             <RandomWallpaper />
             <div className='search-container'>
               <input
+          
                 id='search-input'
                 type='text'
                 placeholder='Search an artist or band'
@@ -98,9 +142,11 @@ export default function Search() {
                       <p>Sorry, no results found for "{query}"</p>
                     </div>
                   )}
-                  {searchedResults.map((result) => (
+                  {searchedResults.map((result, index) => (
                     <button
-                      className='search-results-button'
+                    className={`search-results-button ${
+                      index === selectedIndex ? 'search-results-button is-selected' : ''
+                    }`} 
                       key={result.id}
                       onClick={() => goToArtist(result.title)}>
                       {result.type === 'artist' && (
