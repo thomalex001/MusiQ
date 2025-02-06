@@ -163,8 +163,8 @@ button {
 
 #info-icon:hover + .show-info {
   opacity: 1;
-  visibility: visible; /* Make the info visible when hovering over the icon */
-  transition: opacity 0.3s ease, visibility 0s 0s; /* Reset transition for visibility */
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0s 0s;
 }
 
 

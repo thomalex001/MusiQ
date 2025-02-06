@@ -355,7 +355,7 @@ const Artist = () => {
               <RxInfoCircled id='info-icon' />
               <div className='show-info'>
                 <p>
-                  Discogs album data is added by it's users, it is mostly accurate
+                  Discogs album data is added by its users, it is mostly accurate
                   but not 100% which means that you may find some answers to be incorrect.
                 </p>
               </div>
