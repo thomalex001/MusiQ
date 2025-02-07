@@ -302,7 +302,7 @@ const Artist = () => {
 
     setTimeout(() => {
       setTimeOut(true);
-    }, 0);
+    }, 1500);
   };
 
   //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP, ALSO SCROLL TO ALBUM SHOW ELEMENT ********//
