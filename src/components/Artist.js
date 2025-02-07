@@ -339,9 +339,9 @@ const Artist = () => {
         {artistAlbumsData.length <= 4 && artistAlbumsData.length !== 0 && (
           <div className='less-than-5-albums-container'>
             <h2>
-              Nice find! The number of albums for {artist.id} is too low to load
-              a quiz but you can still click on the covers below for more
-              details.
+              Nice find!<br></br>The number of albums for {artist.id} is too low
+              to load a quiz but you can still click on the covers below for
+              more details.
             </h2>
           </div>
         )}

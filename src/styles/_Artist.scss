@@ -35,22 +35,23 @@
   margin-bottom: 30px;
   margin-top: 45px;
   margin: 65px 10px 40px;
-  padding: 20px;
+  padding: 30px 40px;
   border-radius: 10px;
   border: 2px solid $color-navyblue;
   background-color: $color-greyblue;
 
+  @media screen and (max-width: 450px) {
+    padding: 20px;
+  }
+
   h2 {
     max-width: 300px;
     color: rgb(19, 11, 81);
-    font-family: "Expletus Sans", serif;
-    font-size: 19px;
+    font-family: "Inconsolata", serif;
+    font-size: 18px;
     text-align: center;
 
-    @media screen and (max-width: 688px) {
-      font-size: 16px;
-    }
-    @media screen and (max-width: 320px) {
+    @media screen and (max-width: 450px) {
       font-size: 14px;
     }
   }
