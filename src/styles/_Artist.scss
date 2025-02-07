@@ -127,10 +127,14 @@ button {
   flex-direction: column;
   margin-top: 40px;
   margin-bottom: 30px;
-  padding: 10px 20px 45px 20px;
+  padding: 12px 20px 40px 20px;
   border-radius: 10px;
   border: 2px solid $color-navyblue;;
   background-color: $color-greyblue;
+
+  @media screen and (max-width: 450px) {
+    padding: 0px 10px 30px 10px;
+  }
 
   
 }
@@ -139,16 +143,16 @@ button {
 .show-info {
   z-index: 0;
   opacity: 0;
-  visibility: hidden; /* Initially hidden */
+  visibility: hidden; 
   transition: opacity 0.3s ease, visibility 0s 0.3s;
-  position: absolute; /* Delay visibility change */
-  width: 200px;
-  top: -45px;
+  position: absolute; 
+  top: 83px;
   font-size: 15px;
   background-color: rgba(214, 227, 241, 0.95);
   border-radius: 10px;
   box-shadow: 2px 2px 5px rgb(96, 137, 183);
   padding: 5px;
+  width: 200px;
 
 }
 
@@ -156,6 +160,10 @@ button {
   cursor: pointer;
   padding: 5px;
   z-index: 1;
+
+  @media screen and (max-width: 450px) {
+    padding: 10px 5px
+  }
 }
 
 #info-icon:hover + .show-info {
@@ -169,32 +177,27 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60%;
+  max-width: 600px;
   text-align: center;
   border-radius: 15px;
   transition: .4s ease-in-out;
   font-family: "Inconsolata", serif;
 
-  @media screen and (max-width: 688px) {
-    width: 80%;
-  }
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 450px) {
     width: 95%;
   }
 
-  padding: 0;
-
   .score-h2 {
-    padding: 25px 0 25px;
+    padding: 25px 25px 25px;
   }
 
   h2 {
     padding: 0px 0 25px;
-    font-size: 20px;
-    max-width: 350px;
-    
+    font-size: 18px;
+    max-width: 400px;
+
     @media screen and (max-width: 450px) {
-      font-size: 14px;
+      font-size: 15px;
     }
   }
 
@@ -204,11 +207,12 @@ button {
     margin: 45px 12.5px 20px;
     box-shadow: 2px 2px 5px rgb(96, 137, 183);
     padding: 27px;
+    width: 75%;
   
     @media screen and (max-width: 850px) {
       width: 75%;
     }
-    @media screen and (max-width: 610px) {
+    @media screen and (max-width: 685px) {
       height: 650px;
     }
   
@@ -263,7 +267,7 @@ button {
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: 610px) {
+  @media screen and (max-width: 685px) {
     height: 400px;
     flex-direction: column
   }
@@ -276,7 +280,7 @@ button {
     border: 3px solid transparent;
     box-shadow: none;
 
-    @media screen and (max-width: 610px) {
+    @media screen and (max-width: 685px) {
       width: 120px;
       height: 120px;
     }
@@ -304,7 +308,7 @@ button {
   text-align: center;
   margin: 12px;
 
-    @media screen and (max-width: 610px) {
+    @media screen and (max-width: 685px) {
       margin-top: 0px;
   }
 
@@ -312,7 +316,7 @@ button {
   p {
   margin: 5px;
 
-    @media screen and (max-width: 610px) {
+    @media screen and (max-width: 685px) {
       margin-top: 20px;
     }
   }
@@ -365,9 +369,7 @@ button {
 }
 
 #start-quiz-button {
-  @media screen and (min-width: 850px) {
-    max-width: 300px;
-    }
+  
   @media screen and (max-width: 500px) {
     font-size: 14px;
     }
@@ -378,7 +380,7 @@ width: 70%;
 margin-bottom: 10px;
 
   @media screen and (max-width: 850px) {
-  width:90%;
+  width: 90%;
   }
   @media screen and (max-width: 500px) {
   width: 100%;

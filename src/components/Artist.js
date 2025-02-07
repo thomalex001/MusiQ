@@ -302,7 +302,7 @@ const Artist = () => {
 
     setTimeout(() => {
       setTimeOut(true);
-    }, 1500);
+    }, 0);
   };
 
   //********USER CLICKS ON AN ALBUM HANDLING AND SEND ALBUM_ID (ALBUM) AS PROP, ALSO SCROLL TO ALBUM SHOW ELEMENT ********//
@@ -352,27 +352,24 @@ const Artist = () => {
           }>
           {!quizStarted && artistAlbumsData.length >= 5 && (
             <div className='quiz-inner-container'>
-              {!quizIsFinished && (
-                <RxInfoCircled id='info-icon' />
-              )}
+              {!quizIsFinished && <RxInfoCircled id='info-icon' />}
               <div className='show-info'>
                 <p>
-                  Discogs albums data is added by its users, it is mostly accurate
-                  but not 100% which means that you may find some answers to be incorrect.
+                  Discogs albums data is added by its users, it is mostly
+                  accurate but not 100% which means that you may find some
+                  answers to be incorrect.
                 </p>
               </div>
               <div>
-                <h2 className='score-h2'>
-                  {quizIsFinished ? (
-                    `You scored ${score}/5 this time.`
-                  ) : (
-                    <span>
-                      Fantastic!
-                      <br /> There is a quiz available to test your knowledge on{' '}
-                      {artist.id}:
-                    </span>
-                  )}
-                </h2>
+                {quizIsFinished ? (
+                  <h2 className='score-h2'>You scored {score}/5 this time.</h2>
+                ) : (
+                  <h2 className='quiz-available-h2'>
+                    Fantastic!
+                    <br /> There is a quiz available to test your knowledge on{' '}
+                    {artist.id}:
+                  </h2>
+                )}
                 <button
                   id='start-quiz-button'
                   onClick={() => {
